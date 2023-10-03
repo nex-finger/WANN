@@ -21,21 +21,11 @@ def roulette(pArr):
       slot += pArr[i]
   return choice
 
-def listXor(now, state, table):
+def listXor(b, c):
   """Returns elements in lists b and c they don't share
   """
-  i = now[0] -1
-  A = int(random.choices(state, weights = table[i])[0])
-  
-  """
   A = [a for a in b+c if (a not in b) or (a not in c)]
-  print('b')
-  print(b)
-  print('c')
-  print(c)
-  print('a')
-  print(A)
-  """
+
   return A
 
 def rankArray(X):

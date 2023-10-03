@@ -6,6 +6,7 @@ import argparse
 import subprocess
 import numpy as np
 np.set_printoptions(precision=2, linewidth=160) 
+import json
 
 # MPI
 from mpi4py import MPI
@@ -233,14 +234,14 @@ def mpi_fork(n):
     #print('assigning the rank and nworkers', nWorker, rank)
     return "child"
 
-
 # -- Input Parsing ------------------------------------------------------- -- #
 
 def main(argv):
   """Handles command line input, launches optimization or evaluation script
   depending on MPI rank.
   """
-  global fileName, hyp # Used by both master and slave processes
+
+  global fileName, hyp# Used by both master and slave processes
   fileName    = args.outPrefix
   hyp_default = args.default
   hyp_adjust  = args.hyperparam
@@ -268,7 +269,7 @@ if __name__ == "__main__":
    help='file name for result output', default='test')
   
   parser.add_argument('-n', '--num_worker', type=int,\
-   help='number of cores to use', default=2)
+   help='number of cores to use', default=11)
 
   args = parser.parse_args()
 
