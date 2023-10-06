@@ -367,3 +367,30 @@
     - HTTPS https://github.com/nex-finger/WANN
     - SSH git@github.com:nex-finger/WANN.git
     - 今日はpushして帰宅
+
+## 2023/10/6
+- jsonファイル0なら動くけど1だと動かないから直していく
+    - なぜ動かない  
+    ``` bsh
+    Traceback (most recent call last):
+    File "wann_train.py", line 280, in <module>
+        main(args)                              
+    File "wann_train.py", line 254, in main
+        master()
+    File "wann_train.py", line 30, in master
+        pop = alg.ask()            # 新しく進化生成した個体集団の取得
+    File "/home/masuda/Documents/WANN/WANN/neat_src/neat.py", line 53, in ask
+        self.evolvePop()    # Create child population 
+    File "/home/masuda/Documents/WANN/WANN/neat_src/_variation.py", line 13, in evolvePop
+        children, self.innov = self.recombine(self.species[i],\
+    File "/home/masuda/Documents/WANN/WANN/neat_src/_variation.py", line 77, in recombine
+        child, innov = pop[parents[0,i]].createChild(p,innov,gen)
+    File "/home/masuda/Documents/WANN/WANN/neat_src/wann_ind.py", line 68, in createChild
+        child, innov = child.topoMutate(p,innov,gen)
+    File "/home/masuda/Documents/WANN/WANN/neat_src/wann_ind.py", line 154, in topoMutate
+        _i = int(nodeG[2,mutNode])[0] -1
+    TypeError: 'int' object is not subscriptable
+    ```
+
+    - 大かっこで囲ったら動いたんだけどなんで大かっこで囲ったら動くのかはわからない
+    - あしたもやる気があれば行きます

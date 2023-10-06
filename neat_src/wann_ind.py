@@ -145,18 +145,23 @@ class WannInd(Ind):
         branchData , act_change_alg = masudaSetup()
 
         #ここからかきました
-        print(branchData['act_change_alg'])
+        #print(branchData['act_change_alg'])
         if branchData['act_change_alg'] == 0:     #既存手法
           newActPool = listXor([int(nodeG[2,mutNode])], list(p['ann_actRange']))
           nodeG[2,mutNode] = int(newActPool[np.random.randint(len(newActPool))])
 
         elif branchData['act_change_alg'] == 1:   #-3から3の積分
-          _i = int(nodeG[2,mutNode])[0] -1
-          nodeG[2,mutNode] = int(random.choices(activateChangeTable[0], weights = activateChangeTable[1][_i])[0])
+          #print(nodeG[2,mutNode], end=" ")
+          _i = [int(nodeG[2,mutNode])][0] -1
+          nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[1][_i])[0])
+          #print(nodeG[2,mutNode], end="  ")
         
         elif branchData['act_change_alg'] == 2:   #-2から2の積分
-          _i = int(nodeG[2,mutNode])[0] -1
-          nodeG[2,mutNode] = int(random.choices(activateChangeTable[0], weights = activateChangeTable[2][_i])[0])
+          _i = [int(nodeG[2,mutNode])][0] -1
+          nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[2][_i])[0])
+        
+        else:
+          nodeG[2,mutNode] = nodeG[2,mutNode]
 
     child = WannInd(connG, nodeG)
     child.birth = gen
