@@ -280,15 +280,7 @@
         "popSize": 480,
         "prob_initEnable": 0.25,
         "select_tournSize": 16,
-        "save_mod" : 8
-    }
-    ```
-    - 実行はこう  
-    パラメータが-pで稼働コアが-nですね（今後このレベルの解説は）
-    ```bsh
-        python wann_train.py -p p/masuda/biped1003.json -n 11
-    ```
-
+        "save_mod" : 8$$ (f(x_{\sum_{k=1}^{n}k}) - g(x_{\sum_{k=1}^{n}k}))^2$$
 - 動作をmain関数から一括で変える
     - いちいちプログラムの深くにいって，回したい処理のコメントアウトを消して回したくない処理にコメントアウトをつけるのは情弱なのでやめます  
     jsonファイルに変数を保存してそこからプログラム開始時にグローバル変数として保持しておく
@@ -395,3 +387,131 @@
 
     - 大かっこで囲ったら動いたんだけどなんで大かっこで囲ったら動くのかはわからない  
     あしたもやる気があれば行きます
+
+## 2023/10/09
+- どーも結局大学には行かずwindows98をいじっておりました  
+今日も頑張りましょう
+
+- シナプス重みを入力としたときの出力の差
+    - 式は以下の通り  
+    $$ (f(x_{\sum_{k=1}^{n}k}) - g(x_{\sum_{k=1}^{n}k}))^2$$
+
+    - 実際に入力されている値を考慮するため，この手法が一番誤差の少ないものを選んでくれる  
+    その上，近傍の値が大きく異なるので有効な探索をしてくれるのではないかと思っている
+
+    - 前回までの実装は，自身の活性化関数IDをテーブルに基づいて変更するだけだったので楽だったが  
+    今回は自身の活性化関数に シナプス入力がされているかの情報を持ってこなければならない
+
+- シナプス荷重はどこにあるのですか
+    - 予想するに，ネットワークトポロジの変更には活性化関数だけでなくシナプスの追加やノードの追加もある  
+    ので，かなり近くにほしいデータは来ていると思う（来ていなかったら5000兆回の配列受け渡しを余儀なくされおれは死ぬ）
+
+    - neat_src/_variation.py にてこんかことが書いてある
+    ```
+    Creates next generation of child solutions from a species
+    Returns:
+        children - [Ind]      - newly created population
+        innov   - (np_array)  - updated innovation record
+    ```
+    ```
+    種から次世代の子ソリューションを作成します
+    戻り値：
+       子供 - [Ind] - 新しく作成された人口
+       innov - (np_array) - 更新されたイノベーション レコード
+    ```
+
+    - 更新されたイノベーションレコードとは多分トポロジを刷新した個体の情報のことでしょう  
+    つまり活性化関数だけでなく，どのシナプスがどのノードに接続されているかもわかるはずです
+
+    - _variation.py が呼び出してる neat_src/wann_ind.py 内 recombine にて  
+    ```
+    Randomly alter topology of individual
+    Note: This operator forces precisely ONE topological change 
+
+    Args:
+      child    - (Ind) - individual to be mutated
+        .conns - (np_array) - connection genes
+                  [5 X nUniqueGenes] 
+                  [0,:] == Innovation Number (unique Id)
+                  [1,:] == Source Node Id
+                  [2,:] == Destination Node Id
+                  [3,:] == Weight Value
+                  [4,:] == Enabled?  
+        .nodes - (np_array) - node genes
+                  [3 X nUniqueGenes]
+                  [0,:] == Node Id
+                  [1,:] == Type (1=input, 2=output 3=hidden 4=bias)
+                  [2,:] == Activation function (as int)
+      innov    - (np_array) - innovation record
+                  [5 X nUniqueGenes]
+                  [0,:] == Innovation Number
+                  [1,:] == Source
+                  [2,:] == Destination
+                  [3,:] == New Node?
+                  [4,:] == Generation evolved
+
+    Returns:
+        child   - (Ind)      - newly created individual
+        innov   - (np_array) - innovation record
+    ```
+
+    - つまり self.conns (多分connectionsの略) の2次元配列は要素数が5つのデータ列になっていて，1行のデータには  
+    変更ID，シナプスの伝播元ノードID，シナプスの伝播先ノードID，シナプスの荷重，有効か否かが記されている
+
+- どんな入力（どんな状態）かを知る必要がある
+    - ここまできて初めて気づいたんですけど，あるノードの出力を得るためには，  
+    そのノードの活性化関数，そのノードのバイアス，そのノードに来ているシナプス荷重，そのノードに来ているシナプスの元ノード  
+    がわかっていなければなりません  
+    つまりあるノードの出力を知りたければその前のノードの出力を知る必要があり，その前の，その前の．．．となると  
+    最終的に入力層のノードの出力を知る必要があるのですが，これはどこに保存されているのでしょう？
+
+    - 多分保存されていないだろうし保存されていたとしてその複数の値をどのようにして扱えばいいのかわかりません  
+    とりあえず今回はすべての入力が1だと過程して再帰的関数を実装していきます
+
+    - 以下プログラム
+    ```python
+    def calculateOutput(connG, nodeG, focusID):
+    _listo = []
+    _listw = []
+    _lista = []
+    _val = 0
+
+    # focusID を使用してfocusが目的地のシナプスを探す
+    _indexc = np.where(connG[2, :] == focusID)
+    _datac = connG[:, _indexc]
+
+    # focusIDを使用してfocusを探す
+    _indexn = np.where(nodeG[0, :] == focusID)
+    _datan = nodeG[:, _indexn]
+
+    # 入力層だったら出力は
+    if(_datan[1, 0] == 0):
+        output = 1 # 本来ここには入力ノードの出力が出ていないといけない
+        return output
+
+    # 隠れ層だったら
+    # 目的地がfocusのシナプスすべてに対して
+    for _i in range(_indexc.shape[0]):
+        # 配列取得
+        _datai = _datac[:, _i]
+
+        # 出発地のノードを探す
+        newfocusID = _datac[1]
+        _val = calculateOutput(connG, nodeG, newfocusID)
+
+        # ノードの出力とシナプス荷重の格納
+        _listo.append(_val)
+        _listw.append(_datai[3])
+        _lista.append(_datai[4])
+
+    output = 0
+    for _i in range(len(_val)):
+        if _lista[_i] == 1:
+        output = output + _val[_i] * _listw[_i]
+
+    return output
+    ```
+
+- バイアスについて
+    - 今気づいたんだけどたぶんこのネットワークにバイアスは存在していません（これ普通に嘘かもしれない）  
+    個体の情報を保存するところにコネクションデータとノードデータがあるんだけどノードデータの中にバイアスのデータを格納するようなところがないんだよね

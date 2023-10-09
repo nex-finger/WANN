@@ -10,6 +10,7 @@ class WannInd(Ind):
   """Individual class: genes, network, and fitness
   """ 
   def __init__(self, conn, node):
+    # print(node[1, :])
     """Intialize individual with given genes
     Args:
       conn - [5 X nUniqueGenes]
@@ -20,7 +21,7 @@ class WannInd(Ind):
              [4,:] == Enabled?
       node - [3 X nUniqueGenes]
              [0,:] == Node Id
-             [1,:] == Type (1=input, 2=output 3=hidden 4=bias)
+             [1,:] == Type (1=input, 2=output, 3=hidden, 4=bias)
              [2,:] == Activation function (as int)
   
     Attributes:
@@ -160,6 +161,12 @@ class WannInd(Ind):
           _i = [int(nodeG[2,mutNode])][0] -1
           nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[2][_i])[0])
         
+        elif branchData['act_change_alg'] == 3:   #入力に対する出力の差
+          # ランダムなノードの選択
+          focusID = nodeG[0, mutNode]
+          # ノードの出力を計算
+          output = calculateOutput(connG, nodeG, focusID)
+        
         else:
           nodeG[2,mutNode] = nodeG[2,mutNode]
 
@@ -201,3 +208,44 @@ def masudaSetup():
   ]) #分解能0.001，-2から2の積分
 
   return data, table
+
+def calculateOutput(connG, nodeG, focusID):
+  _listo = []
+  _listw = []
+  _lista = []
+  _val = 0
+
+  # focusID を使用してfocusが目的地のシナプスを探す
+  _indexc = np.where(connG[2, :] == focusID)
+  _datac = connG[:, _indexc]
+
+  # focusIDを使用してfocusを探す
+  _indexn = np.where(nodeG[0, :] == focusID)
+  _datan = nodeG[:, _indexn]
+
+  # 入力層だったら出力は
+  if(_datan[1, 0] == 0):
+    output = 1 # 本来ここには入力ノードの出力が出ていないといけない
+    return output
+
+  # 隠れ層だったら
+  # 目的地がfocusのシナプスすべてに対して
+  for _i in range(_indexc.shape[0]):
+    # 配列取得
+    _datai = _datac[:, _i]
+
+    # 出発地のノードを探す
+    newfocusID = _datac[1]
+    _val = calculateOutput(connG, nodeG, newfocusID)
+
+    # ノードの出力とシナプス荷重の格納
+    _listo.append(_val)
+    _listw.append(_datai[3])
+    _lista.append(_datai[4])
+
+  output = 0
+  for _i in range(len(_val)):
+    if _lista[_i] == 1:
+      output = output + _val[_i] * _listw[_i]
+
+  return output
