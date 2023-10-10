@@ -13,6 +13,8 @@
 [9/29](#20230929)  
 [10/3](#20231003)  
 [10/6](#20231006)  
+[10/9](#20231009)  
+[10/10](#20231010)  
 
 ## 2023/09/22
 - Bipedタスクについての知識がなさすぎる
@@ -280,7 +282,8 @@
         "popSize": 480,
         "prob_initEnable": 0.25,
         "select_tournSize": 16,
-        "save_mod" : 8$$ (f(x_{\sum_{k=1}^{n}k}) - g(x_{\sum_{k=1}^{n}k}))^2$$
+        "save_mod" : 8
+    }
 - 動作をmain関数から一括で変える
     - いちいちプログラムの深くにいって，回したい処理のコメントアウトを消して回したくない処理にコメントアウトをつけるのは情弱なのでやめます  
     jsonファイルに変数を保存してそこからプログラム開始時にグローバル変数として保持しておく
@@ -514,4 +517,95 @@
 
 - バイアスについて
     - 今気づいたんだけどたぶんこのネットワークにバイアスは存在していません（これ普通に嘘かもしれない）  
-    個体の情報を保存するところにコネクションデータとノードデータがあるんだけどノードデータの中にバイアスのデータを格納するようなところがないんだよね
+    個体の情報を保存するところにコネクションデータとノードデータがあるんだけどノードデータの中にバイアスのデータを格納するようなところがない
+
+## 2023/10/10
+- 動かしてみたら動きませんでした
+    - 直しました  
+    ```python
+    class WannInd(Ind):
+    #省略
+    # -- 'Single Weight Network' topological mutation ------------------------ -- #
+
+    def topoMutate(self, p, innov,gen):
+        #省略
+        # Mutate Activation
+        elif choice == 4:
+        start = 1+self.nInput + self.nOutput
+        end = nodeG.shape[1]           
+        if start != end:
+            mutNode = np.random.randint(start,end)
+            branchData , act_change_alg = masudaSetup()
+
+           #省略
+            
+            elif branchData['act_change_alg'] == 3:   #入力に対する出力の差
+            sys.setrecursionlimit(10000)            #再帰関数のネストの深さを変更
+            table1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            table2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            # ランダムなノードの選択
+            focusID = nodeG[0, mutNode]
+            # ノードの出力を計算
+            for _i in range (10) :
+                table1[_i] = calculateOutput(connG, nodeG, focusID)
+            
+            #print(type(nodeG[2,mutNode])) #numpy.float64
+            _ = random.choices(table2, weights = table1)[0]
+            print(type(_))
+            nodeG[2,mutNode] = _
+            
+            else:
+            nodeG[2,mutNode] = nodeG[2,mutNode]
+
+        child = WannInd(connG, nodeG)
+        child.birth = gen
+
+        return child, innov
+
+    return data, table
+
+    def calculateOutput(connG, nodeG, focusID):
+    _listo = []
+    _listw = []
+    _lista = []
+    _val = 0
+
+    # focusID を使用してfocusが目的地のシナプスを探す
+    _indexc = np.where(connG[2, :] == focusID)
+    _datac = connG[:, _indexc]
+
+    # focusIDを使用してfocusを探す
+    _indexn = np.where(nodeG[0, :] == focusID)
+    _datan = nodeG[:, _indexn]
+
+    # 入力層だったら出力は
+    if(_datan[1, 0] == 0):
+        output = 1 # 本来ここには入力ノードの出力が出ていないといけない
+        return output
+
+    # 隠れ層だったら
+    # 目的地がfocusのシナプスすべてに対して
+    for _i in range(len(_indexc[0])):
+        # 配列取得
+        _datai = _datac[:, _i]
+
+        # 出発地のノードを探す
+        newfocusID = _datac[1]
+        _val = calculateOutput(connG, nodeG, newfocusID)
+
+        # ノードの出力とシナプス荷重の格納
+        _listo.append(_val)         #ノード出力
+        _listw.append(_datai[3])    #重み
+        _lista.append(_datai[4])    #有効化してあるか
+
+    output = 0
+    for _i in range(len(_listo)):
+        if _lista[_i] == 1:
+        output = output + _listo[_i] * _listw[_i]
+
+    return output
+    ```
+    
+- 新しい手法
+    - 活性化関数の変更において，変更してみたら評価があがった関数の組を保存し，将来ではその組が選ばれやすいようにするという手法  
+    おもしろそう

@@ -5,6 +5,7 @@ from .ind import *
 from .ann import getLayer, getNodeOrder
 from utils import listXor
 import json
+import sys
 
 class WannInd(Ind):
   """Individual class: genes, network, and fitness
@@ -162,10 +163,19 @@ class WannInd(Ind):
           nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[2][_i])[0])
         
         elif branchData['act_change_alg'] == 3:   #入力に対する出力の差
+          sys.setrecursionlimit(10000)            #再帰関数のネストの深さを変更
+          table1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          table2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
           # ランダムなノードの選択
           focusID = nodeG[0, mutNode]
           # ノードの出力を計算
-          output = calculateOutput(connG, nodeG, focusID)
+          for _i in range (10) :
+            table1[_i] = calculateOutput(connG, nodeG, focusID)
+          
+          #print(type(nodeG[2,mutNode])) #numpy.float64
+          _ = random.choices(table2, weights = table1)[0]
+          #print(type(_))
+          nodeG[2,mutNode] = _
         
         else:
           nodeG[2,mutNode] = nodeG[2,mutNode]
@@ -230,8 +240,9 @@ def calculateOutput(connG, nodeG, focusID):
 
   # 隠れ層だったら
   # 目的地がfocusのシナプスすべてに対して
-  for _i in range(_indexc.shape[0]):
+  for _i in range(len(_indexc[0])):
     # 配列取得
+    print(_datac)
     _datai = _datac[:, _i]
 
     # 出発地のノードを探す
@@ -239,13 +250,13 @@ def calculateOutput(connG, nodeG, focusID):
     _val = calculateOutput(connG, nodeG, newfocusID)
 
     # ノードの出力とシナプス荷重の格納
-    _listo.append(_val)
-    _listw.append(_datai[3])
-    _lista.append(_datai[4])
+    _listo.append(_val)         #ノード出力
+    _listw.append(_datai[3])    #重み
+    _lista.append(_datai[4])    #有効化してあるか
 
   output = 0
-  for _i in range(len(_val)):
+  for _i in range(len(_listo)):
     if _lista[_i] == 1:
-      output = output + _val[_i] * _listw[_i]
+      output = output + _listo[_i] * _listw[_i]
 
   return output
