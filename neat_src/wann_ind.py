@@ -225,28 +225,46 @@ def calculateOutput(connG, nodeG, focusID):
   _lista = []
   _val = 0
 
-  # focusID を使用してfocusが目的地のシナプスを探す
-  _indexc = np.where(connG[2, :] == focusID)
-  _datac = connG[:, _indexc]
+  print("connG")
+  print(connG)
+  print("nodeG")
+  print(nodeG)
+  print("focusID")
+  print(focusID)
+  print("")
 
-  # focusIDを使用してfocusを探す
-  _indexn = np.where(nodeG[0, :] == focusID)
-  _datan = nodeG[:, _indexn]
+  # 目的地がfocusIDのシナプスを抽出
+  _datac = []
+  for _i in range(connG.shape[1]):
+    if connG[2, _i] == focusID:
+      row = connG[:, _i]
+      _datac.append(row)
+  _datac = np.array(_datac)
+  print(_datac)
+
+  # focusIDを使用してfocusノードを探す
+  _datan = []
+  for _i in range(nodeG.shape[1]):
+    if nodeG[0, _i] == focusID:
+      row = nodeG[:, _i]
+      _datan.append(row)
+  _datan = np.array(_datan)
+  print(_datan)
 
   # 入力層だったら出力は
-  if(_datan[1, 0] == 0):
+  if(_datan[0, 1] == 0):
     output = 1 # 本来ここには入力ノードの出力が出ていないといけない
     return output
 
   # 隠れ層だったら
   # 目的地がfocusのシナプスすべてに対して
-  for _i in range(len(_indexc[0])):
+  for _i in range(_datac.shape[0]):
     # 配列取得
-    print(_datac)
-    _datai = _datac[:, _i]
+    #print(_datac)
+    _datai = _datac[_i]
 
     # 出発地のノードを探す
-    newfocusID = _datac[1]
+    newfocusID = _datai[1]
     _val = calculateOutput(connG, nodeG, newfocusID)
 
     # ノードの出力とシナプス荷重の格納
