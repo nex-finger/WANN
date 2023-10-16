@@ -17,7 +17,6 @@ rank = comm.Get_rank()
 from neat_src import * # NEAT and WANNs
 from domain import *   # Task environments
 
-
 # -- Run NEAT ------------------------------------------------------------ -- #
 def master(): 
   """Main NEAT optimization script
@@ -234,6 +233,68 @@ def mpi_fork(n):
     #print('assigning the rank and nworkers', nWorker, rank)
     return "child"
 
+def myDistance(resolution, calc_range, padding, i, j):
+  num = 10
+
+  func = [['Linear',               'x'],
+          ['UnsignedStepFunction', '1.0 * (x > 0.0)'],
+          ['Sin',                  'numpy.sin(numpy.pi * x)'],
+          ['Gausian',              'numpy.exp(-numpy.multiply(x, x) / 2.0)'],
+          ['HyperbolicTangent',    'numpy.tanh(x)'],
+          ['SigmoidUnsigned',      '(numpy.tanh(x / 2.0) + 1.0) / 2.0'],
+          ['Inverse',              '-x'],
+          ['AbsoluteValue',        'abs(x)'],
+          ['Relu',                 'numpy.maximum(0, x)'],
+          ['Cosine',               'numpy.cos(numpy.pi * x)'],
+          ['Squared',              'x**2']]
+
+  # 距離の計算
+  x = -calc_range
+  sum = 0.0
+  while 1:
+      _a = eval(func[i][1])
+      _b = eval(func[j][1])
+      _diff = (_a - _b)**2
+      sum = sum + _diff
+
+      x = x + resolution
+      if x > calc_range:
+          break
+
+  # イプシロンの追加
+  sum += padding
+
+  #逆数を取る
+  sum = 1 / sum
+
+  #自身の値を0にする
+  if(i == j):
+    sum = 0
+
+  return sum
+
+def loadMyHyp(MyHypPass):
+  with open(MyHypPass, 'r') as json_file:
+    MyHyp = json.load(json_file)
+  
+  resolution = MyHyp['resolution']
+  calc_range = MyHyp['calc_range']
+  padding = MyHyp['padding']
+
+  _ = []
+  _.append([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  MyHyp['activate_ID'] = _
+
+  _ = [[0] * 10 for i in range(10)]
+
+  for _i in range(len(_)):
+    for _j in range(len(_[0])):
+        _d = myDistance(resolution, calc_range, padding, _i, _j)
+        _[_i][_j] = _d
+  MyHyp['activate_table'] = _
+
+  return MyHyp
+
 # -- Input Parsing ------------------------------------------------------- -- #
 
 def main(argv):
@@ -248,6 +309,10 @@ def main(argv):
 
   hyp = loadHyp(pFileName=hyp_default)
   updateHyp(hyp,hyp_adjust)
+
+  # 自分のハイパーパラメータ
+  global myHyp
+  myHyp = loadMyHyp(args.masuda)
 
   # Launch main thread and workers
   if (rank == 0):
@@ -270,6 +335,9 @@ if __name__ == "__main__":
   
   parser.add_argument('-n', '--num_worker', type=int,\
    help='number of cores to use', default=11)
+  
+  parser.add_argument('-m', '--masuda', type=str,\
+   help='卒業研究のために追加', default='p/masuda/branch.json')
 
   args = parser.parse_args()
 

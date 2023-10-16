@@ -144,25 +144,22 @@ class WannInd(Ind):
       end = nodeG.shape[1]           
       if start != end:
         mutNode = np.random.randint(start,end)
-        branchData , act_change_alg = masudaSetup()
+
+        #branchData , act_change_alg = masudaSetup()
 
         #ここからかきました
         #print(branchData['act_change_alg'])
-        if branchData['act_change_alg'] == 0:     #既存手法
+        if MyHyp['act_change_alg'] == 0:     #既存手法
           newActPool = listXor([int(nodeG[2,mutNode])], list(p['ann_actRange']))
           nodeG[2,mutNode] = int(newActPool[np.random.randint(len(newActPool))])
 
-        elif branchData['act_change_alg'] == 1:   #-3から3の積分
+        elif MyHyp['act_change_alg'] == 1:   #-3から3の積分
           #print(nodeG[2,mutNode], end=" ")
           _i = [int(nodeG[2,mutNode])][0] -1
           nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[1][_i])[0])
           #print(nodeG[2,mutNode], end="  ")
         
-        elif branchData['act_change_alg'] == 2:   #-2から2の積分
-          _i = [int(nodeG[2,mutNode])][0] -1
-          nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[2][_i])[0])
-        
-        elif branchData['act_change_alg'] == 3:   #入力に対する出力の差
+        elif MyHyp['act_change_alg'] == 2:   #入力に対する出力の差
           sys.setrecursionlimit(10000)            #再帰関数のネストの深さを変更
           table1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
           table2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -189,33 +186,19 @@ class WannInd(Ind):
 def masudaSetup():
   with open('p/masuda/branch.json', 'r') as json_file:
     data = json.load(json_file)
+  
+  resolution = data['resolution']
+  calc_range = data['calc_range']
 
   table = []
   table.append([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-  table.append([
-    [0.0   , 0.1294, 0.0904, 0.0785, 0.2763, 0.1142, 0.0216, 0.0431, 0.1726, 0.074 ],
-    [0.019 , 0.0   , 0.0484, 0.1006, 0.0956, 0.5955, 0.0076, 0.019 , 0.0762, 0.0381],
-    [0.0472, 0.1718, 0.0   , 0.1702, 0.1437, 0.1799, 0.0327, 0.0387, 0.0805, 0.1353],
-    [0.0247, 0.2153, 0.1026, 0.0   , 0.0846, 0.3579, 0.0247, 0.0309, 0.0556, 0.1035],
-    [0.1049, 0.2466, 0.1044, 0.102 , 0.0   , 0.1935, 0.0154, 0.0268, 0.1224, 0.0841],
-    [0.016 , 0.5685, 0.0484, 0.1596, 0.0716, 0.0   , 0.0082, 0.0197, 0.0651, 0.0428],
-    [0.0464, 0.1114, 0.1346, 0.1689, 0.087 , 0.1256, 0.0   , 0.0928, 0.0742, 0.1591],
-    [0.0512, 0.1537, 0.0878, 0.1166, 0.0838, 0.1662, 0.0512, 0.0   , 0.2049, 0.0845],
-    [0.0807, 0.242 , 0.072 , 0.0826, 0.1508, 0.2167, 0.0161, 0.0807, 0.0   , 0.0585],
-    [0.0431, 0.1508, 0.1508, 0.1913, 0.1291, 0.1775, 0.0431, 0.0415, 0.0729, 0.0   ],
-  ]) #分解能0.001，-3から3の積分
-  table.append([
-    [0.0   , 0.1165, 0.0393, 0.0547, 0.4467, 0.0898, 0.0182, 0.0364, 0.1456, 0.0529],  
-    [0.044 , 0.0   , 0.0367, 0.1069, 0.1032, 0.3956, 0.0129, 0.044 , 0.2201, 0.0367], 
-    [0.055 , 0.1359, 0.0   , 0.1444, 0.1041, 0.1456, 0.1135, 0.0741, 0.0915, 0.1359],  
-    [0.0345, 0.1785, 0.0651, 0.0   , 0.0639, 0.4015, 0.0345, 0.0673, 0.0906, 0.0642],  
-    [0.2904, 0.1776, 0.0484, 0.0658, 0.0   , 0.1319, 0.0181, 0.0341, 0.1717, 0.062 ],  
-    [0.031 , 0.3621, 0.036 , 0.22  , 0.0701, 0.0   , 0.0152, 0.0522, 0.1719, 0.0415],  
-    [0.0481, 0.0905, 0.2142, 0.1445, 0.0736, 0.1163, 0.0   , 0.0961, 0.0769, 0.1398],  
-    [0.0485, 0.1551, 0.0705, 0.1421, 0.0698, 0.201 , 0.0485, 0.0   , 0.1939, 0.0706],  
-    [0.0744, 0.2978, 0.0334, 0.0734, 0.1349, 0.2542, 0.0149, 0.0744, 0.0   , 0.0425],  
-    [0.0703, 0.1289, 0.1289, 0.1351, 0.1266, 0.1592, 0.0703, 0.0703, 0.1105, 0.0   ]
-  ]) #分解能0.001，-2から2の積分
+  _ = [[0] * 10 for i in range(10)]
+
+  for _i in range(len(_)):
+    for _j in range(len(_[0])):
+        _d = distance(resolution, calc_range)
+        _[_i][_j] = _d
+  table.append(_)
 
   return data, table
 
