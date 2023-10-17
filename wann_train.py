@@ -314,7 +314,7 @@ def main(argv):
   print('Loading myHyp...')
   global myHyp
   myHyp = loadMyHyp(args.masuda)
-  print('Done.')
+  print('Done. core' + str(rank))
   # print(myHyp['activate_table'])
 
   # Launch main thread and workers
