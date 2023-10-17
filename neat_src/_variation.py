@@ -11,11 +11,11 @@ def evolvePop(self):
   newPop = []
   for i in range(len(self.species)):
     children, self.innov = self.recombine(self.species[i],\
-                           self.innov, self.gen)
+                           self.innov, self.gen, self.myhyp)
     newPop.append(children)
   self.pop = list(itertools.chain.from_iterable(newPop))   
 
-def recombine(self, species, innov, gen):
+def recombine(self, species, innov, gen, myhyp):
   """ Creates next generation of child solutions from a species
 
   Procedure:
@@ -74,11 +74,11 @@ def recombine(self, species, innov, gen):
   for i in range(nOffspring):  
     if np.random.rand() > p['prob_crossover']:
       # Mutation only: take only highest fit parent
-      child, innov = pop[parents[0,i]].createChild(p,innov,gen)
+      child, innov = pop[parents[0,i]].createChild(p,innov,myhyp,gen)
       # kakimasita print(type(pop[parents[0,i]]))
     else:
       # Crossover
-      child, innov = pop[parents[0,i]].createChild(p,innov,gen,\
+      child, innov = pop[parents[0,i]].createChild(p,innov,myhyp,gen,\
                 mate=pop[parents[1,i]])
 
     child.express()

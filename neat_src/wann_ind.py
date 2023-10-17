@@ -46,7 +46,7 @@ class WannInd(Ind):
     Ind.__init__(self,conn,node)
     self.fitMax  = [] # Best fitness over trials
 
-  def createChild(self, p, innov, gen=0):
+  def createChild(self, p, innov, myhyp, gen=0):
     """Create new individual with this individual as a parent
 
       Args:
@@ -67,12 +67,12 @@ class WannInd(Ind):
 
     """     
     child = WannInd(self.conn, self.node)
-    child, innov = child.topoMutate(p,innov,gen)
+    child, innov = child.topoMutate(p,innov,gen,myhyp)
     return child, innov
 
 # -- 'Single Weight Network' topological mutation ------------------------ -- #
 
-  def topoMutate(self, p, innov,gen):
+  def topoMutate(self, p, innov, gen, myhyp):
     """Randomly alter topology of individual
     Note: This operator forces precisely ONE topological change 
 
@@ -149,17 +149,23 @@ class WannInd(Ind):
 
         #ここからかきました
         #print(branchData['act_change_alg'])
-        if MyHyp['act_change_alg'] == 0:     #既存手法
+        if myhyp['act_change_alg'] == 0:     #既存手法
           newActPool = listXor([int(nodeG[2,mutNode])], list(p['ann_actRange']))
           nodeG[2,mutNode] = int(newActPool[np.random.randint(len(newActPool))])
 
-        elif MyHyp['act_change_alg'] == 1:   #-3から3の積分
+        elif myhyp['act_change_alg'] == 1:   #2条誤差の合計
           #print(nodeG[2,mutNode], end=" ")
           _i = [int(nodeG[2,mutNode])][0] -1
-          nodeG[2,mutNode] = int(random.choices(act_change_alg[0], weights = act_change_alg[1][_i])[0])
+
+          # print(len(myhyp['activate_ID']))
+          # print(myhyp['activate_ID'])
+          # print(len(myhyp['activate_table'][_i]))
+          # print(myhyp['activate_table'][_i])
+
+          nodeG[2,mutNode] = int(random.choices(myhyp['activate_ID'][0], weights = myhyp['activate_table'][_i])[0])
           #print(nodeG[2,mutNode], end="  ")
         
-        elif MyHyp['act_change_alg'] == 2:   #入力に対する出力の差
+        elif myhyp['act_change_alg'] == 2:   #入力に対する出力の差
           sys.setrecursionlimit(10000)            #再帰関数のネストの深さを変更
           table1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
           table2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -183,24 +189,6 @@ class WannInd(Ind):
     return child, innov
 
 # -- masuda no jikan ----------------------------------------------------- -- #
-def masudaSetup():
-  with open('p/masuda/branch.json', 'r') as json_file:
-    data = json.load(json_file)
-  
-  resolution = data['resolution']
-  calc_range = data['calc_range']
-
-  table = []
-  table.append([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-  _ = [[0] * 10 for i in range(10)]
-
-  for _i in range(len(_)):
-    for _j in range(len(_[0])):
-        _d = distance(resolution, calc_range)
-        _[_i][_j] = _d
-  table.append(_)
-
-  return data, table
 
 def calculateOutput(connG, nodeG, focusID):
   _listo = []

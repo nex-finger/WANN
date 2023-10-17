@@ -21,9 +21,9 @@ from domain import *   # Task environments
 def master(): 
   """Main NEAT optimization script
   """
-  global fileName, hyp
+  global fileName, hyp, myHyp
   data = WannDataGatherer(fileName, hyp)
-  alg  = Wann(hyp)
+  alg  = Wann(hyp, myHyp)
 
   for gen in range(hyp['maxGen']):        
     pop = alg.ask()            # 新しく進化生成した個体集団の取得
@@ -238,14 +238,14 @@ def myDistance(resolution, calc_range, padding, i, j):
 
   func = [['Linear',               'x'],
           ['UnsignedStepFunction', '1.0 * (x > 0.0)'],
-          ['Sin',                  'numpy.sin(numpy.pi * x)'],
-          ['Gausian',              'numpy.exp(-numpy.multiply(x, x) / 2.0)'],
-          ['HyperbolicTangent',    'numpy.tanh(x)'],
-          ['SigmoidUnsigned',      '(numpy.tanh(x / 2.0) + 1.0) / 2.0'],
+          ['Sin',                  'np.sin(np.pi * x)'],
+          ['Gausian',              'np.exp(-np.multiply(x, x) / 2.0)'],
+          ['HyperbolicTangent',    'np.tanh(x)'],
+          ['SigmoidUnsigned',      '(np.tanh(x / 2.0) + 1.0) / 2.0'],
           ['Inverse',              '-x'],
           ['AbsoluteValue',        'abs(x)'],
-          ['Relu',                 'numpy.maximum(0, x)'],
-          ['Cosine',               'numpy.cos(numpy.pi * x)'],
+          ['Relu',                 'np.maximum(0, x)'],
+          ['Cosine',               'np.cos(np.pi * x)'],
           ['Squared',              'x**2']]
 
   # 距離の計算
@@ -311,8 +311,11 @@ def main(argv):
   updateHyp(hyp,hyp_adjust)
 
   # 自分のハイパーパラメータ
+  print('Loading myHyp...')
   global myHyp
   myHyp = loadMyHyp(args.masuda)
+  print('Done.')
+  # print(myHyp['activate_table'])
 
   # Launch main thread and workers
   if (rank == 0):

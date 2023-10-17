@@ -12,7 +12,7 @@ from .neat import Neat
 class Wann(Neat):
   """NEAT main class. Evolves population given fitness values of individuals.
   """
-  def __init__(self, hyp):
+  def __init__(self, hyp, myHyp):
     """Intialize NEAT algorithm with hyperparameters
     Args:
       hyp - (dict) - algorithm hyperparameters
@@ -30,7 +30,7 @@ class Wann(Neat):
                 [4,:] == Generation evolved
       gen     - (int)      - Current generation
     """
-    Neat.__init__(self,hyp)
+    Neat.__init__(self,hyp,myHyp)
     self.indType = WannInd
 
   def tell(self,reward):

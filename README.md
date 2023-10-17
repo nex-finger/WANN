@@ -759,3 +759,43 @@
             - input(random)は入力をランダムにとってくるが，これはノードに接続されているシナプスの信号の合計になる
         
         - あとイプシロンは$\epsilon$ではなく$\varepsilon$を使うこと
+        - 
+## 2023/10/17
+- 昨日の続き
+    - まずグローバル変数としてmyHypをとりました  
+    次に読み込んだパラメータ(resolution, calc_range, padding)から関数同士の誤差を計算します  
+    ```python
+    print('Loading myHyp...')
+    global myHyp
+    myHyp = loadMyHyp(args.masuda)
+    print('Done.')
+    ```
+
+    ```python
+    def loadMyHyp(MyHypPass):
+    with open(MyHypPass, 'r') as json_file:
+        MyHyp = json.load(json_file)
+    
+    resolution = MyHyp['resolution']
+    calc_range = MyHyp['calc_range']
+    padding = MyHyp['padding']
+
+    _ = []
+    _.append([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    MyHyp['activate_ID'] = _
+
+    _ = [[0] * 10 for i in range(10)]
+
+    for _i in range(len(_)):
+        for _j in range(len(_[0])):
+            _d = myDistance(resolution, calc_range, padding, _i, _j)
+            _[_i][_j] = _d
+    MyHyp['activate_table'] = _
+
+    return MyHyp
+    ```
+    - myDistanceの処理は今まで使っていたactfun.pyからほぼほぼ流用
+    - で活性化関数を変更してる関数とかクラスとかにmyHypを受け渡すことで処理を実現しました  
+    変更箇所を知りたければmyHypとmyhypで検索してください
+
+    

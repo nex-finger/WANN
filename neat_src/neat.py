@@ -11,7 +11,7 @@ from .nsga_sort import nsga_sort
 class Neat():
   """NEAT main class. Evolves population given fitness values of individuals.
   """
-  def __init__(self, hyp):
+  def __init__(self, hyp, myHyp):
     """Intialize NEAT algorithm with hyperparameters
     Args:
       hyp - (dict) - algorithm hyperparameters
@@ -36,6 +36,9 @@ class Neat():
     self.gen     = 0  
 
     self.indType = Ind
+
+    #追加
+    self.myhyp = myHyp
 
   ''' Subfunctions '''
   from ._variation import evolvePop, recombine
