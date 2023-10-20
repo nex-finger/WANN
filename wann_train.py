@@ -123,7 +123,7 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
   nJobs = len(pop)
   nBatch= math.ceil(nJobs/nSlave) # First worker is master
 
-    # Set same seed for each individual
+  # Set same seed for each individual
   if sameSeedForEachIndividual is False:
     seed = np.random.randint(1000, size=nJobs)
   else:
@@ -140,14 +140,25 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
         n_aVec = np.shape(aVec)[0]
 
         comm.send(n_wVec, dest=(iWork)+1, tag=1)
+        #print('n_wVec')
+        #print(n_wVec)
         comm.Send(  wVec, dest=(iWork)+1, tag=2)
+        #print('wVec')
+        #print(wVec)
         comm.send(n_aVec, dest=(iWork)+1, tag=3)
+        #print('n_Vec')
+        #print(n_aVec)
         comm.Send(  aVec, dest=(iWork)+1, tag=4)
+        #print('aVec')
+        #print(aVec)
         if sameSeedForEachIndividual is False:
           comm.send(seed.item(i), dest=(iWork)+1, tag=5)
+          #print('seedi')
+          #print(seed.item(i))
         else:
           comm.send(  seed, dest=(iWork)+1, tag=5)        
-
+          #print('seed')
+          #print(seed)
       else: # message size of 0 is signal to shutdown workers
         n_wVec = 0
         comm.send(n_wVec,  dest=(iWork)+1)
@@ -158,7 +169,9 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
     for iWork in range(1,nSlave+1):
       if i < nJobs:
         workResult = np.empty(hyp['alg_nVals'], dtype='d')
+        #print(workResult, end=' ')
         comm.Recv(workResult, source=iWork)
+        #print(workResult)
         reward[i,:] = workResult
       i+=1
   return reward

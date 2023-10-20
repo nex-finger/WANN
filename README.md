@@ -830,4 +830,119 @@
 
         - 計算はdomain/bipedal_wolker.pyで行っているらしい[要出典]  
         追記 行っていないです，domain/config.pyで行っている[要出典]  
-        わっかんね pushして帰ります 
+        わっかんね pushして帰ります
+
+## 2023/10/20
+
+- 昨日の続き
+    - MPI.COMM.WORLDについての理解
+        - https://mpi4py.readthedocs.io/en/stable/tutorial.html
+        - https://keichi.dev/post/mpi4py/
+    
+    - 大文字と小文字について
+        - WANNプログラムには以下のような記述がある  
+        ```python
+        comm.send(n_wVec, dest=(iWork)+1, tag=1)
+        comm.Send(  wVec, dest=(iWork)+1, tag=2)
+        comm.send(n_aVec, dest=(iWork)+1, tag=3)
+        comm.Send(  aVec, dest=(iWork)+1, tag=4)
+        ...
+        comm.Recv(workResult, source=iWork)
+        ```
+
+        - comm.send と comm.Send は動作が異なる  
+        comm.send は通常のpythonオブジェクトに対して記述される  
+        comm.Send はメモリバッファを通信するために記述される  
+        らしい
+
+    - 文法の解説
+        - このプログラムはデータを送信するために記述されていて，  
+        送信する内容は n_wVec ，送信先のCPUコアIDは (iWork)+1 ，受信側との合言葉は 1 といった具合  
+        ```python
+        comm.send(n_wVec, dest=(iWork)+1, tag=1)
+        ```
+        - このプログラムはデータを受信するために記述されていて，  
+        受信する内容は workResult(という名の変数に格納される) ，受信元のCPUコアIDは iWork  
+        通常tagを指定するはずだが，chatGPTに聞いたら暗黙的にtag=0となるらしい  
+        追記 なんか配列の長さが6あるので，すべてのtagの情報を受け取っているみたい
+        ```python
+        comm.Recv(workResult, source=iWork)
+        ```
+    
+    - 本当に理解した（ほんと）
+        - まず昨日から睨んでいたMPIの並列化についてだんだんわかってきた  
+        でプログラムの流れを説明すると，  
+        まず例によって wann_train.py からプログラムが実行され，並列化しコアID=0はマスター，ID!=0はスレーブとして働くことになる  
+        で，マスターが  
+        ```python
+        # ばっさり省略
+        for iBatch in range(nBatch): # Send one batch of individuals
+            for iWork in range(nSlave): # (one to each worker if there)
+            if i < nJobs:
+                wVec   = pop[i].wMat.flatten()
+                n_wVec = np.shape(wVec)[0]
+                aVec   = pop[i].aVec.flatten()
+                n_aVec = np.shape(aVec)[0]
+
+                comm.send(n_wVec, dest=(iWork)+1, tag=1)
+                comm.Send(  wVec, dest=(iWork)+1, tag=2)
+                comm.send(n_aVec, dest=(iWork)+1, tag=3)
+                comm.Send(  aVec, dest=(iWork)+1, tag=4)
+                if sameSeedForEachIndividual is False:
+                comm.send(seed.item(i), dest=(iWork)+1, tag=5)
+                else:
+                comm.send(  seed, dest=(iWork)+1, tag=5) 
+            else: # message size of 0 is signal to shutdown workers
+                n_wVec = 0
+                comm.send(n_wVec,  dest=(iWork)+1)
+            i = i+1 
+        # ばっさり省略
+        ```
+        によって各スレーブコアに対して5つの情報を与えている  
+        情報は 重み行列のサイズ，重み行列，活性化関数行列のサイズ，活性化関数行列，シート値 になる
+
+        - で，このデータがどこで処理されるのかと言うと wann_train.py のslave関数から  
+        ```python
+        while True:
+            n_wVec = comm.recv(source=0,  tag=1)# how long is the array that's coming?
+            if n_wVec > 0:
+            wVec = np.empty(n_wVec, dtype='d')# allocate space to receive weights
+            comm.Recv(wVec, source=0,  tag=2) # recieve weights
+
+            n_aVec = comm.recv(source=0,tag=3)# how long is the array that's coming?
+            aVec = np.empty(n_aVec, dtype='d')# allocate space to receive activation
+            comm.Recv(aVec, source=0,  tag=4) # recieve it
+            seed = comm.recv(source=0, tag=5) # random seed as int
+
+            result = task.getFitness(wVec,aVec,hyp,seed=seed) # process it
+            comm.Send(result, dest=0)            # send it back
+        ```
+        となる，ここでマスターが送った情報にはtag番号が振られており，この番号はマスターとスレーブで対応している必要がある  
+        で，これらのネットワーク情報を使って， domain/wann_task_gym.py の getFitness 関数を呼び出し，この中でマスターが供給した情報のネットワークがどれくらいの適応度を持っているかを返り値として返す
+
+        - この返り値をスレーブコアは  
+        ```python
+        comm.Send(result, dest=0)            # send it back
+        ```
+        にてマスターコアに送信している（マスターコアのIDは0，またこのときtagをつけていないのがむかつく）  
+        マスター関数にて
+        ```python
+        for iWork in range(1,nSlave+1):
+            if i < nJobs:
+                workResult = np.empty(hyp['alg_nVals'], dtype='d')
+                comm.Recv(workResult, source=iWork)
+                reward[i,:] = workResult
+            i+=1
+        return reward
+        ```
+        で情報を受け取っている  
+        この値をrewaedに格納することで，個体の評価を保存することができている
+
+    - じゃあ getFitness が気になってくるよねって話
+        - domain/task_gym.py を呼び出してるみたいで，見てみると  
+        ```python
+        annOut = act(wVec, aVec, self.nInput, self.nOutput, state)  
+        action = selectAct(annOut,self.actSelect)    
+        ```
+        とあり，これまんま入力と出力じゃね！？！？！？！？！？！？！？  
+        しかし今日は帰ります，Greed is Good をプレイするので．
