@@ -868,6 +868,7 @@
         ```python
         comm.Recv(workResult, source=iWork)
         ```
+        追記 これ全然ウソついてますからこれから書くことが本当です
     
     - 本当に理解した（ほんと）
         - まず昨日から睨んでいたMPIの並列化についてだんだんわかってきた  
@@ -945,4 +946,77 @@
         action = selectAct(annOut,self.actSelect)    
         ```
         とあり，これまんま入力と出力じゃね！？！？！？！？！？！？！？  
-        しかし今日は帰ります，Greed is Good をプレイするので．
+        しかし今日は帰ります，Greed is Good をプレイするので．  
+        あと既存手法で一晩まわしてみようかな
+
+## 2023/10/24
+- 今日すずし
+    - ついに夏終わったか
+
+- 前回の続き
+    - まずこの通信がどの頻度で行われているかを確認する必要がある  
+    学習するには，まず世代を回す必要がある（1世代に1回個体の更新が行われる）  
+    1世代の評価には複数回の入力がある（300フレーム生きていたら300入力）
+    - このマスターとスレーブの情報の受け渡しがどの粒度で行われているか
+    ```python
+    def master(): 
+    for gen in range(hyp['maxGen']):        
+        reward = batchMpiEval(pop)  # 生成した個体の評価
+    ```
+    より1世代に1回batchMpiEvalは呼び出されている
+    ```python
+    def batchMpiEval(pop, sameSeedForEachIndividual=True):
+        nSlave = nWorker-1
+        nJobs = len(pop)
+        nBatch= math.ceil(nJobs/nSlave)
+        
+        for iBatch in range(nBatch): # Send one batch of individuals
+            for iWork in range(nSlave): # (one to each worker if there)
+                comm.send(n_wVec, dest=(iWork)+1, tag=1)
+                comm.Send(  wVec, dest=(iWork)+1, tag=2)
+                comm.send(n_aVec, dest=(iWork)+1, tag=3)
+                comm.Send(  aVec, dest=(iWork)+1, tag=4)
+                if sameSeedForEachIndividual is False:
+                comm.send(seed.item(i), dest=(iWork)+1, tag=5)
+                else:
+                comm.send(  seed, dest=(iWork)+1, tag=5)        
+        
+            for iWork in range(nSlave):
+                if i < nJobs:
+                    comm.Recv(workResult, source=(iWork)+1)
+    ```
+    for iWork in range(nSlave):  
+        source=(iWork)+1  
+    と  
+    for iWork in range(1, nSlave+1):  
+        source=iWork  
+    が混在しているので，注意すること
+    - より，1世代の間では nBatch x nSlave 回のデータやりとりをしているみたいで，各スレーブコアに対してデータを送ったあとにdef slave()で計算，またマスターコアに計算結果を送って保存する  
+    nBatch = nWorker - 1 = 12 - 1 = 11 コア数-1つまりスレーブコアの数分だけ  
+    nJobs = 480(今回に限って) 個体の数つまり480人が転ぶまで計算している  
+    nBatch = 480 / 11 = 44 推測だけどスレーブコア1コアの働き分？
+
+    - つまり，スレーブコア1つずつに44人分の計算をさせている  
+    それで44人を11コアで世代全員分の480人分の計算をする  
+    ID1のコアには0から43までの計算，ID2のコアには44から87までの計算，，ID11のコアには435から479までの計算  
+
+    - master が slave に情報を渡して， slave は getFitness を呼び出して， getFitness は testInd を呼び出し，その中で
+    ```python
+    for tStep in range(self.maxEpisodeLength): 
+      annOut = act(wVec, aVec, self.nInput, self.nOutput, state) 
+      print(state)
+    ```
+    とすると大きさ24の配列がプリントされて，明らかにエージェントの状態を追跡できている
+    ```
+    [ 1.15e+00  1.25e-01 -2.10e-02 -5.97e-02 -3.02e-01 -8.01e-01 -6.25e-01 -3.93e-04  1.00e+00 -8.35e-01 -5.13e-06 -6.21e-01 -5.44e-06  0.00e+00  3.30e-01
+    3.34e-01  3.46e-01  3.67e-01  4.00e-01  4.52e-01  5.32e-01  6.64e-01  9.12e-01  1.00e+00]
+    [ 1.21e+00  1.19e-01 -2.69e-02 -5.86e-02 -3.61e-01 -7.49e-01 -6.25e-01 -4.02e-04  1.00e+00 -8.35e-01 -5.36e-06 -6.18e-01 -7.47e-06  0.00e+00  3.28e-01
+    3.31e-01  3.43e-01  3.64e-01  3.97e-01  4.48e-01  5.27e-01  6.59e-01  9.04e-01  1.00e+00]
+    [ 1.26e+00  1.12e-01 -3.38e-02 -5.65e-02 -4.16e-01 -6.86e-01 -6.25e-01 -5.71e-04  1.00e+00 -8.35e-01 -7.75e-06 -6.16e-01 -1.28e-05  0.00e+00  3.25e-01
+    3.29e-01  3.40e-01  3.61e-01  3.94e-01  4.44e-01  5.23e-01  6.53e-01  8.97e-01  1.00e+00]
+    ```
+    あとはこれを保存して，考慮して，変更確率を計算する
+
+    - 書き込み場所間違えました  
+    いややっぱあってるかも，多分あってる  
+    今日はここまで，あしたは午前から来る

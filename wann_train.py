@@ -123,6 +123,10 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
   nJobs = len(pop)
   nBatch= math.ceil(nJobs/nSlave) # First worker is master
 
+  #print(nWorker)
+  #print(nJobs)
+  #print(nBatch)
+
   # Set same seed for each individual
   if sameSeedForEachIndividual is False:
     seed = np.random.randint(1000, size=nJobs)
@@ -166,11 +170,11 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
   
     # Get fitness values back for that batch
     i -= nSlave
-    for iWork in range(1,nSlave+1):
+    for iWork in range(nSlave):
       if i < nJobs:
         workResult = np.empty(hyp['alg_nVals'], dtype='d')
         #print(workResult, end=' ')
-        comm.Recv(workResult, source=iWork)
+        comm.Recv(workResult, source=(iWork)+1)
         #print(workResult)
         reward[i,:] = workResult
       i+=1
