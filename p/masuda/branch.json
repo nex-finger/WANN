@@ -2,5 +2,8 @@
     "act_change_alg": 0,
     "resolution": 0.001,
     "calc_range": 2,
-    "padding": 0.1
+    "padding": 0.1,
+
+    "mini_batch_size": 16,
+    "inputnode_size": 24
 }

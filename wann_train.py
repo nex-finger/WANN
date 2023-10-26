@@ -118,14 +118,10 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
   Todo:
     * Asynchronous evaluation instead of batches
   """
-  global nWorker, hyp
+  global nWorker, hyp, myHyp
   nSlave = nWorker-1
   nJobs = len(pop)
   nBatch= math.ceil(nJobs/nSlave) # First worker is master
-
-  #print(nWorker)
-  #print(nJobs)
-  #print(nBatch)
 
   # Set same seed for each individual
   if sameSeedForEachIndividual is False:
@@ -134,6 +130,8 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
     seed = np.random.randint(1000)
 
   reward = np.empty( (nJobs,hyp['alg_nVals']), dtype=np.float64)
+  state = np.empty(myHyp['inputnode_size'], dtype=np.float64)
+
   i = 0 # Index of fitness we are filling
   for iBatch in range(nBatch): # Send one batch of individuals
     for iWork in range(nSlave): # (one to each worker if there)
@@ -144,25 +142,13 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
         n_aVec = np.shape(aVec)[0]
 
         comm.send(n_wVec, dest=(iWork)+1, tag=1)
-        #print('n_wVec')
-        #print(n_wVec)
         comm.Send(  wVec, dest=(iWork)+1, tag=2)
-        #print('wVec')
-        #print(wVec)
         comm.send(n_aVec, dest=(iWork)+1, tag=3)
-        #print('n_Vec')
-        #print(n_aVec)
         comm.Send(  aVec, dest=(iWork)+1, tag=4)
-        #print('aVec')
-        #print(aVec)
         if sameSeedForEachIndividual is False:
           comm.send(seed.item(i), dest=(iWork)+1, tag=5)
-          #print('seedi')
-          #print(seed.item(i))
         else:
           comm.send(  seed, dest=(iWork)+1, tag=5)        
-          #print('seed')
-          #print(seed)
       else: # message size of 0 is signal to shutdown workers
         n_wVec = 0
         comm.send(n_wVec,  dest=(iWork)+1)
@@ -173,11 +159,21 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
     for iWork in range(nSlave):
       if i < nJobs:
         workResult = np.empty(hyp['alg_nVals'], dtype='d')
-        #print(workResult, end=' ')
-        comm.Recv(workResult, source=(iWork)+1)
-        #print(workResult)
+        statelen = np.empty(1, dtype = np.int32)   
+        comm.Recv(workResult, source=(iWork)+1, tag=0)
+        comm.Recv(statelen, source=(iWork)+1, tag=1)
+        stateTable = np.empty(statelen[0], dtype = np.float64)
+        comm.Recv(stateTable, source=(iWork)+1, tag=2)
+        stateTable = stateTable.tolist()
+        print('aaa', workResult)
+
+        #state[i,:] = stateTable
         reward[i,:] = workResult
       i+=1
+  
+  print(state[0])
+  print(reward[0])
+  # rewardの形は個体数 x -2,-1.0,-0.5,0.5,1.0,2 の 6個の共有重みの適応度
   return reward
 
 def slave():
@@ -195,7 +191,8 @@ def slave():
   PseudoReturn (sent to master):
     result - (float)    - fitness value of network
   """
-  global hyp  
+  global hyp, myHyp
+  mini_batch_size = myHyp['mini_batch_size']
   task = WannGymTask(games[hyp['task']], nReps=hyp['alg_nReps'])
 
   # Evaluate any weight vectors sent this way
@@ -210,8 +207,13 @@ def slave():
       comm.Recv(aVec, source=0,  tag=4) # recieve it
       seed = comm.recv(source=0, tag=5) # random seed as int
 
-      result = task.getFitness(wVec,aVec,hyp,seed=seed) # process it
-      comm.Send(result, dest=0)            # send it back
+      result, state = task.getFitness(wVec,aVec,hyp, mini_batch_size, seed=seed) # process it
+      #print(state)
+      #state追加に伴いtag追加しました
+      comm.Send(result, dest=0, tag=0)            # send it back
+      #print(len(state))
+      comm.Send(np.int32(len(state)), dest=0, tag=1)
+      comm.Send(state, dest=0, tag=2)
 
     if n_wVec < 0: # End signal recieved
       print('Worker # ', rank, ' shutting down.')
@@ -331,7 +333,7 @@ def main(argv):
   print('Loading myHyp...')
   global myHyp
   myHyp = loadMyHyp(args.masuda)
-  print('Done. core' + str(rank))
+  print('Ready. core' + str(rank))
   # print(myHyp['activate_table'])
 
   # Launch main thread and workers

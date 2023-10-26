@@ -61,6 +61,7 @@ class GymTask():
       if seed > 0:
         seed = seed+iRep
       reward[iRep], _s = self.testInd(wVec, aVec, view=view, seed=seed)
+      #testIndはバイペダルの場合ここから呼び出されてはいないです！！wann_task_gym.pyのgetFitnessより
       print(_s)
     fitness = np.mean(reward)
     state = print(random.choices(state, k=32))
@@ -111,7 +112,9 @@ class GymTask():
     
     for tStep in range(self.maxEpisodeLength): 
       annOut = act(wVec, aVec, self.nInput, self.nOutput, state) 
-      stateTable.append(state)
+      #print(state)
+      stateList = state.tolist()
+      stateTable.append(stateList)
       action = selectAct(annOut,self.actSelect) 
       state, reward, done, info = self.env.step(action)
       totalReward += reward  
