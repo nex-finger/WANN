@@ -5,5 +5,7 @@
     "padding": 0.1,
 
     "mini_batch_size": 16,
-    "inputnode_size": 24
+    "inputnode_size": 24,
+
+    "weight_focus": 0
 }

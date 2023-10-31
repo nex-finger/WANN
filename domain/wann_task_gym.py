@@ -80,43 +80,47 @@ class WannGymTask(GymTask):
     # Get reward from 'reps' rollouts -- test population on same seeds
     reward = np.empty((nRep,nVals))
     stateTable = []
-    for iRep in range(nRep):
+    for iVal in range(nVals):
       stateArray = []
-      for iVal in range(nVals):
+      for iRep in range(nRep):
         wMat = self.setWeights(wVec,wVals[iVal])
         if seed == -1:
-          reward[iRep,iVal], state = self.testInd(wMat, aVec, seed=seed,view=view)
+          #stateは死ぬまでのフレーム数 x 24
+          reward[iRep,iVal], state = self.testInd(wMat, aVec, seed=seed, view=view)
         else:
-          reward[iRep,iVal], state = self.testInd(wMat, aVec, seed=seed+iRep,view=view)
-        stateArray.append(state)
-      stateArray = np.array(stateArray, dtype=np.float64)
-      stateArray = np.mean(stateArray, axis=0)
+          reward[iRep,iVal], state = self.testInd(wMat, aVec, seed=seed+iRep, view=view)
+        #print('state1', len(state[0])) #24
+        for _i in range(len(state)):
+          stateArray.append(state[_i])
+        #print('aaa', len(stateArray))
+      #print(stateArray)
+      #stateTableはrepeat x stateArray (デフォルトは4)
       stateTable.append(stateArray)
+      #print(len(stateTable))
 
-    print(stateTable)
+    #print(stateTable)
     #ミニバッチサイズに圧縮，平均を取る
-    for _i in range(nRep):
-      batched_state = miniBatchSlave(stateTable[_i], size)
-    #print(batched_state)
+    batched_state = []
+    for _i in range(nVals):
+      _b = miniBatchSlave(stateTable[_i], size)
+      batched_state.append(_b)
+    #print(len(batched_state))
 
     if returnVals is True:
       return np.mean(reward,axis=0), wVals
     return np.mean(reward,axis=0), batched_state
 
 def miniBatchSlave(Table, size):
-  Table = Table.tolist()
+  #Table = Table.tolist()
   length = len(Table)
   sum_state = []
-  batched_state = []
   #ミニバッチサイズ分ランダムに入力データを取る
   for _i in range(size):
     r = random.randrange(length)
     sum_state.append(Table[r])
-  sum_state = np.array(sum_state, dtype=float)
-  length = len(Table[0])
-  #とったデータの平均を取る
-  for _i in range(size):
-    batched_state = sum_state.mean(axis=0)
+    #print('print5', len(Table[r]))
+  #print(len(sum_state))
   #print(sum_state)
-  #print(batched_state)
-  return batched_state
+  sum_state = np.array(sum_state, dtype=float) 
+  length = len(Table[0])
+  return sum_state

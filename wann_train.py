@@ -162,9 +162,13 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
         statelen = np.empty(1, dtype = np.int32)   
         comm.Recv(workResult, source=(iWork)+1, tag=0)
         comm.Recv(statelen, source=(iWork)+1, tag=1)
-        stateTable = np.empty(statelen[0], dtype = np.float64)
-        comm.Recv(stateTable, source=(iWork)+1, tag=2)
-        stateTable = stateTable.tolist()
+        stateTable = np.empty((statelen[0], myHyp['mini_batch_size'], myHyp['inputnode_size']), dtype = np.float64)
+        for _i in range(statelen[0]):
+          _t = 2 + _i
+          comm.Recv(stateTable[_i], source=(iWork)+1, tag=_t)
+          print(_t)
+          print(stateTable[_i])
+        #stateTable = stateTable.tolist()
         print('aaa', workResult)
 
         #state[i,:] = stateTable
@@ -213,7 +217,9 @@ def slave():
       comm.Send(result, dest=0, tag=0)            # send it back
       #print(len(state))
       comm.Send(np.int32(len(state)), dest=0, tag=1)
-      comm.Send(state, dest=0, tag=2)
+      for _i in range(len(state)):
+        _t = 2 + _i
+        comm.Send(state[_i], dest=0, tag=_t)
 
     if n_wVec < 0: # End signal recieved
       print('Worker # ', rank, ' shutting down.')
