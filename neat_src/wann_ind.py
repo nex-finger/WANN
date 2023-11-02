@@ -11,7 +11,8 @@ class WannInd(Ind):
   """Individual class: genes, network, and fitness
   """ 
   def __init__(self, conn, node):
-    # print(node[1, :])
+    #rank = self.rank
+    #print(node[1, :])
     """Intialize individual with given genes
     Args:
       conn - [5 X nUniqueGenes]
@@ -46,7 +47,7 @@ class WannInd(Ind):
     Ind.__init__(self,conn,node)
     self.fitMax  = [] # Best fitness over trials
 
-  def createChild(self, p, innov, myhyp, gen=0):
+  def createChild(self, p, innov, state, myhyp, gen=0):
     """Create new individual with this individual as a parent
 
       Args:
@@ -67,12 +68,12 @@ class WannInd(Ind):
 
     """     
     child = WannInd(self.conn, self.node)
-    child, innov = child.topoMutate(p,innov,gen,myhyp)
+    child, innov = child.topoMutate(p,innov,state,gen,myhyp)
     return child, innov
 
 # -- 'Single Weight Network' topological mutation ------------------------ -- #
 
-  def topoMutate(self, p, innov, gen, myhyp):
+  def topoMutate(self, p, innov, state, gen, myhyp):
     """Randomly alter topology of individual
     Note: This operator forces precisely ONE topological change 
 
@@ -173,7 +174,9 @@ class WannInd(Ind):
           focusID = nodeG[0, mutNode]
           # ノードの出力を計算
           for _i in range (10) :
-            table1[_i] = calculateOutput(connG, nodeG, focusID)
+            for _j in range(6):
+              for _k in range(myHyp['mini_batch_size']):
+                table1[_i].append(calculateOutput(connG, nodeG, state[_j][_k], focusID))
           
           #print(type(nodeG[2,mutNode])) #numpy.float64
           _ = random.choices(table2, weights = table1)[0]
@@ -190,7 +193,7 @@ class WannInd(Ind):
 
 # -- masuda no jikan ----------------------------------------------------- -- #
 
-def calculateOutput(connG, nodeG, focusID):
+def calculateOutput(connG, nodeG, state, focusID):
   _listo = []
   _listw = []
   _lista = []

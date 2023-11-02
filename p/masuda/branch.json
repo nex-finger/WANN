@@ -4,7 +4,7 @@
     "calc_range": 2,
     "padding": 0.1,
 
-    "mini_batch_size": 16,
+    "mini_batch_size": 4,
     "inputnode_size": 24,
 
     "weight_focus": 0

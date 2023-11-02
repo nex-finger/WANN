@@ -45,7 +45,7 @@ class Neat():
   from ._speciate  import Species, speciate, compatDist,\
                           assignSpecies, assignOffspring  
 
-  def ask(self):
+  def ask(self, state):
     """Returns newly evolved population
     """
     if len(self.pop) == 0:
@@ -53,11 +53,11 @@ class Neat():
     else:
       self.probMoo()      # Rank population according to objectivess
       self.speciate()     # Divide population into species
-      self.evolvePop()    # Create child population 
+      self.evolvePop(state)    # Create child population 
 
     return self.pop       # Send child population for evaluation
 
-  def tell(self,reward):
+  def tell(self, reward):
     """Assigns fitness to current population
 
     Args:

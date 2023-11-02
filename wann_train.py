@@ -24,10 +24,11 @@ def master():
   global fileName, hyp, myHyp
   data = WannDataGatherer(fileName, hyp)
   alg  = Wann(hyp, myHyp)
+  state = []
 
   for gen in range(hyp['maxGen']):        
-    pop = alg.ask()            # 新しく進化生成した個体集団の取得
-    reward = batchMpiEval(pop)  # 生成した個体の評価
+    pop = alg.ask(state)            # 新しく進化生成した個体集団の取得
+    reward, state = batchMpiEval(pop)  # 生成した個体の評価
     alg.tell(reward)           # 評価による個体の評価    
 
     data = gatherData(data,alg,gen,hyp) #データの更新
@@ -86,7 +87,8 @@ def checkBest(data):
   if data.newBest is True:
     bestReps = max(hyp['bestReps'], (nWorker-1))
     rep = np.tile(data.best[-1], bestReps)
-    fitVector = batchMpiEval(rep, sameSeedForEachIndividual=False)
+    # ここが適応度と入力データを持ってきている
+    fitVector, stateVector = batchMpiEval(rep, sameSeedForEachIndividual=False)
     trueFit = np.mean(fitVector)
     if trueFit > data.best[-2].fitness:  # Actually better!      
       data.best[-1].fitness = trueFit
@@ -130,7 +132,7 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
     seed = np.random.randint(1000)
 
   reward = np.empty( (nJobs,hyp['alg_nVals']), dtype=np.float64)
-  state = np.empty(myHyp['inputnode_size'], dtype=np.float64)
+  state = []
 
   i = 0 # Index of fitness we are filling
   for iBatch in range(nBatch): # Send one batch of individuals
@@ -166,19 +168,20 @@ def batchMpiEval(pop, sameSeedForEachIndividual=True):
         for _i in range(statelen[0]):
           _t = 2 + _i
           comm.Recv(stateTable[_i], source=(iWork)+1, tag=_t)
-          print(_t)
-          print(stateTable[_i])
+          #print(_t)
         #stateTable = stateTable.tolist()
-        print('aaa', workResult)
 
-        #state[i,:] = stateTable
+        #print(stateTable)
+        #print('aaa', workResult)
+
+        state.append(stateTable)
         reward[i,:] = workResult
       i+=1
   
-  print(state[0])
-  print(reward[0])
+  #print(state[0])
+  #print(reward[0])
   # rewardの形は個体数 x -2,-1.0,-0.5,0.5,1.0,2 の 6個の共有重みの適応度
-  return reward
+  return reward, state
 
 def slave():
   """Evaluation process: evaluates networks sent from master process. 
