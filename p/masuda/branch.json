@@ -1,5 +1,5 @@
 {
-    "act_change_alg": 0,
+    "act_change_alg": 2,
     "resolution": 0.001,
     "calc_range": 2,
     "padding": 0.1,
