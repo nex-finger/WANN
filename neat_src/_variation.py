@@ -4,18 +4,18 @@ from .ind import Ind
 from utils import *
 
 
-def evolvePop(self, state):
+def evolvePop(self, state, epsilon):
   """ Evolves new population from existing species.
   Wrapper which calls 'recombine' on every species and combines all offspring into a new population. When speciation is not used, the entire population is treated as a single species.
   """
   newPop = []
   for i in range(len(self.species)):
     children, self.innov = self.recombine(self.species[i],\
-                           self.innov, self.gen, state, self.myhyp)
+                           self.innov, self.gen, state, epsilon, self.myhyp)
     newPop.append(children)
   self.pop = list(itertools.chain.from_iterable(newPop))   
 
-def recombine(self, species, innov, gen, state, myhyp):
+def recombine(self, species, innov, gen, state, epsilon, myhyp):
   """ Creates next generation of child solutions from a species
 
   Procedure:
@@ -83,11 +83,11 @@ def recombine(self, species, innov, gen, state, myhyp):
   for i in range(nOffspring):  
     if np.random.rand() > p['prob_crossover']:
       # Mutation only: take only highest fit parent
-      child, innov = pop[parents[0,i]].createChild(p,innov,state[i],myhyp,gen)
+      child, innov = pop[parents[0,i]].createChild(p,innov,state[i],epsilon,myhyp,gen)
       # kakimasita print(type(pop[parents[0,i]]))
     else:
       # Crossover
-      child, innov = pop[parents[0,i]].createChild(p,innov,state[i],myhyp,gen,\
+      child, innov = pop[parents[0,i]].createChild(p,innov,state[i],epsilon,myhyp,gen,\
                 mate=pop[parents[1,i]])
 
     child.express()

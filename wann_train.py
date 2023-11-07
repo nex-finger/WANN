@@ -26,13 +26,17 @@ def master():
   alg  = Wann(hyp, myHyp)
   state = []
 
+  epsilon = myHyp['epsilon']
+
   for gen in range(hyp['maxGen']):        
-    pop = alg.ask(state)            # 新しく進化生成した個体集団の取得
+    pop = alg.ask(state, epsilon)            # 新しく進化生成した個体集団の取得
     reward, state = batchMpiEval(pop)  # 生成した個体の評価
     alg.tell(reward)           # 評価による個体の評価    
 
     data = gatherData(data,alg,gen,hyp) #データの更新
-    print(gen, '\t', data.display())
+    print(gen, ' ', data.display())
+
+    epsilon *= myHyp['ratio']
 
   # Clean up and data gathering at run end
   data = gatherData(data,alg,gen,hyp,savePop=True)
@@ -103,7 +107,7 @@ def checkBest(data):
 
 
 # -- Parallelization ----------------------------------------------------- -- #
-def batchMpiEval(pop, sameSeedForEachIndividual=True):
+def batchMpiEval(pop, sameSeedForEachIndividual=True,):
   """Sends population to workers for evaluation one batch at a time.
 
   Args:
@@ -261,7 +265,7 @@ def mpi_fork(n):
     #print('assigning the rank and nworkers', nWorker, rank)
     return "child"
 
-def myDistance(resolution, calc_range, padding, i, j):
+def myDistance(resolution, calc_range, i, j):
   num = 10
 
   func = [['Linear',               'x'],
@@ -290,10 +294,11 @@ def myDistance(resolution, calc_range, padding, i, j):
           break
 
   # イプシロンの追加
-  sum += padding
+  # sum += epsilon
 
   #逆数を取る
-  sum = 1 / sum
+  if(sum != 0):
+    sum = 1 / sum
 
   #自身の値を0にする
   if(i == j):
@@ -307,7 +312,7 @@ def loadMyHyp(MyHypPass):
   
   resolution = MyHyp['resolution']
   calc_range = MyHyp['calc_range']
-  padding = MyHyp['padding']
+  #epsilon = MyHyp['epsilon']
 
   _ = []
   _.append([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
@@ -317,7 +322,7 @@ def loadMyHyp(MyHypPass):
 
   for _i in range(len(_)):
     for _j in range(len(_[0])):
-        _d = myDistance(resolution, calc_range, padding, _i, _j)
+        _d = myDistance(resolution, calc_range, _i, _j)
         _[_i][_j] = _d
   MyHyp['activate_table'] = _
 

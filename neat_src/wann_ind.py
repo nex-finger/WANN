@@ -47,7 +47,7 @@ class WannInd(Ind):
     Ind.__init__(self,conn,node)
     self.fitMax  = [] # Best fitness over trials
 
-  def createChild(self, p, innov, state, myhyp, gen=0):
+  def createChild(self, p, innov, state, epsilon, myhyp, gen=0):
     """Create new individual with this individual as a parent
 
       Args:
@@ -68,12 +68,12 @@ class WannInd(Ind):
 
     """     
     child = WannInd(self.conn, self.node)
-    child, innov = child.topoMutate(p,innov,state,gen,myhyp)
+    child, innov = child.topoMutate(p,innov,state,gen,myhyp,epsilon)
     return child, innov
 
 # -- 'Single Weight Network' topological mutation ------------------------ -- #
 
-  def topoMutate(self, p, innov, state, gen, myhyp):
+  def topoMutate(self, p, innov, state, gen, myhyp, epsilon):
     """Randomly alter topology of individual
     Note: This operator forces precisely ONE topological change 
 
@@ -163,6 +163,8 @@ class WannInd(Ind):
           # print(len(myhyp['activate_table'][_i]))
           # print(myhyp['activate_table'][_i])
 
+          for _j in range(myhyp['activate_table'][_i]):
+            myhyp['activate_table'][_i][_j] += epsilon
           nodeG[2,mutNode] = int(random.choices(myhyp['activate_ID'][0], weights = myhyp['activate_table'][_i])[0])
           #print(nodeG[2,mutNode], end="  ")
         
@@ -177,6 +179,7 @@ class WannInd(Ind):
             for _j in range(6):
               for _k in range(myhyp['mini_batch_size']):
                 table1[_i] += (calculateOutput(connG, nodeG, focusID, _i, _j, state[_j][_k]))
+            table1[_i] += epsilon
           
           #print(type(nodeG[2,mutNode])) #numpy.float64
           _ = random.choices(table2, weights = table1)[0]
