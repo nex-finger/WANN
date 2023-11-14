@@ -1,0 +1,436 @@
+%%
+%% This is file `ilsshuron.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ilsstyles.dtx  (with options: `shuron')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from ilsshuron.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file ilsstyles.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% File ilsstyles.dtx
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesFile{ilsshuron.sty}
+    [2005/12/15 v2.1b]
+\newif\if@HeaderWithUnderline
+  \@HeaderWithUnderlinefalse
+\newif\if@ilschar
+\DeclareOption{HeaderWithUnderline}{\@HeaderWithUnderlinetrue}
+\DeclareOption{ilschar}{%
+  \input ilschar.sty%
+  \@ilschartrue
+}
+\ExecuteOptions{12pt,oneside,onecolumn,final}
+\ProcessOptions\relax
+\input{ils1\@ptsize pt.sty}
+ \def\@論文種類{修士論文}
+\setlength\paperheight {297truemm}%
+\setlength\paperwidth  {210truemm}
+\@lowpenalty   51
+\@medpenalty  151
+\@highpenalty 301
+\newif\if@ilssitagaki \@ilssitagakifalse % 下書きである時に true
+\def\ps@ilssitagaki{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25truept%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \leftmark \hfill%       <- 左上頁に出力したい内容
+       \西暦\today\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \leftmark \hfill %             <- 左上頁に出力したい内容
+      \西暦\today\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\sectionmark##1{\markboth{%      <- セクションを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thesection}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\subsectionmark##1{\markright{%     <- サブセクションを表示したい時
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesubsection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+  \@ilssitagakitrue
+}%                                           <- 定義ここまで
+\def\ps@ilsheadings{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25truept%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \hfil \leftmark%       <- 左上頁に出力したい内容
+       \rightmark\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \hfil \leftmark %             <- 左上頁に出力したい内容
+      \rightmark\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\chaptermark##1{\markboth{%      <- チャプターを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thechapter}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\sectionmark##1{\markright{%     <- セクションを表示したい時
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+}%                                           <- ILS卒論header 定義ここまで
+%%%% jreport.cls の chapter の変更
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  %\thispagestyle{jpl@in}% <-- この行をコメントアウト
+  \global\@topnum\z@
+  \@afterindentfalse
+  \secdef\@chapter\@schapter}
+
+\def\@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter\space\@chappos}%
+    \addcontentsline{toc}{chapter}%
+      {\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \@makechapterhead{#2}\@afterheading
+\thispagestyle{empty}%                    <-- ページスタイルを変更
+\clearpage%                             <-- 改ページ
+}
+
+\def\@schapter#1{%
+  \@makeschapterhead{#1}\@afterheading
+\if@istoc
+\else
+\thispagestyle{empty}%
+\clearpage% <--- 番号なしのときも同じ処理 (目次に限って改ページなし)
+\fi
+}
+\def\研究者#1{\typeout{`\\研究者'は使えません}}
+\def\論文題目#1{\typeout{論文題目は使えません}}
+\def\和文専攻#1{\typeout{和文専攻は情報工学で固定です}}
+\def\英文専攻#1{\typeout{英文専攻は Computer Science で固定です}}
+\def\和文論文題目#1{\和文題目{#1}}
+\def\英文論文題目#1{\英文題目{#1}}
+\def\和文論文題目前半#1{\def\@和文題目前半{#1}}
+\def\和文論文題目後半#1{\和文題目{\@和文題目前半\\#1}}
+\def\和文鍵言葉１#1{\def\@和文鍵言葉１{#1}\和文キーワード{#1}}
+\def\和文鍵言葉２#1{\def\@和文鍵言葉２{#1}\和文キーワード{\@和文鍵言葉１、#1}}
+\def\和文鍵言葉３#1{\def\@和文鍵言葉３{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、#1}}
+\def\和文鍵言葉４#1{\def\@和文鍵言葉４{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、#1}}
+\def\和文鍵言葉５#1{\def\@和文鍵言葉５{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、\@和文鍵言葉４、#1}}
+\def\和文鍵言葉６#1{\def\@和文鍵言葉６{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、\@和文鍵言葉４、\@和文鍵言葉５、#1}}
+\def\英文鍵言葉１#1{\def\@英文鍵言葉１{#1}\英文キーワード{#1}}
+\def\英文鍵言葉２#1{\def\@英文鍵言葉２{#1}\英文キーワード{\@英文鍵言葉１, #1}}
+\def\英文鍵言葉３#1{\def\@英文鍵言葉３{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, #1}}
+\def\英文鍵言葉４#1{\def\@英文鍵言葉４{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, #1}}
+\def\英文鍵言葉５#1{\def\@英文鍵言葉５{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, \@英文鍵言葉４, #1}}
+\def\英文鍵言葉６#1{\def\@英文鍵言葉６{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, \@英文鍵言葉４, \@英文鍵言葉５, #1}}
+%%
+\def\年度#1{\def\@年度{#1}}
+\def\提出日#1{\def\@提出日{#1}}
+\def\学生番号#1{\def\@学生番号{#1}}
+\def\和文氏名#1{\def\@和文氏名{#1}}
+\def\和文題目#1{\def\@和文題目{#1}}
+\def\和文キーワード#1{\def\@和文キーワード{#1}}
+\def\英文氏名#1{\def\@英文氏名{#1}}
+\def\英文題目#1{\def\@英文題目{#1}}
+\def\英文キーワード#1{\def\@英文キーワード{\offinterlineskip #1}}
+\def\@論文題目{\@和文題目}
+\def\@研究者{\@学生番号 & \@和文氏名}
+\newtoks\和文論文要旨
+\newtoks\英文論文要旨
+\def\修論表紙{{
+\thispagestyle{empty}
+\unitlength=1truept
+\noindent
+\begin{picture}(465,600)(0,-604)
+\put(0,-25){\makebox(465,25){\twfvrm\twfvmin \@年度}}
+\put(0,-65){\makebox(465,25){\twfvmin \@論文種類}}
+\put(0,-140){\makebox(465,50){\LARGE\Koudai}}
+\put(0,-175){\makebox(465,20){\twtymin 論文題目}}
+\renewcommand{\arraystretch}{1.2}
+\put(0,-290){\makebox(465,100)[t]{\twfvgt\twfvbf
+\begin{tabular}{c}
+\@論文題目
+\end{tabular}
+}}
+\put(0,-340){\makebox(465,30){\twtymin
+\begin{tabular}{c} 千葉工業大学大学院情報科学研究科\\
+情報工学専攻博士前期課程\end{tabular}}}
+\renewcommand{\arraystretch}{1.4}
+\put(0,-450){\makebox(465,100)[t]{\twtygt\twtybf
+\begin{tabular}{cl}
+\@研究者
+\end{tabular}
+}}
+\renewcommand{\arraystretch}{1.4}
+\put(0,-485){\makebox(465,20){\twtymin 指導教員}}
+\put(0,-565){\makebox(465,75)[t]{\twtygt\twtybf
+\begin{tabular}{ll}
+山口　智　&准教授
+\end{tabular}
+}}
+\if@ilssitagaki
+\put(0,-600){\makebox(465,20){\frtnrm\frtnmin 添削用原稿提出日 \西暦\today}}
+\else
+\put(0,-600){\makebox(465,20){\frtnrm\frtnmin \@提出日}}
+\fi
+\end{picture}
+\setcounter{page}\@ne
+\clearpage
+}}
+\newif\if@istoc
+\renewcommand{\tableofcontents}{%
+\pagenumbering{roman}%     <- 目次はローマ数字でページ振り
+\addcontentsline{toc}{chapter}{目　次}%  -> 目次に目次も入れたい！
+\@istoctrue% <-- 目次の場合だけchapterに改ページを入れない
+\markboth{目次}{}
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\contentsname
+    \@mkboth{\contentsname}{\contentsname}%
+  }\@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+\clearpage
+\pagenumbering{arabic}%   <- 本文はアラビア数字でページ振り
+\@istocfalse% <-- これ以降は目次じゃない
+}
+%% \section{謝辞の修正}
+\def\謝辞{
+\chapter*{謝辞} % 番号なしのセクション
+\markboth{謝辞}{}
+\addcontentsline{toc}{chapter}{謝辞}
+}
+\newdimen\bibindent
+\setlength\bibindent{1.5em}
+\renewcommand{\newblock}{\hskip .11em\@plus.33em\@minus.07em}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]
+{%\markboth{参考文献}{}%
+\chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
+\clearpage\markboth{参考文献}{}% <-- ヘッダの変更
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+
+\let\@openbib@code\@empty
+\ps@ilsheadings
+\newdimen\HOFFSET \HOFFSET=0mm
+\newdimen\VOFFSET \VOFFSET=0mm
+%%% オフセット %%%%%%%
+\def\OFFSET{
+  \advance\hoffset by \HOFFSET
+  \advance\voffset by \VOFFSET
+}
+\newbox\dummybox
+\newdimen\X
+\newdimen\Y
+\newdimen\XXA
+\newdimen\YYA
+\newdimen\XM \XM=4mm% X-direction margin
+\newdimen\YM \YM=2mm% Y-direction margin
+\newdimen\htbackskip
+\newdimen\dpbackskip
+\long\def\XY#1#2#3{
+  \setbox\dummybox=\vbox{
+    \vskip#2
+    \hbox to \hsize{%
+      \hskip#1
+      \vbox{\advance\hsize by -#1#3}\hfil
+    }
+  }
+  \htbackskip=-\ht\dummybox
+  \dpbackskip=-\dp\dummybox
+  \box\dummybox\nointerlineskip
+  \vskip\htbackskip
+  \vskip\dpbackskip
+}
+\long\def\XYBC#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\CBOX{\X}{\Y}{#5}}
+}
+\long\def\XYBP#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\PBOX{\X}{\Y}{#5}}
+}
+\long\def\PBOX#1#2#3{
+   \X=#1 \Y=#2 \advance\X by -\XM \XXA=\X \advance\X by -\XM
+               \advance\Y by -\YM \YYA=\Y \advance\Y by -\YM
+   \vbox to \YYA{\vskip\YM
+   \hbox to \XXA{\hskip\XM\vbox to \Y{\hsize=\X\linewidth=\X \parbox{\hsize}{\parindent=1zw #3}\vfil}%
+   \hfil}
+}}
+
+\long\def\CBOX#1#2#3{{
+  \hsize=#1\linewidth=\hsize
+  \setbox\dummybox\hbox{#3}
+  \vbox to #2{
+    \vfil
+    \ifdim#1 < \wd\dummybox
+      \X=#1
+      \advance\X by -4mm
+      \hbox to \hsize{\hfil\vbox{\hsize=\X\linewidth=\hsize #3}\hfil}
+    \else
+      \hbox to \hsize{\hfil #3\hfil}
+    \fi
+    \vfil
+  }
+}}
+\newdimen\rulelength
+\def\Vrule#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width0.7truept height\rulelength depth0pt}
+}
+\def\Hrule#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height0.7truept depth0pt}
+}
+\def\Vrulethick#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width1.4truept height\rulelength depth0pt}
+}
+\def\Hrulethick#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height1.4truept depth0pt}
+}
+\newif\if和文\和文true
+\def\和文要旨{\和文true  \論文要旨}
+\def\英文要旨{\和文false \論文要旨}
+\def\論文要旨{{
+  \hoffset=0truemm \voffset=0truemm
+  \advance\hsize by -\hoffset
+  \advance\vsize by -\voffset
+  \OFFSET
+  \thispagestyle{empty}
+  \headsep\z@ \headheight\z@ \oddsidemargin 2.5truemm
+  \topmargin -1.4truemm
+  \hsize=170truemm \vsize=280truemm
+  \parindent\z@ \parskip\z@
+  \linewidth=\hsize \baselineskip = 4.0truemm plus1mm minus0.5truemm
+  \rightskip = 0truept plus 120truemm \lineskip\z@ \topskip\z@
+  \def\baselinestretch{1}\large\normalsize
+  \Hrulethick{2.5truemm}{23.5truemm}{164.5truemm} \Hrulethick{  2.5truemm}{243.5truemm}{164.5truemm}
+  \Vrulethick{2.5truemm}{23.5truemm}{243.5truemm} \Vrulethick{164.5truemm}{ 23.5truemm}{244truemm}
+
+  \Hrule{2.5truemm}{33.5truemm}{164.5truemm} \Hrule{2.5truemm}{48.5truemm}{164.5truemm}
+  \Hrule{2.5truemm}{78.5truemm}{164.5truemm} \Hrule{2.5truemm}{88.5truemm}{164.5truemm}
+
+  \Vrule{52.5truemm}{23.5truemm}{48.5truemm} \Vrule{92.5truemm}{23.5truemm}{48.5truemm}
+
+  \XYBC{2.5truemm}{-9truemm}{164.5truemm}{10truemm}{\kern-1.7zw\raisebox{-6zh}{ \Huge \Koudai}}
+          \if和文
+    \XYBC{2.5truemm}{ 11.0truemm}{164.5truemm}{ 23.5truemm}{\twfvmin 修士論文要旨}
+
+%%% 研究科名の変更にともなう変更
+    %%%% \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\frtnmin 千葉工業大学大学院工学研究科}
+    \XYBC{2.5truemm}{246.5truemm}{164.5truemm}{252.5truemm}{\frtnmin 千葉工業大学大学院情報科学研究科}
+    \XYBC{2.5truemm}{252.5truemm}{164.5truemm}{258.5truemm}{\tenmin \tenrm ◎要旨は600字程度}
+
+    \XYBC{ 2.5truemm}{23.5truemm}{ 52.5truemm}{33.5truemm}{\svtnmin 専　攻}
+%%% 研究科名の変更にともなう変更
+    %%% \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\svtnmin 情報工学}
+    \XYBC{ 2.5truemm}{33.5truemm}{ 52.5truemm}{48.5truemm}{\svtnmin 情報科学}
+    \XYBC{52.5truemm}{23.5truemm}{ 92.5truemm}{33.5truemm}{\svtnmin 学生番号}
+    \XYBC{52.5truemm}{33.5truemm}{ 92.5truemm}{48.5truemm}{\svtnrm\@学生番号}
+    \XYBC{92.5truemm}{23.5truemm}{164.5truemm}{33.5truemm}{\svtnmin 氏　　名}
+    \XYBC{92.5truemm}{33.5truemm}{164.5truemm}{48.5truemm}{\svtnmin\@和文氏名}
+
+    \XYBC{2.5truemm}{48.5truemm}{ 32.5truemm}{58.5truemm}{\svtnmin 論文題目}
+    \XYBC{2.5truemm}{58.5truemm}{164.5truemm}{78.5truemm}{\svtnmin \svtnrm \begin{tabular}{c}\@論文題目\end{tabular}}
+
+    \XYBC{ 2.5truemm}{78.5truemm}{ 32.5truemm}{88.5truemm}{\frtnmin キーワード}
+    \XYBC{32.5truemm}{78.5truemm}{164.5truemm}{88.5truemm}{\tenmin\tenrm\baselineskip=1.5truemm%
+\begin{tabular}{p{127.5truemm}}\@和文キーワード\end{tabular}
+    \baselineskip = 4.0truemm plus1truemm minus0.5truemm}
+
+    \XYBC{ 2.5truemm}{ 88.5truemm}{ 32.5truemm}{100.5truemm}{\svtnmin 論文要旨}
+    \XYBP{12.5truemm}{100.5truemm}{154.5truemm}{243.5truemm}{\twlmin \the\和文論文要旨}
+  \else
+    \XYBC{2.5truemm}{ 11.0truemm}{164.5truemm}{ 23.5truemm}{\twtyrm Summary of Master's Thesis}
+
+%%% 研究科名の変更にともなう変更
+    %%% \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\twlrm Graduate School of Engineering,\ Chiba Institute of Technology}
+    \XYBC{2.5truemm}{246.5truemm}{164.5truemm}{252.5truemm}{\twlrm Graduate School of Information and Computer Science,\ Chiba Institute of Technology}
+    \XYBC{2.5truemm}{252.5truemm}{164.5truemm}{258.5truemm}{\egtrm The contents of English sutruemmary should be writen in about 200 words.}
+
+    \XYBC{ 2.5truemm}{23.5truemm}{ 52.5truemm}{33.5truemm}{\svtnrm Course}
+%%% 研究科名の変更にともなう変更
+    %%% \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\frtnrm Computer Science}
+    \XYBC{ 2.5truemm}{33.5truemm}{ 52.5truemm}{48.5truemm}{\frtnrm Information and Computer Science}
+    \XYBC{52.5truemm}{23.5truemm}{ 92.5truemm}{33.5truemm}{\frtnrm Student No.}
+    \XYBC{52.5truemm}{33.5truemm}{ 92.5truemm}{48.5truemm}{\frtnrm\@学生番号}
+    \XYBC{92.5truemm}{23.5truemm}{164.5truemm}{33.5truemm}{\frtnrm SURNAME,\ Firstname}
+    \XYBC{92.5truemm}{33.5truemm}{164.5truemm}{48.5truemm}{\frtnrm\@英文氏名}
+
+    \XYBC{2.5truemm}{48.5truemm}{ 20.5truemm}{58.5truemm}{\svtnrm Title}
+    \XYBC{2.5truemm}{58.5truemm}{164.5truemm}{78.5truemm}{\svtnmin \svtnrm \begin{tabular}{c}\@英文題目\end{tabular}}
+
+    \XYBC{ 2.5truemm}{78.5truemm}{ 32.5truemm}{88.5truemm}{\frtnrm Keywords}
+    \XYBC{32.5truemm}{78.5truemm}{162.5truemm}{88.5truemm}{\tenrm\tenrm\baselineskip=3.5truemm%
+\begin{tabular}{p{127.5truemm}}\@英文キーワード\end{tabular}
+    \baselineskip = 4.0truemm plus1truemm minus0.5truemm}
+
+    \XYBC{ 2.5truemm}{ 88.5truemm}{ 32.5truemm}{100.5truemm}{\svtnrm Sutruemmary}
+    \XYBP{12.5truemm}{100.5truemm}{154.5truemm}{243.5truemm}{\twlrm \the\英文論文要旨}
+  \fi
+  \def\baselinestretch{1.5}\large\normalsize
+  \vfil\break
+}}
+\endinput
+%%
+%% End of file `ilsshuron.sty'.

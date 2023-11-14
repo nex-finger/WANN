@@ -1,0 +1,22 @@
+\documentclass[12pt]{jreport}
+\usepackage[dvips]{graphicx}
+\usepackage{bm}
+\usepackage{slashbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{ilssoturon}
+\usepackage{ils12pt}
+\usepackage{ilsfonts}
+\usepackage{afterpage}
+\年度{2013}
+\提出日{2014年1月}
+\研究者{1181011 栗林 拓也}
+\論文題目{削減}
+
+\begin{document}
+\卒論表紙
+
+\謝辞{山口先生ありがとうございました！}
+\end{document}
+

@@ -1,0 +1,1487 @@
+% \iffalse meta-comment
+%% File ilsstyles.dtx
+% \fi
+%
+% \CheckSum{0}
+%
+% \setcounter{StandardModuleDepth}{1}
+% \StopEventually{}
+%
+% \iffalse
+% \changes{v0.1--3}{1995/10/14}{first edition, 三期生: 美吉　明浩君により
+%     \LaTeX のスタイルファイル"ils卒論.sty" として作成される。
+%     その後数回の改良あり}
+% \changes{v1.0a}{1999/12/19}{山口により p\LaTeX2e バージョンを作成}
+% \changes{v1.1a}{2000/12/21}{修士論文スタイルを追加}
+% \changes{v2.0a}{2004/2/27}{山口研究室に変更(ILS の名称は変えない)}
+% \changes{v2.1a}{2004/11/11}{ilsfonts.sty を組み込みました}
+% \changes{v2.1b}{2005/12/15}{表紙のフォント定義の方法を変更しました}
+% \changes{v2.1c}{2013/9/24}{utf-8に日本語コードを変更しました}
+% \fi
+%
+% \iffalse
+%<soturon|shuron|driver|fonts|12pt>\NeedsTeXFormat{pLaTeX2e}
+%<*driver>
+\ProvidesFile{ilsclasses.dtx}
+%</driver>
+%<soturon>\ProvidesFile{ilssoturon.sty}
+%<shuron>\ProvidesFile{ilsshuron.sty}
+%<12pt>\ProvidesFile{ils12pt.sty}
+%<fonts>\ProvidesFile{ilsfonts.sty}
+%<soturon|shuron|driver|fonts>    [2005/12/15 v2.1b]
+%<12pt>    [1999/12/19 v1.0a I.L.S. style file (size option)]
+%<*driver>
+\documentclass{jltxdoc}
+\GetFileInfo{ilsstyles.dtx}
+%\title{板倉研究室卒業論文用スタイル}
+\title{山口研究室卒業論文用スタイル}
+\author{山口　智}
+%\date{作成日：2000年12月21日}
+%\date{作成日：2004年11月11日}
+\date{作成日：200l年12月15日}
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \DocInput{\filename}
+\end{document}
+%</driver>
+% \fi
+%
+% \section{オプションスイッチ}
+% ここでは、後ほど使用するいくつかのコマンドやスイッチを定義しています。
+%
+%
+% \begin{macro}{\if@HeaderWithUnderline}
+% ページヘッダーの下に線を引くかどうかのスイッチです。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\newif\if@HeaderWithUnderline
+  \@HeaderWithUnderlinefalse
+%</soturon|shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\if@ilschar}
+% I.L.S フォントが定義されているかどうかのスイッチです。
+% 工大マークなどが利用可能になります。
+% ilschar.sty が必要です。
+%    \begin{macrocode}
+%<soturon|shuron>\newif\if@ilschar
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{オプションの宣言}
+%
+% ここでは、クラスオプションの宣言を行なっています。
+%
+% \subsection{サイズオプション}
+% 基準となるフォントの大きさを指定するオプションです。
+%
+% 板倉研の論文では 12pt がデフォルトです。現在のところ
+% 11pt, 10pt がありません。
+%    \begin{macrocode}
+%<*soturon>
+\if@compatibility
+  \renewcommand{\@ptsize}{2}
+\else
+  \DeclareOption{12pt}{\renewcommand{\@ptsize}{2}}
+\fi
+\DeclareOption{11pt}{%
+	\typeout{ポイントサイズ 11pt はありません。}
+	\typeout{12pt に変更します。}
+	\renewcommand{\@ptsize}{2}
+}
+\DeclareOption{10pt}{
+	\typeout{ポイントサイズ 10pt はありません。}
+	\typeout{12pt に変更します。}
+	\renewcommand{\@ptsize}{2}
+}
+%</soturon>
+%    \end{macrocode}
+%
+% \subsection{HeaderWithUnderline オプション}
+% I.L.S ページスタイルでヘッダーの下に線を引く設定
+% デフォルトは false です。
+%    \begin{macrocode}
+%<soturon|shuron>\DeclareOption{HeaderWithUnderline}{\@HeaderWithUnderlinetrue}
+%    \end{macrocode}
+%
+% \subsection{ilschar オプション}
+% I.L.S フォントの利用を有効にします。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\DeclareOption{ilschar}{%
+  \input ilschar.sty%
+  \@ilschartrue
+}
+%</soturon|shuron>
+%    \end{macrocode}
+%
+% \subsection{オプションの実行}
+% オプションの実行、およびサイズクラスのロードを行ないます。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\ExecuteOptions{12pt,oneside,onecolumn,final}
+\ProcessOptions\relax
+\input{ils1\@ptsize pt.sty}
+%</soturon|shuron>
+%    \end{macrocode}
+%
+% \subsection{卒論・修論の分類}
+%    \begin{macrocode}
+%<soturon> \def\@論文種類{卒業論文}
+%<shuron> \def\@論文種類{修士論文}
+%    \end{macrocode}
+%
+% \section{レイアウト}
+% \subsection{用紙サイズの決定}
+% A4 用紙サイズの設定です。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\setlength\paperheight {297mm}%
+\setlength\paperwidth  {210mm}
+%</soturon|shuron>
+%    \end{macrocode}
+%
+% \subsection{段落の形}
+%
+% \begin{macro}{\lineskip}
+% \begin{macro}{\normallineskip}
+% これらの値は、行が近付き過ぎたときの\TeX の動作を制御します。
+% 美吉版 卒論12pt.sty の定義を流用しています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\lineskip{1pt}
+\setlength\normallineskip{1pt}
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\baselinestretch}
+% これは、|\baselineskip|の倍率を示すために使います。
+% デフォルトでは、1.5 です。このコマンドが``empty''でない場合、
+% |\baselineskip|の指定の\texttt{plus}や\texttt{minus}部分は無視される
+% ことに注意してください。
+%    \begin{macrocode}
+%<12pt>\renewcommand{\baselinestretch}{1.5}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\parskip}
+% \begin{macro}{\parindent}
+% |\parskip|は段落間に挿入される、縦方向の追加スペースです。
+% |\parindent|は段落の先頭の字下げ幅です。
+% 美吉版 卒論12pt.sty の定義を流用しています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\parskip{0pt}
+\setlength\parindent{1zw}
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+%  \begin{macro}{\smallskipamount}
+%  \begin{macro}{\medskipamount}
+%  \begin{macro}{\bigskipamount}
+% これら３つのパラメータの値は、\LaTeX{}カーネルの中で設定されています。
+% これらはおそらく、サイズオプションの指定によって変えるべきです。
+% しかし、\LaTeX~2.09や\LaTeXe{}の以前のリリースの両方との互換性を保つために、
+% これらはまだ同じ値としています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\smallskipamount{3\p@ \@plus 1\p@ \@minus 1\p@}
+\setlength\medskipamount{6\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\bigskipamount{12\p@ \@plus 4\p@ \@minus 4\p@}
+%</12pt>
+%    \end{macrocode}
+%  \end{macro}
+%  \end{macro}
+%  \end{macro}
+%
+% \begin{macro}{\@lowpenalty}
+% \begin{macro}{\@medpenalty}
+% \begin{macro}{\@highpenalty}
+% |\nopagebreak|と|\nolinebreak|コマンドは、これらのコマンドが置かれた場所に、
+% ペナルティを起いて、分割を制御します。
+% 置かれるペナルティは、コマンドの引数によって、
+% |\@lowpenalty|, |\@medpenalty|, |\@highpenalty|のいずれかが使われます。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\@lowpenalty   51
+\@medpenalty  151
+\@highpenalty 301
+%</soturon|shuron>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{ページレイアウト}
+%
+% \subsubsection{縦方向のスペース}
+%
+% \begin{macro}{\headheight}
+% \begin{macro}{\headsep}
+% \begin{macro}{\topskip}
+% |\headheight|は、ヘッダが入るボックスの高さです。
+% |\headsep|は、ヘッダの下端と本文領域との間の距離です。
+% |\topskip|は、本文領域の上端と１行目のテキストのベースラインとの距離です。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\headheight{12pt} % ヘッダの高さ(4.2mm)
+\setlength\headsep{45pt}    % ヘッダと本文の距離(15.75mm)
+\setlength\topskip{-20pt}   % 上余白(-7mm)
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\footskip}
+% |\footskip|は、本文領域の下端とフッタの下端との距離です。
+% フッタのボックスの高さを示す、|\footheight|は削除されました。
+%    \begin{macrocode}
+%<12pt>\setlength\footskip{73pt} % (25.55mm)
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\maxdepth}
+% \TeX のプリミティブレジスタ|\maxdepth|は、|\topskip|と同じような
+% 働きをします。|\@maxdepth|レジスタは、つねに|\maxdepth|のコピーでなくては
+% いけません。これは|\begin{document}|の内部で設定されます。
+% \TeX{}と\LaTeX~2.09では、|\maxdepth|は\texttt{4pt}に固定です。
+% \LaTeXe{}では、|\maxdepth|$+$|\topskip|を基本サイズの1.5倍にしたいので、
+% |\maxdepth|を|\topskip|の半分の値で設定します。
+%    \begin{macrocode}
+%<*12pt>
+\if@compatibility
+  \setlength\maxdepth{4\p@}
+\else
+  \setlength\maxdepth{.5\topskip}
+\fi
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{本文領域}
+% |\textheight|と|\textwidth|は、本文領域の通常の高さと幅を示します。
+% 縦組でも横組でも、``高さ''は行数を、``幅''は字詰めを意味します。
+% 後ほど、これらの長さに|\topskip|の値が加えられます。
+%
+% \begin{macro}{\textwidth}
+% 基本組の字詰めです。
+% 大きさの値は美吉版 卒論12pt.sty の定義を流用しています。
+%
+%    \begin{macrocode}
+%<*12pt>
+\setlength\textwidth{465pt}  % 本文幅(162.75mm)
+\@settopoint\textwidth
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\textheight}
+% 基本組の行数です。
+% 大きさの値は美吉版 卒論12pt.sty の定義を流用しています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\textheight{630pt}  % 本文高さ(220.5mm)
+\@settopoint\textheight
+%    \end{macrocode}
+% 最後に、|\textheight|に|\topskip|の値を加えます。
+%    \begin{macrocode}
+\addtolength\textheight{\topskip}
+\@settopoint\textheight
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsubsection{マージン}
+%
+% \begin{macro}{\topmargin}
+% |\topmargin|は、``印字可能領域''---用紙の上端から１インチ内側---%
+% の上端からヘッダ部分の上端までの距離です。
+% 大きさの値は美吉版 卒論12pt.sty の定義を流用しています。
+%
+%    \begin{macrocode}
+%<12pt> \setlength\topmargin{-20pt} % 上余白 (-7mm)
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\marginparsep}
+% \begin{macro}{\marginparpush}
+% |\marginparsep|は、本文と傍注の間にあけるスペースの幅です。
+% 本文の左（右）端と傍注の間になります。
+% |\marginparpush|は、傍注と傍注との間のスペースの幅です。
+%
+% 大きさの値は美吉版 卒論12pt.sty の定義を流用しています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\marginparsep{10pt} % (3.5mm)
+\setlength\marginparpush{7pt} % (2.45mm)
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\oddsidemargin}
+% \begin{macro}{\evensidemargin}
+% \begin{macro}{\marginparwidth}
+% 両サイドに書くことを考えていません。
+%
+% 大きさの値は美吉版 卒論12pt.sty の定義を流用しています。
+%    \begin{macrocode}
+%<*12pt>
+\setlength\oddsidemargin{13pt}
+\setlength\evensidemargin{0pt}
+\setlength\marginparwidth{68pt}
+%</12pt>
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{脚注}
+%
+% \begin{macro}{\footnotesep}
+% |\footnotesep|は、それぞれの脚注の先頭に置かれる``支柱''の高さです。
+% このクラスでは、通常の|\footnotesize|の支柱と同じ長さですので、
+% 脚注間に余計な空白は入りません。
+%    \begin{macrocode}
+%<12pt>\setlength\footnotesep{8.4pt}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\footins}
+% |\skip\footins|は、本文の最終行と最初の脚注との間の距離です。
+%    \begin{macrocode}
+%<12pt>\setlength{\skip\footins}{10.8pt \@plus 4pt minus 2pt}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{ilssitagakiスタイル}
+%
+% \begin{macro}{\ps@ilssitagaki}
+% \pstyle{ilssitagaki}は添削を受けるための
+% 下書き用ページスタイルです。ヘッダーの右側にサブセクション
+% の代わりに日付を入れます。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\newif\if@ilssitagaki \@ilssitagakifalse % 下書きである時に true
+\def\ps@ilssitagaki{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25pt%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \leftmark \hfill%       <- 左上頁に出力したい内容
+       \西暦\today\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \leftmark \hfill %             <- 左上頁に出力したい内容
+      \西暦\today\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\sectionmark##1{\markboth{%      <- セクションを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thesection}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\subsectionmark##1{\markright{%     <- サブセクションを表示したい時
+%                                           小節見出しを柱に入れる命令。
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesubsection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+%
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+%    \hbox to 0.5\textwidth{\hfil {%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+  \@ilssitagakitrue
+}%                                           <- 定義ここまで
+%</soturon|shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{ilsheadingsスタイル(卒論用)}
+% \begin{macro}{\ps@ilsheadings}
+% \pstyle{ilsheadings}は山口研卒業論文用のページスタイルです。
+% これも美吉君の``ils卒論.sty" を参考に作成しました。
+%    \begin{macrocode}
+%<*soturon>
+\def\ps@ilsheadings{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25pt%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \hfil \leftmark%       <- 左上頁に出力したい内容
+       \rightmark\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \hfil \leftmark %             <- 左上頁に出力したい内容
+      \rightmark\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\sectionmark##1{\markboth{%      <- セクションを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thesection}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\subsectionmark##1{\markright{%     <- サブセクションを表示したい時
+%                                           小節見出しを柱に入れる命令。
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesubsection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+%
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+%    \hbox to 0.5\textwidth{\hfil {%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+}%                                           <- ILS卒論header 定義ここまで
+%</soturon>
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{ilsheadingsスタイル(修論用)}
+%
+% \begin{macro}{\ps@ilsheadings}
+% \pstyle{ilsheadings}は板倉研卒業論文用のページスタイルです。
+% これも美吉君の``ils卒論.sty" を参考に作成しました。板倉研の
+% 修論は Chapter を章立てとして使っているので、それに合わせてあります。
+% jreport.cls を使う際の Chapter の変更も行っています。
+%    \begin{macrocode}
+%<*shuron>
+\def\ps@ilsheadings{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25pt%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \hfil \leftmark%       <- 左上頁に出力したい内容
+       \rightmark\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \hfil \leftmark %             <- 左上頁に出力したい内容
+      \rightmark\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\chaptermark##1{\markboth{%      <- チャプターを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thechapter}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\sectionmark##1{\markright{%     <- セクションを表示したい時
+%                                           小節見出しを柱に入れる命令。
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+%
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+%    \hbox to 0.5\textwidth{\hfil {%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+}%                                           <- ILS卒論header 定義ここまで
+%%%% jreport.cls の chapter の変更
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  %\thispagestyle{jpl@in}% <-- この行をコメントアウト
+  \global\@topnum\z@
+  \@afterindentfalse
+  \secdef\@chapter\@schapter}
+
+
+\def\@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter\space\@chappos}%
+    \addcontentsline{toc}{chapter}%
+      {\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \@makechapterhead{#2}\@afterheading
+	\thispagestyle{empty}%                    <-- ページスタイルを変更
+	\clearpage%                             <-- 改ページ
+}
+
+\def\@schapter#1{%
+  \@makeschapterhead{#1}\@afterheading
+	\if@istoc
+	\else
+	\thispagestyle{empty}%
+	\clearpage% <--- 番号なしのときも同じ処理 (目次に限って改ページなし)
+	\fi
+}
+%</shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{卒論表紙}
+%
+% 板倉研卒論用タイトルページを出力します。
+% 美吉版の書き方とは大きく違っています（出力される形式はほぼ同じ）。
+% 互換性がありません。
+%
+% \subsection{データ入力用変数}
+% この項目はこれまで \verb|\token| で記述されていました。
+% 本スタイルでは変数として記述します。このため定義の仕方に
+% 変更があります。たとえば\\
+% \verb|\年度={1999年度} は \年度{1999年度}|\\
+% のように = をつけないでください。
+%
+% 別の変更として論文題目や研究者を tabular 環境で書くことにしました。
+% 論文の題目が長いときは\\
+% \verb|\論文題目{論文題目前半\\論文題目後半}|\\
+% といったように\verb|\\|で区切ってつなげてください。
+% また、研究者の書き方は\\
+% \verb|\研究者{学生番号１& 氏名１\\学生番号２&氏名２}|\\
+% となります。題目、研究者とも 3 行くらいならきれいに書けます。
+%
+%    \begin{macrocode}
+%<*soturon>
+\def\年度#1{\def\@年度{#1}}
+\def\提出日#1{\def\@提出日{#1}}
+\def\研究者#1{\def\@研究者{#1}}
+\def\論文題目#1{\def\@論文題目{#1}}
+%</soturon>
+% 修士論文の場合は、英文題目や要旨の記述の関係上学生番号と氏名を
+% 分けて書きます。
+%<*shuron>
+% 研究者・論文題目・和文専攻・英文専攻は使いません
+\def\研究者#1{\typeout{`\\研究者'は使えません}}
+\def\論文題目#1{\typeout{論文題目は使えません}}
+\def\和文専攻#1{\typeout{和文専攻は情報工学で固定です}}
+\def\英文専攻#1{\typeout{英文専攻は Computer Science で固定です}}
+%以下の項目は互換性のための定義です。
+\def\和文論文題目#1{\和文題目{#1}}
+\def\英文論文題目#1{\英文題目{#1}}
+\def\和文論文題目前半#1{\def\@和文題目前半{#1}}
+\def\和文論文題目後半#1{\和文題目{\@和文題目前半\\#1}}
+\def\和文鍵言葉１#1{\def\@和文鍵言葉１{#1}\和文キーワード{#1}}
+\def\和文鍵言葉２#1{\def\@和文鍵言葉２{#1}\和文キーワード{\@和文鍵言葉１、#1}}
+\def\和文鍵言葉３#1{\def\@和文鍵言葉３{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、#1}}
+\def\和文鍵言葉４#1{\def\@和文鍵言葉４{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、#1}}
+\def\和文鍵言葉５#1{\def\@和文鍵言葉５{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、\@和文鍵言葉４、#1}}
+\def\和文鍵言葉６#1{\def\@和文鍵言葉６{#1}\和文キーワード{\@和文鍵言葉１、\@和文鍵言葉２、\@和文鍵言葉３、\@和文鍵言葉４、\@和文鍵言葉５、#1}}
+\def\英文鍵言葉１#1{\def\@英文鍵言葉１{#1}\英文キーワード{#1}}
+\def\英文鍵言葉２#1{\def\@英文鍵言葉２{#1}\英文キーワード{\@英文鍵言葉１, #1}}
+\def\英文鍵言葉３#1{\def\@英文鍵言葉３{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, #1}}
+\def\英文鍵言葉４#1{\def\@英文鍵言葉４{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, #1}}
+\def\英文鍵言葉５#1{\def\@英文鍵言葉５{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, \@英文鍵言葉４, #1}}
+\def\英文鍵言葉６#1{\def\@英文鍵言葉６{#1}\英文キーワード{\@英文鍵言葉１, \@英文鍵言葉２, \@英文鍵言葉３, \@英文鍵言葉４, \@英文鍵言葉５, #1}}
+%%
+\def\年度#1{\def\@年度{#1}}
+\def\提出日#1{\def\@提出日{#1}}
+\def\学生番号#1{\def\@学生番号{#1}}
+\def\和文氏名#1{\def\@和文氏名{#1}}
+\def\和文題目#1{\def\@和文題目{#1}}
+\def\和文キーワード#1{\def\@和文キーワード{#1}}
+\def\英文氏名#1{\def\@英文氏名{#1}}
+\def\英文題目#1{\def\@英文題目{#1}}
+\def\英文キーワード#1{\def\@英文キーワード{#1}}
+\def\@論文題目{\@和文題目}
+\def\@研究者{\@学生番号 & \@和文氏名}
+\newtoks\和文論文要旨
+\newtoks\英文論文要旨
+%\def\和文論文要旨#1{\def\@和文論文要旨{#1}}
+%\def\英文論文要旨#1{\def\@英文論文要旨{#1}}
+%</shuron>
+%    \end{macrocode} 
+% \subsection{表紙の定義}
+% 卒論・修論用表紙を出力するマクロ
+%
+%    \begin{macrocode}
+%<*12pt>
+% 表紙のためのフォント定義
+  \newfont{\egtrm}{cmr8}
+  \newfont{\tenrm}{cmr10}
+  \newfont{\twlrm}{cmr10 scaled \magstep 1}
+  \newfont{\frtnrm}{cmr10 scaled \magstep 2}
+  \newfont{\svtnrm}{cmr10 scaled \magstep 3}
+  \newfont{\twtyrm}{cmr10 scaled \magstep 4}
+  \newfont{\twfvrm}{cmr10 scaled \magstep 5}
+  \newfont{\twtybf}{cmbx10 scaled \magstep 4}
+  \newfont{\twfvbf}{cmbx10 scaled \magstep 5}
+  \newfont{\svtngt}{goth10 scaled \magstep 3}
+  \newfont{\twtygt}{goth10 scaled \magstep 4}
+  \newfont{\twfvgt}{goth10 scaled \magstep 5}
+  \newfont{\tenmin}{min10}
+  \newfont{\twlmin}{min10 scaled \magstep 1}
+  \newfont{\frtnmin}{min10 scaled \magstep 2}
+  \newfont{\svtnmin}{min10 scaled \magstep 3}
+  \newfont{\twtymin}{min10 scaled \magstep 4}
+  \newfont{\twfvmin}{min10 scaled \magstep 5}
+  \newfont{\twfrils}{ils scaled \magstep 4}
+  \newfont{\twfvils}{ils scaled \magstep 5}
+  \newfont{\thtyils}{ils scaled 2986}
+%</12pt>
+%    \end{macrocode}
+%\begin{macro}{\卒論表紙}
+%    \begin{macrocode}
+%<*soturon>
+\def\卒論表紙{{
+\thispagestyle{empty}
+\unitlength=1pt
+\noindent
+\begin{picture}(465,600)(0,-604)
+%%%%\put(0,-25){\makebox(465,25){\twfvrm\twfvmin \@年度}}
+%%%%\put(0,-65){\makebox(465,25){\twfvmin \@論文種類}}
+\put(0,-25){\makebox(465,25){\Huge \@年度}}
+\put(0,-65){\makebox(465,25){\Huge \@論文種類}}
+\put(0,-140){\makebox(465,50){\LARGE\Koudai}}
+%%%%\put(0,-175){\makebox(465,20){\twtymin 論文題目}}
+\put(0,-175){\makebox(465,20){\LARGE 論文題目}}
+%%%%\renewcommand{\arraystretch}{1.2}
+\renewcommand{\arraystretch}{0.6}
+%%%\put(0,-290){\makebox(465,100)[t]{\twfvgt\twfvbf
+\put(0,-290){\makebox(465,100)[t]{\textbf{\Huge
+	\begin{tabular}{c} 
+	\@論文題目
+	\end{tabular}
+	}}}
+%%%%\put(0,-340){\makebox(465,20){\twtymin 研究者}}
+\put(0,-340){\makebox(465,20){\LARGE 研究者}}
+%%%\renewcommand{\arraystretch}{1.4}
+\renewcommand{\arraystretch}{1.0}
+%%%%\put(0,-440){\makebox(465,100)[t]{\twtygt\twtybf
+\put(0,-440){\makebox(465,100)[t]{\textbf{\LARGE
+	\begin{tabular}{cl}
+	\@研究者
+	\end{tabular}
+	}}}
+%%%\renewcommand{\arraystretch}{1.4}
+\renewcommand{\arraystretch}{1.0}
+%%%\put(0,-485){\makebox(465,20){\twtymin 指導教員}}
+\put(0,-485){\makebox(465,20){\LARGE 指導教員}}
+%%%\put(0,-565){\makebox(465,75)[t]{\twtygt\twtybf
+\put(0,-565){\makebox(465,75)[t]{\textbf{\LARGE
+	\begin{tabular}{ll} 
+	%板倉　秀清&教授\\
+	山口　智　&准教授
+	\end{tabular}}
+	}}
+\if@ilssitagaki
+%%%\put(0,-600){\makebox(465,20){\frtnrm\frtnmin 添削用原稿提出日 \西暦\today}}
+\put(0,-600){\makebox(465,20){\large 添削用原稿提出日 \西暦\today}}
+\else
+%%%\put(0,-600){\makebox(465,20){\frtnrm\frtnmin \@提出日}}
+\put(0,-600){\makebox(465,20){\large \@提出日}}
+\fi
+\end{picture}
+\setcounter{page}\@ne
+\clearpage
+}}
+%</soturon>
+%    \end{macrocode}
+% \end{macro}
+%
+%\begin{macro}{\修論表紙}
+%    \begin{macrocode}
+%<*shuron>
+\def\修論表紙{{
+\thispagestyle{empty}
+\unitlength=1pt
+\noindent
+\begin{picture}(465,600)(0,-604)
+\put(0,-25){\makebox(465,25){\twfvrm\twfvmin \@年度}}
+\put(0,-65){\makebox(465,25){\twfvmin \@論文種類}}
+\put(0,-140){\makebox(465,50){\LARGE\Koudai}}
+\put(0,-175){\makebox(465,20){\twtymin 論文題目}}
+\renewcommand{\arraystretch}{1.2}
+\put(0,-290){\makebox(465,100)[t]{\twfvgt\twfvbf
+	\begin{tabular}{c} 
+	\@論文題目
+	\end{tabular}
+	}}
+\put(0,-340){\makebox(465,30){\twtymin
+% \begin{tabular}{c} 千葉工業大学大学院工学研究科\\
+\begin{tabular}{c} 千葉工業大学大学院情報科学研究科\\
+情報工学専攻博士前期課程\end{tabular}}}
+\renewcommand{\arraystretch}{1.4}
+\put(0,-450){\makebox(465,100)[t]{\twtygt\twtybf
+	\begin{tabular}{cl}
+	\@研究者
+	\end{tabular}
+	}}
+\renewcommand{\arraystretch}{1.4}
+\put(0,-485){\makebox(465,20){\twtymin 指導教員}}
+\put(0,-565){\makebox(465,75)[t]{\twtygt\twtybf
+	\begin{tabular}{ll} 
+	%板倉　秀清&教授\\
+	山口　智　&准教授
+	\end{tabular}
+	}}
+\if@ilssitagaki
+\put(0,-600){\makebox(465,20){\frtnrm\frtnmin 添削用原稿提出日 \西暦\today}}
+\else
+\put(0,-600){\makebox(465,20){\frtnrm\frtnmin \@提出日}}
+\fi
+\end{picture}
+\setcounter{page}\@ne
+\clearpage
+}}
+%</shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{目次の修正}
+% \begin{macro}{\tableofcontents}
+%     \begin{macrocode}
+%<*shuron>
+\newif\if@istoc
+\renewcommand{\tableofcontents}{%
+	\pagenumbering{roman}%     <- 目次はローマ数字でページ振り
+	\addcontentsline{toc}{chapter}{目　次}%  -> 目次に目次も入れたい！
+	\@istoctrue% <-- 目次の場合だけchapterに改ページを入れない
+	\markboth{目次}{}
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\contentsname
+    \@mkboth{\contentsname}{\contentsname}%
+  }\@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+	\clearpage
+	\pagenumbering{arabic}%   <- 本文はアラビア数字でページ振り
+	\@istocfalse% <-- これ以降は目次じゃない
+}
+%</shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+%% \section{謝辞の修正}
+% \begin{macro}{謝辞}
+%     \begin{macrocode}
+%<*soturon>
+\def\謝辞{
+\section*{謝辞} % 番号なしのセクション
+\addcontentsline{toc}{section}{謝辞}
+%\refname\markboth{謝辞}{}
+\markboth{謝辞}{}
+}
+%</soturon>
+%<*shuron>
+\def\謝辞{
+\chapter*{謝辞} % 番号なしのセクション
+\markboth{謝辞}{}
+\addcontentsline{toc}{chapter}{謝辞}
+}
+%</shuron>
+%    \end{macrocode}
+% \end{macro}
+% \section{参考文献の再定義}
+%
+% \begin{macro}{\bibindent}
+% オープンスタイルの参考文献で使うインデント幅です。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\newdimen\bibindent
+\setlength\bibindent{1.5em}
+%</soturon|shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\newblock}
+% |\newblock|のデフォルト定義は、小さなスペースを生成します。
+%    \begin{macrocode}
+%<*soturon|shuron>
+\renewcommand{\newblock}{\hskip .11em\@plus.33em\@minus.07em}
+%</soturon|shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{environment}{thebibliography}
+% 参考文献や関連図書のリストを作成します。
+%    \begin{macrocode}
+%<*soturon>
+\renewenvironment{thebibliography}[1]
+{\section*{\refname\markboth{参考文献}{}}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+%    \end{macrocode}
+%    \begin{macrocode}
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+%</soturon>
+%<*shuron> 
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]
+{%\markboth{参考文献}{}%
+\chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
+	\clearpage\markboth{参考文献}{}% <-- ヘッダの変更
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+
+%</shuron>
+%    \end{macrocode}
+% \end{environment}
+%
+% \begin{macro}{\@openbib@code}
+% |\@openbib@code|のデフォルト定義は何もしません。
+% この定義は、\Lopt{openbib}オプションによって変更されます。
+%    \begin{macrocode}
+%<soturon|shuron>\let\@openbib@code\@empty
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@biblabel}
+%    The label for a |\bibitem[...]| command is produced by this
+%    macro. The default from \file{latex.dtx} is used.
+%    \begin{macrocode}
+% \renewcommand*{\@biblabel}[1]{[#1]\hfill}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@cite}
+%    The output of the |\cite| command is produced by this macro. The
+%    default from \file{latex.dtx} is used.
+%    \begin{macrocode}
+% \renewcommand*{\@cite}[1]{[#1]}
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{変数の再定義}
+% ilsheadings ページスタイルを有効にします
+%    \begin{macrocode}
+%<soturon|shuron>\ps@ilsheadings
+%    \end{macrocode}
+%
+% \section{論文要旨}
+% 修士論文のための和文・英文要旨の定義
+% \subsection{長さを設定する box の定義など}
+%
+%    \begin{macrocode}
+%<*shuron>
+%
+% 位置の最終調整用変数
+%
+\newdimen\HOFFSET \HOFFSET=0mm
+\newdimen\VOFFSET \VOFFSET=0mm
+%
+%%% オフセット %%%%%%%
+\def\OFFSET{
+  \advance\hoffset by \HOFFSET
+  \advance\voffset by \VOFFSET
+}
+% working variables
+%
+\newbox\dummybox
+\newdimen\X
+\newdimen\Y
+\newdimen\XXA
+\newdimen\YYA
+%
+% memory for positions of rules
+%
+\newdimen\XM \XM=4mm% X-direction margin
+\newdimen\YM \YM=2mm% Y-direction margin
+%
+\newdimen\htbackskip
+\newdimen\dpbackskip
+\long\def\XY#1#2#3{
+  \setbox\dummybox=\vbox{
+    \vskip#2
+    \hbox to \hsize{%
+      \hskip#1
+      \vbox{\advance\hsize by -#1#3}\hfil
+    }
+  }
+  \htbackskip=-\ht\dummybox
+  \dpbackskip=-\dp\dummybox
+%
+  \box\dummybox\nointerlineskip
+  \vskip\htbackskip
+  \vskip\dpbackskip
+}
+%
+% 絶対位置　(#1, #2) (#3, #4)で定まるボックスに
+% #5 を入れて上下左右でセンタリングする。
+%
+\long\def\XYBC#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\CBOX{\X}{\Y}{#5}}
+}
+\long\def\XYBP#1#2#3#4#5{
+  \X=#3 \Y=#4 \advance\X by -#1 \advance\Y by -#2
+  \XY{#1}{#2}{\PBOX{\X}{\Y}{#5}}
+}
+\long\def\PBOX#1#2#3{
+   \X=#1 \Y=#2 \advance\X by -\XM \XXA=\X \advance\X by -\XM
+               \advance\Y by -\YM \YYA=\Y \advance\Y by -\YM
+   \vbox to \YYA{\vskip\YM
+   \hbox to \XXA{\hskip\XM\vbox to \Y{\hsize=\X\linewidth=\X \parbox{\hsize}{\parindent=1zw #3}\vfil}%
+   \hfil}
+}}
+
+%
+% BOX を描く。縦横にセンタリングされる．#1, #2引数は長さで与える
+% 箱の横の長さ、縦の長さ、中身
+%
+\long\def\CBOX#1#2#3{{
+  \hsize=#1\linewidth=\hsize
+  \setbox\dummybox\hbox{#3}
+  \vbox to #2{
+    \vfil
+    \ifdim#1 < \wd\dummybox
+      \X=#1
+      \advance\X by -4mm
+      \hbox to \hsize{\hfil\vbox{\hsize=\X\linewidth=\hsize #3}\hfil}
+    \else
+      \hbox to \hsize{\hfil #3\hfil}
+    \fi
+    \vfil
+  }
+}}
+%
+%vertival rule with 0.7pt width
+% 縦罫線　0.7pt 幅　始点座標　(#1, #2) 終点Ｙ座標 #3
+%
+\newdimen\rulelength
+\def\Vrule#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width0.7pt height\rulelength depth0pt}
+}
+%
+%
+%horizontal rule with 0.7pt width
+% 横罫線　0.7pt 幅　始点座標　(#1, #2) 終点Ｘ座標 #3
+%
+\def\Hrule#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height0.7pt depth0pt}
+}
+%
+%vertival rule with 1.4pt width
+% 縦罫線　1.4pt 幅　始点座標　(#1, #2) 終点Ｙ座標 #3
+%
+\def\Vrulethick#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#2
+   \XY{#1}{#2}{\vrule width1.4pt height\rulelength depth0pt}
+}
+%horizontal rule with 1.4pt width
+% 横罫線　1.4pt 幅　始点座標　(#1, #2) 終点Ｘ座標 #3
+%
+\def\Hrulethick#1#2#3{
+   \rulelength=#3
+   \advance\rulelength by -#1
+   \XY{#1}{#2}{\vrule width\rulelength height1.4pt depth0pt}
+}
+%</shuron>
+%    \end{macrocode}
+%
+% \subsection{論文要旨}
+% \begin{macro}{\論文要旨}
+%    \begin{macrocode}
+%<*shuron>
+\newif\if和文\和文true
+\def\和文要旨{\和文true  \論文要旨}
+\def\英文要旨{\和文false \論文要旨}
+\def\論文要旨{{
+  \hoffset=0mm \voffset=0mm
+  \advance\hsize by -\hoffset
+  \advance\vsize by -\voffset
+  \OFFSET
+  \thispagestyle{empty}
+  \headsep\z@ \headheight\z@ \oddsidemargin 2.5mm
+  \topmargin -1.4mm
+  \hsize=170mm \vsize=280mm
+  \parindent\z@ \parskip\z@
+  \linewidth=\hsize \baselineskip = 4.0mm plus1mm minus0.5mm
+  \rightskip = 0pt plus 120mm \lineskip\z@ \topskip\z@
+  \def\baselinestretch{1}\large\normalsize
+%
+  \Hrulethick{2.5mm}{23.5mm}{164.5mm} \Hrulethick{  2.5mm}{243.5mm}{164.5mm}
+  \Vrulethick{2.5mm}{23.5mm}{243.5mm} \Vrulethick{164.5mm}{ 23.5mm}{244mm}
+
+  \Hrule{2.5mm}{33.5mm}{164.5mm} \Hrule{2.5mm}{48.5mm}{164.5mm}
+  \Hrule{2.5mm}{78.5mm}{164.5mm} \Hrule{2.5mm}{88.5mm}{164.5mm}
+
+  \Vrule{52.5mm}{23.5mm}{48.5mm} \Vrule{92.5mm}{23.5mm}{48.5mm}
+
+  \XYBC{2.5mm}{-9mm}{164.5mm}{10mm}{\kern-1.7zw\raisebox{-6zh}{ \Huge \Koudai}}
+          \if和文
+    \XYBC{2.5mm}{ 11.0mm}{164.5mm}{ 23.5mm}{\twfvmin 修士論文要旨}
+
+	%%% 研究科名の変更にともなう変更
+    %%%% \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\frtnmin 千葉工業大学大学院工学研究科}
+    \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\frtnmin 千葉工業大学大学院情報科学研究科}
+    \XYBC{2.5mm}{252.5mm}{164.5mm}{258.5mm}{\tenmin \tenrm ◎要旨は600字程度}
+
+    \XYBC{ 2.5mm}{23.5mm}{ 52.5mm}{33.5mm}{\svtnmin 専　攻}
+	%%% 研究科名の変更にともなう変更
+    %%% \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\svtnmin 情報工学}
+    \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\svtnmin 情報科学}
+    \XYBC{52.5mm}{23.5mm}{ 92.5mm}{33.5mm}{\svtnmin 学生番号}
+    \XYBC{52.5mm}{33.5mm}{ 92.5mm}{48.5mm}{\svtnrm\@学生番号}
+    \XYBC{92.5mm}{23.5mm}{164.5mm}{33.5mm}{\svtnmin 氏　　名}
+    \XYBC{92.5mm}{33.5mm}{164.5mm}{48.5mm}{\svtnmin\@和文氏名}
+
+    \XYBC{2.5mm}{48.5mm}{ 32.5mm}{58.5mm}{\svtnmin 論文題目}
+    \XYBC{2.5mm}{58.5mm}{164.5mm}{78.5mm}{\svtnmin \svtnrm \begin{tabular}{c}\@論文題目\end{tabular}}
+
+    \XYBC{ 2.5mm}{78.5mm}{ 32.5mm}{88.5mm}{\frtnmin キーワード}
+    \XYBC{32.5mm}{78.5mm}{164.5mm}{88.5mm}{\tenmin\tenrm\baselineskip=1.5mm%
+	\begin{tabular}{p{127.5mm}}\@和文キーワード\end{tabular}
+    \baselineskip = 4.0mm plus1mm minus0.5mm}
+
+    \XYBC{ 2.5mm}{ 88.5mm}{ 32.5mm}{100.5mm}{\svtnmin 論文要旨}
+    \XYBP{12.5mm}{100.5mm}{154.5mm}{243.5mm}{\twlmin \the\和文論文要旨}
+  \else
+    \XYBC{2.5mm}{ 11.0mm}{164.5mm}{ 23.5mm}{\twtyrm Summary of Master's Thesis}
+
+	%%% 研究科名の変更にともなう変更
+    %%% \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\twlrm Graduate School of Engineering,\ Chiba Institute of Technology}
+    \XYBC{2.5mm}{246.5mm}{164.5mm}{252.5mm}{\twlrm Graduate School of Information and Computer Science,\ Chiba Institute of Technology}
+    \XYBC{2.5mm}{252.5mm}{164.5mm}{258.5mm}{\egtrm The contents of English summary should be writen in about 200 words.}
+
+    \XYBC{ 2.5mm}{23.5mm}{ 52.5mm}{33.5mm}{\svtnrm Course}
+	%%% 研究科名の変更にともなう変更
+    %%% \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\frtnrm Computer Science}
+    \XYBC{ 2.5mm}{33.5mm}{ 52.5mm}{48.5mm}{\frtnrm Information and Computer Science}
+    \XYBC{52.5mm}{23.5mm}{ 92.5mm}{33.5mm}{\frtnrm Student No.}
+    \XYBC{52.5mm}{33.5mm}{ 92.5mm}{48.5mm}{\frtnrm\@学生番号}
+    \XYBC{92.5mm}{23.5mm}{164.5mm}{33.5mm}{\frtnrm SURNAME,\ Firstname}
+    \XYBC{92.5mm}{33.5mm}{164.5mm}{48.5mm}{\frtnrm\@英文氏名}
+
+    \XYBC{2.5mm}{48.5mm}{ 20.5mm}{58.5mm}{\svtnrm Title}
+    \XYBC{2.5mm}{58.5mm}{164.5mm}{78.5mm}{\svtnmin \svtnrm \begin{tabular}{c}\@英文題目\end{tabular}}
+
+    \XYBC{ 2.5mm}{78.5mm}{ 32.5mm}{88.5mm}{\frtnrm Keywords}
+    \XYBC{32.5mm}{78.5mm}{162.5mm}{88.5mm}{\tenrm\tenrm\baselineskip=3.5mm%
+	\begin{tabular}{p{127.5mm}}\@英文キーワード\end{tabular}
+    \baselineskip = 4.0mm plus1mm minus0.5mm}
+
+    \XYBC{ 2.5mm}{ 88.5mm}{ 32.5mm}{100.5mm}{\svtnrm Summary}
+    \XYBP{12.5mm}{100.5mm}{154.5mm}{243.5mm}{\twlrm \the\英文論文要旨}
+  \fi
+%
+  \def\baselinestretch{1.5}\large\normalsize
+  \vfil\break
+}}
+%</shuron>
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{ils フォント定義}
+%    \begin{macrocode}
+%<*fonts>
+\DeclareFontFamily{U}{ils}{}
+\DeclareFontShape{U}{ils}{m}{n}{
+  <-> ils}{}
+\DeclareTextSymbol{\k}{U}{65}
+\DeclareTextSymbol{\K}{U}{66}
+\DeclareTextSymbol{\wda}{U}{67}
+\DeclareTextSymbol{\bda}{U}{68}
+\DeclareTextSymbol{\wra}{U}{69}
+\DeclareTextSymbol{\bra}{U}{70}
+
+%% ここから先はシンボル表示のマクロ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 工大マーク (小)
+\def\koudai{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \k%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 工大マーク (大)%
+\def\Koudai{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \K%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 白抜き下矢印%
+\def\whitedownarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \wda%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 黒塗り上矢印%
+\def\blackdownarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \bda%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 白抜き右矢印%
+\def\whiterightarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \wra%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 黒塗り右矢印x%
+\def\blackrightarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \bra%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%</fonts>
+%    \end{macrocode}
+%
+% \section{ils フォント定義}
+%    \begin{macrocode}
+%<*ilsmf>
+
+%  This is METAFONT FILE . Chiba Institute of Technology
+%  Computer Science Itakura Lab. 9010116 Akira Yoshizawa.
+%  Create:1993-09-19
+%
+%  And after, modified and added by Mippy.
+%
+%
+%  CIT sigh char No 65
+%
+mode_setup; font_identifier:="ILS"; font_size = 10pt#;
+%
+%   wid#:=18mm#;% <- org.
+%   hig#:=21mm#;% <- org.
+   wid#:=2.3mm#;%           <- 1/7.82608695652*org
+   hig#:=2.683333333mm#;%   <- 1/7.82608695652*org
+   dip#:=0;
+%
+%
+beginchar(65,wid#,hig#,dip#);
+%
+   numeric penA,penB,penC,penD;
+%
+%
+   penA = w/9;
+   penB = w/6;
+   penC = 2w/9;
+   penD = 5w/18;
+
+%
+z99 = (     0,  w/12);
+z1  = (  w/12,41h/42) - z99;
+z2  = (11w/12,41h/42) - z99;
+z3  = (  w/ 2,39h/42) - z99;
+z4  = (  w/ 2,33h/42) - z99;
+z5  = (13w/36, 6h/ 7) - z99;
+z6  = (23w/36, 6h/ 7) - z99;
+z7  = (  w/12,31h/42) - z99;
+z8  = (11w/12,31h/42) - z99;
+z9  = (  w/ 2, 9h/14) - z99;
+z10 = (  w/ 2,23h/42) - z99;
+z11 = (  w/12,  h/ 2) - z99;
+z12 = (11w/12,  h/ 2) - z99;
+z13 = (  w/12, 7h/42) - z99;
+z14 = (11w/12, 7h/42) - z99;
+z15 = ( 2w/ 9,17h/42) - z99;
+z16 = ( 7w/ 9,17h/42) - z99;
+z17 = (13w/36, 3h/ 7) - z99;
+z18 = (13w/36, 4h/21) - z99;
+z19 = (23w/36, 3h/ 7) - z99;
+z20 = (23w/36, 4h/21) - z99;
+z21 = (  w/ 2,17h/42) - z99;
+
+z22 = ( 5w/18, 6h/ 7) - z99;
+z23 = (13w/18, 6h/ 7) - z99;
+z24 = (  w/ 2,13h/21) - z99;
+z25 = (  w/ 2,  h/ 2) - z99;
+z26 = ( 2w/ 9, 8h/21) - z99;
+z27 = (  w/ 2, 8h/21) - z99;
+z28 = ( 7w/ 9, 8h/21) - z99;
+
+pickup pencircle scaled penD;
+draw z3--z4;
+pickup pencircle scaled penB;
+draw z1--z2;
+draw z7--z8;
+pickup pencircle scaled penC;
+undraw z9--z24;
+undraw z9--z24;
+draw z10--z25;
+draw z10--z25;
+draw z10--z25;
+draw z10--z25;
+pickup pencircle scaled penB;
+draw z11--z12;
+draw z11--z13;
+draw z12--z14;
+draw z17--z18;
+draw z19--z20;
+pickup pencircle scaled penA;
+undraw z5--z22;
+undraw z6--z23;
+undraw z15--z26;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z16--z28;
+labels(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21);
+endchar;
+%
+%  CIT sigh char No 66   、チ、遉テ、ネツ遉ュ、盪ゥツ逾゛。シ・ッ
+%
+%mode_setup; font_identifier:="ILS"; font_size = 10pt#;
+%
+%   wid#:=18mm#;% <- org.
+%   hig#:=21mm#;% <- org.
+   wid#:=6mm#;% <- 1/3*org
+   hig#:=7mm#;% <- 1/3*org
+   dip#:=0;
+%
+%
+beginchar(66,wid#,hig#,dip#);
+%
+   numeric penA,penB,penC,penD;
+%
+%
+   penA = w/9;
+   penB = w/6;
+   penC = 2w/9;
+   penD = 5w/18;
+%
+z99 = (     0,  w/12);
+z1  = (  w/12,41h/42) - z99;
+z2  = (11w/12,41h/42) - z99;
+z3  = (  w/ 2,39h/42) - z99;
+z4  = (  w/ 2,33h/42) - z99;
+z5  = (13w/36, 6h/ 7) - z99;
+z6  = (23w/36, 6h/ 7) - z99;
+z7  = (  w/12,31h/42) - z99;
+z8  = (11w/12,31h/42) - z99;
+z9  = (  w/ 2, 9h/14) - z99;
+z10 = (  w/ 2,23h/42) - z99;
+z11 = (  w/12,  h/ 2) - z99;
+z12 = (11w/12,  h/ 2) - z99;
+z13 = (  w/12, 7h/42) - z99;
+z14 = (11w/12, 7h/42) - z99;
+z15 = ( 2w/ 9,17h/42) - z99;
+z16 = ( 7w/ 9,17h/42) - z99;
+z17 = (13w/36, 3h/ 7) - z99;
+z18 = (13w/36, 4h/21) - z99;
+z19 = (23w/36, 3h/ 7) - z99;
+z20 = (23w/36, 4h/21) - z99;
+z21 = (  w/ 2,17h/42) - z99;
+
+z22 = ( 5w/18, 6h/ 7) - z99;
+z23 = (13w/18, 6h/ 7) - z99;
+z24 = (  w/ 2,13h/21) - z99;
+z25 = (  w/ 2,  h/ 2) - z99;
+z26 = ( 2w/ 9, 8h/21) - z99;
+z27 = (  w/ 2, 8h/21) - z99;
+z28 = ( 7w/ 9, 8h/21) - z99;
+
+pickup pencircle scaled penD;
+draw z3--z4;
+pickup pencircle scaled penB;
+draw z1--z2;
+draw z7--z8;
+pickup pencircle scaled penC;
+undraw z9--z24;
+undraw z9--z24;
+draw z10--z25;
+draw z10--z25;
+draw z10--z25;
+draw z10--z25;
+pickup pencircle scaled penB;
+draw z11--z12;
+draw z11--z13;
+draw z12--z14;
+draw z17--z18;
+draw z19--z20;
+pickup pencircle scaled penA;
+undraw z5--z22;
+undraw z6--z23;
+undraw z15--z26;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z21--z27;
+undraw z16--z28;
+labels(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21);
+endchar;
+%
+%
+%
+%  ----- downarrow sigh char No 67 -----
+%
+%mode_setup; font_identifier:="ILS"; font_size = 10pt#;
+%
+   wid#:=15mm#;
+   hig#:=17.5mm#;
+   dip#:=0;
+%
+%
+%
+beginchar(67,wid#,hig#,dip#);
+%
+%
+   z1 = (w/3,h);
+   z2 = (w/6,3w/7);
+   z3 = (w/2,0);
+   z4 = (5w/6,3w/7);
+   z5 = (2w/3,h);
+   z6 = (w/3,3w/7);
+   z7 = (2w/3,3w/7);
+%
+   pickup pencircle scaled 0.3pt;
+   draw z1--z6--z2--z3--z4--z7--z5--cycle;
+%
+endchar;
+%
+%
+%  ----- downarrow sigh char No 68 -----
+%
+beginchar(68,wid#,hig#,dip#);
+%
+%
+   z1 = (w/3,h);
+   z2 = (w/6,3w/7);
+   z3 = (w/2,0);
+   z4 = (5w/6,3w/7);
+   z5 = (2w/3,h);
+   z6 = (w/3,3w/7);
+   z7 = (2w/3,3w/7);
+%
+   fill z1--z6--z2--z3--z4--z7--z5--cycle;
+%
+endchar;
+%
+%
+   wid#:=17.5mm#;
+   hig#:=15mm#;
+   dip#:=0;
+%
+%
+%  ----- w-rightarrow sigh char No 69 -----
+%
+beginchar(69,wid#,hig#,dip#);
+%
+%
+   z1 = (0,h/3);
+   z2 = (4h/7,h/6);
+   z3 = (w,h/2);
+   z4 = (4h/7,5h/6);
+   z5 = (0,2h/3);
+   z6 = (4h/7,h/3);
+   z7 = (4h/7,2h/3);
+%
+   pickup pencircle scaled 0.3pt;
+   draw z1--z6--z2--z3--z4--z7--z5--cycle;
+%
+endchar;
+%
+%
+%  ----- b-rightarrow sigh char No 70 -----
+%
+beginchar(70,wid#,hig#,dip#);
+%
+%
+   z1 = (0,h/3);
+   z2 = (4h/7,h/6);
+   z3 = (w,h/2);
+   z4 = (4h/7,5h/6);
+   z5 = (0,2h/3);
+   z6 = (4h/7,h/3);
+   z7 = (4h/7,2h/3);
+%
+   pickup pencircle scaled 0.3pt;
+   fill z1--z6--z2--z3--z4--z7--z5--cycle;
+%
+endchar;
+
+%
+end
+
+bye.
+%</ilsmf>
+%    \end{macrocode}
+%
+% \Finale
+%
+\endinput

@@ -1,0 +1,114 @@
+%%
+%% This is file `ilsfonts.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ilsstyles.dtx  (with options: `fonts')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from ilsfonts.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file ilsstyles.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% File ilsstyles.dtx
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesFile{ilsfonts.sty}
+    [2005/12/15 v2.1b]
+%% \section{謝辞の修正}
+\DeclareFontFamily{U}{ils}{}
+\DeclareFontShape{U}{ils}{m}{n}{
+  <-> ils}{}
+\DeclareTextSymbol{\k}{U}{65}
+\DeclareTextSymbol{\K}{U}{66}
+\DeclareTextSymbol{\wda}{U}{67}
+\DeclareTextSymbol{\bda}{U}{68}
+\DeclareTextSymbol{\wra}{U}{69}
+\DeclareTextSymbol{\bra}{U}{70}
+
+%% ここから先はシンボル表示のマクロ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 工大マーク (小)
+\def\koudai{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \k%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 工大マーク (大)%
+\def\Koudai{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \K%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 白抜き下矢印%
+\def\whitedownarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \wda%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 黒塗り上矢印%
+\def\blackdownarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \bda%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 白抜き右矢印%
+\def\whiterightarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \wra%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+%% 黒塗り右矢印x%
+\def\blackrightarrow{%
+  \edef\tmp@encoding{\f@encoding}%
+  \edef\tmp@family{\f@family}%
+  \fontencoding{U}%
+  \fontfamily{ils}%
+  \selectfont%
+  \bra%
+  \fontencoding{\tmp@encoding}%
+  \fontfamily{\tmp@family}%
+  \selectfont%
+}
+\endinput
+%%
+%% End of file `ilsfonts.sty'.

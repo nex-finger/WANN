@@ -163,7 +163,7 @@ class WannInd(Ind):
           # print(len(myhyp['activate_table'][_i]))
           # print(myhyp['activate_table'][_i])
 
-          for _j in range(myhyp['activate_table'][_i]):
+          for _j in range(len(myhyp['activate_table'][_i])):
             myhyp['activate_table'][_i][_j] += epsilon
           nodeG[2,mutNode] = int(random.choices(myhyp['activate_ID'][0], weights = myhyp['activate_table'][_i])[0])
           #print(nodeG[2,mutNode], end="  ")

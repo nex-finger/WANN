@@ -1,0 +1,217 @@
+%%
+%% This is file `ilssoturon.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ilsstyles.dtx  (with options: `soturon')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from ilssoturon.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file ilsstyles.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% File ilsstyles.dtx
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesFile{ilssoturon.sty}
+    [2005/12/15 v2.1b]
+\newif\if@HeaderWithUnderline
+  \@HeaderWithUnderlinefalse
+\newif\if@ilschar
+\if@compatibility
+  \renewcommand{\@ptsize}{2}
+\else
+  \DeclareOption{12pt}{\renewcommand{\@ptsize}{2}}
+\fi
+\DeclareOption{11pt}{%
+\typeout{ポイントサイズ 11pt はありません。}
+\typeout{12pt に変更します。}
+\renewcommand{\@ptsize}{2}
+}
+\DeclareOption{10pt}{
+\typeout{ポイントサイズ 10pt はありません。}
+\typeout{12pt に変更します。}
+\renewcommand{\@ptsize}{2}
+}
+\DeclareOption{HeaderWithUnderline}{\@HeaderWithUnderlinetrue}
+\DeclareOption{ilschar}{%
+  \input ilschar.sty%
+  \@ilschartrue
+}
+\ExecuteOptions{12pt,oneside,onecolumn,final}
+\ProcessOptions\relax
+\input{ils1\@ptsize pt.sty}
+ \def\@論文種類{卒業論文}
+\setlength\paperheight {297truemm}%
+\setlength\paperwidth  {210truemm}
+\@lowpenalty   51
+\@medpenalty  151
+\@highpenalty 301
+\newif\if@ilssitagaki \@ilssitagakifalse % 下書きである時に true
+\def\ps@ilssitagaki{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25pt%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \leftmark \hfill%       <- 左上頁に出力したい内容
+       \西暦\today\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \leftmark \hfill %             <- 左上頁に出力したい内容
+      \西暦\today\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\sectionmark##1{\markboth{%      <- セクションを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thesection}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\subsectionmark##1{\markright{%     <- サブセクションを表示したい時
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesubsection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+  \@ilssitagakitrue
+}%                                           <- 定義ここまで
+\def\ps@ilsheadings{\let\ps@jpl@in\ps@psplain%
+  \let\@evenhead\@empty%
+  \if@HeaderWithUnderline
+    \def\@oddhead{\hskip -25pt%          <- 奇数頁ヘッダの定義始まり
+    \underline{%
+      \hbox to 1.065\textwidth{%
+      \small \bf \hfil \leftmark%       <- 左上頁に出力したい内容
+       \rightmark\hbox{}}}}%             <- 右上頁に出力したい内容
+  \else
+    \def\@oddhead{\hbox{}\small%        <- 奇数頁ヘッダの定義始まり
+      \bf \hfil \leftmark %             <- 左上頁に出力したい内容
+      \rightmark\hbox{}}%               <- 右上頁に出力したい内容
+  \fi
+  \def\sectionmark##1{\markboth{%      <- セクションを表示したい設定
+    \ifnum \c@secnumdepth >\z@ %
+      {\bf\thesection}\hskip 1em\relax %
+    \fi %
+    ##1}{}}%
+  \def\subsectionmark##1{\markright{%     <- サブセクションを表示したい時
+    \ifnum \c@secnumdepth >\z@ %   <- もし secnumdepth カウンタの値＞０なら
+      \hfill{\bf\thesubsection}%      <-小節番号表示
+      \hskip 1em\relax%
+    \fi%
+    ##1}}% <- 小節の名前表示
+  \let\@evenfoot\@empty%
+  \def\@oddfoot{
+    \hbox to 0.5\textwidth{\hfil --~\lower0.2ex\hbox{\thepage} --}%
+    {\hfil {%
+    \raisebox{-0.7zh}{%
+      \lower0.1zh\hbox{\Koudai\,}
+      \shortstack[l]{%
+        {\small 情報工学科山口研究室}\\%
+        \raise0.0zh\hbox{\small 千葉工業大学\@論文種類}}}}}}%
+  \let\@mkboth\@gobbletwo
+}%                                           <- ILS卒論header 定義ここまで
+\def\年度#1{\def\@年度{#1}}
+\def\提出日#1{\def\@提出日{#1}}
+\def\研究者#1{\def\@研究者{#1}}
+\def\論文題目#1{\def\@論文題目{#1}}
+\def\卒論表紙{{
+\thispagestyle{empty}
+\unitlength=1pt
+\noindent
+\begin{picture}(465,600)(0,-604)
+%%%%\put(0,-25){\makebox(465,25){\twfvrm\twfvmin \@年度}}
+%%%%\put(0,-65){\makebox(465,25){\twfvmin \@論文種類}}
+\put(0,-25){\makebox(465,25){\Huge \@年度}}
+\put(0,-65){\makebox(465,25){\Huge \@論文種類}}
+\put(0,-140){\makebox(465,50){\LARGE\Koudai}}
+%%%%\put(0,-175){\makebox(465,20){\twtymin 論文題目}}
+\put(0,-175){\makebox(465,20){\LARGE 論文題目}}
+%%%%\renewcommand{\arraystretch}{1.2}
+\renewcommand{\arraystretch}{0.6}
+%%%\put(0,-290){\makebox(465,100)[t]{\twfvgt\twfvbf
+\put(0,-290){\makebox(465,100)[t]{\textbf{\Huge
+\begin{tabular}{c}
+\@論文題目
+\end{tabular}
+}}}
+%%%%\put(0,-340){\makebox(465,20){\twtymin 研究者}}
+\put(0,-340){\makebox(465,20){\LARGE 研究者}}
+%%%\renewcommand{\arraystretch}{1.4}
+\renewcommand{\arraystretch}{1.0}
+%%%%\put(0,-440){\makebox(465,100)[t]{\twtygt\twtybf
+\put(0,-440){\makebox(465,100)[t]{\textbf{\LARGE
+\begin{tabular}{cl}
+\@研究者
+\end{tabular}
+}}}
+%%%\renewcommand{\arraystretch}{1.4}
+\renewcommand{\arraystretch}{1.0}
+%%%\put(0,-485){\makebox(465,20){\twtymin 指導教員}}
+\put(0,-485){\makebox(465,20){\LARGE 指導教員}}
+%%%\put(0,-565){\makebox(465,75)[t]{\twtygt\twtybf
+\put(0,-565){\makebox(465,75)[t]{\textbf{\LARGE
+\begin{tabular}{ll}
+山口　智　&教授
+\end{tabular}}
+}}
+\if@ilssitagaki
+%%%\put(0,-600){\makebox(465,20){\frtnrm\frtnmin 添削用原稿提出日 \西暦\today}}
+\put(0,-600){\makebox(465,20){\large 添削用原稿提出日 \西暦\today}}
+\else
+%%%\put(0,-600){\makebox(465,20){\frtnrm\frtnmin \@提出日}}
+\put(0,-600){\makebox(465,20){\large \@提出日}}
+\fi
+\end{picture}
+\setcounter{page}\@ne
+\clearpage
+}}
+%% \section{謝辞の修正}
+\def\謝辞{
+\section*{謝辞} % 番号なしのセクション
+\addcontentsline{toc}{section}{謝辞}
+\markboth{謝辞}{}
+}
+\newdimen\bibindent
+\setlength\bibindent{1.5em}
+\renewcommand{\newblock}{\hskip .11em\@plus.33em\@minus.07em}
+\renewenvironment{thebibliography}[1]
+{\section*{\refname\markboth{参考文献}{}}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+\let\@openbib@code\@empty
+\ps@ilsheadings
+\endinput
+%%
+%% End of file `ilssoturon.sty'.
