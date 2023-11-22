@@ -1,0 +1,126 @@
+%%
+%% This is file `yokou.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% yokou.dtx  (with options: `yokou')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from yokou.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file yokou.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+\setlength{\oddsidemargin}{-5mm}
+\setlength{\textwidth}{170mm}
+\newdimen{\newvoffset}
+\setlength{\newvoffset}{\the\voffset}
+\addtolength{\newvoffset}{-\the\topmargin}
+\addtolength{\newvoffset}{-\the\headheight}
+\addtolength{\newvoffset}{-\the\headsep}
+\setlength{\voffset}{\the\newvoffset}
+\setlength{\textheight}{248mm}
+\twocolumn
+\setlength{\columnsep}{2zw}
+\pagestyle{empty}
+\def\題目#1{\def\@title{#1}}
+\def\氏名#1{\def\@author{#1}}
+\def\発表日#1{\def\@date{#1}}
+\def\@学生番号{}
+\def\学生番号#1{\def\@学生番号{#1}}
+\renewcommand{\maketitle}{%
+\twocolumn[%
+\begin{center}%
+\textbf{\LARGE\@title}\vspace{.5zh}\\%
+(指導教員 山口 智 教授)\vspace{.5zh}\\
+山口研究室 \@学生番号 \@author
+\end{center}
+\vspace{\baselineskip}
+]}%
+\renewcommand{\thesection}%
+{\arabic{section}.\hspace{-.8zw}}
+\renewcommand{\thesubsection}%
+{\arabic{section}.\arabic{subsection}%
+\hspace{-.8zw}}
+\renewcommand{\thesubsubsection}%
+{\arabic{section}.\arabic{subsection}.%
+\arabic{subsubsection}\hspace{-.8zw}}
+\renewcommand{\section}%
+{\@startsection{section}{1}{\z@}%
+{.005\Cvs \@plus.005\Cdp \@minus.002\Cdp}%
+{.005\Cvs \@plus.001\Cdp}%
+{\reset@font\normalsize\bfseries}}
+\renewcommand{\subsection}%
+{\@startsection{subsection}{2}{\z@}%
+{.003\Cvs \@plus.003\Cdp \@minus.002\Cdp}%
+{.001\Cvs \@plus.001\Cdp}%
+{\reset@font\normalsize\bfseries}}
+\renewcommand{\subsubsection}%
+{\@startsection{subsubsection}{3}{\z@}%
+{.003\Cvs \@plus.005\Cvs \@minus.002\Cvs}%
+{.001\Cvs \@plus.003\Cvs}%
+{\reset@font\normalsize\bfseries}}
+\renewenvironment{itemize}%
+{\ifnum \@itemdepth >\thr@@\@toodeep\else
+\advance\@itemdepth\@ne
+\edef\@itemitem{labelitem%
+\romannumeral\the\@itemdepth}%
+\expandafter
+\list{\csname \@itemitem\endcsname}{%
+\iftdir
+\ifnum \@listdepth=\@ne %
+\topsep.5\normalbaselineskip
+\else\topsep\z@\fi
+\labelwidth1zw \labelsep.3zw
+\ifnum \@itemdepth =\@ne \leftmargin1zw\relax
+\else\leftmargin\leftskip\fi
+\advance\leftmargin 1zw
+\fi
+\parskip\z@ \itemsep\z@ \parsep\z@%
+\topsep\z@ \partopsep\z@%
+\def\makelabel##1{\hss\llap{##1}}}%
+\fi}{\endlist}
+\renewenvironment{enumerate}%
+{\ifnum \@enumdepth >\thr@@\@toodeep\else%
+\advance\@enumdepth\@ne
+\edef\@enumctr{enum\romannumeral%
+\the\@enumdepth}%
+\list{\csname label\@enumctr\endcsname}{%
+\iftdir
+\ifnum \@listdepth=\@ne%
+\topsep.5\normalbaselineskip
+\else\topsep\z@\fi
+\labelwidth1zw \labelsep.3zw
+\ifnum \@enumdepth=\@ne \leftmargin1zw\relax
+\else\leftmargin\leftskip\fi
+\advance\leftmargin 1zw
+\fi
+\parskip\z@ \itemsep\z@ \parsep\z@%
+\parsep\z@ \topsep\z@%
+\usecounter{\@enumctr}%
+\def\makelabel##1{\hss\llap{##1}}}%
+\fi}{\endlist}
+\renewenvironment{description}%
+{\list{}{\labelwidth\z@%
+\itemindent-\leftmargin
+\iftdir
+\leftmargin\leftskip \advance\leftmargin3\Cwd
+\rightmargin\rightskip
+\labelsep=1zw%
+\fi
+\itemsep\z@%
+\listparindent\z@ \topskip\z@ \parskip\z@%
+\itemsep\z@ \parsep\z@ \partopsep\z@%
+\let\makelabel\descriptionlabel}}{\endlist}
+\endinput
+%%
+%% End of file `yokou.sty'.

@@ -1,0 +1,203 @@
+% \CheckSum{0}
+% \iffalse
+%<package>\NeedsTeXFormat{pLaTeX2e}
+%<package>\ProvidesPackage{yokou}[2008/03/06]
+%<*driver>
+\documentclass{jltxdoc}
+\usepackage{yokou}
+\setcounter{StandardModuleDepth}{1}
+\GetFileInfo{yokou.sty}
+\begin{document}
+  \DocInput{yokou.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \setlength{\Cvs}{15pt}
+% \setlength{\Cdp}{1.38855pt}
+% \題目{卒論予稿・ゼミ資料・メモのためのスタイルファイル定義}
+% \氏名{山口 智}
+% \学生番号{8509109}
+% \date{2008年3月6日}
+% \maketitle
+%
+% \begin{abstract}
+% 卒業論文・修士論文の予稿、ゼミ資料、メモを書くためのスタイルファイル
+% 集です。
+% \end{abstract}
+%
+% \StopEventually{}
+%
+% \section{ページレイアウトの変更}
+% いくつかの長さを変更して卒論予稿のフォーマットに合わせます。
+%
+% 左右のマージンは2cm、上下のマージンは2.5cmとなっています。
+% ヘッダーやフッターはマージンの中に納めました。\verb|\newvoffset|は
+% ヘッダーをマージンに入れるための計算に利用した長さです。
+%    \begin{macrocode}
+\setlength{\oddsidemargin}{-5mm}
+\setlength{\textwidth}{170mm}
+\newdimen{\newvoffset}
+\setlength{\newvoffset}{\the\voffset}
+\addtolength{\newvoffset}{-\the\topmargin}
+\addtolength{\newvoffset}{-\the\headheight}
+\addtolength{\newvoffset}{-\the\headsep}
+\setlength{\voffset}{\the\newvoffset}
+\setlength{\textheight}{248mm}
+%    \end{macrocode}
+% 2段組みにして予稿の場合はページは記述しません。
+%    \begin{macrocode}
+\twocolumn
+\setlength{\columnsep}{2zw}
+%<yokou>\pagestyle{empty}
+%    \end{macrocode}
+%
+% \section{利用する変数の定義}
+% 予稿で利用する変数の定義と定義のためのコマンドです。
+% \verb|\題目{},\氏名{},\発表日{}|によって既存の変数の
+% \verb|\@titile,\@author,\@date|に値が渡されます。
+% \verb|\学生番号{}|は新たに定義された変数\verb|\@学生番号|に
+% 値を渡します。
+%    \begin{macrocode}
+\def\題目#1{\def\@title{#1}}
+\def\氏名#1{\def\@author{#1}}
+\def\発表日#1{\def\@date{#1}}
+\def\@学生番号{}
+\def\学生番号#1{\def\@学生番号{#1}}
+%    \end{macrocode}
+%
+% \section{maketitleの変更}
+% \verb|\maketitle|の変更をします。yokouスタイルでは題目、指導教員、
+% 研究室、学生番号、氏名がでます。また、semiスタイルでは題目、氏名、
+% 発表日が出力されます。memoスタイルは題目と日付がでます。
+%    \begin{macrocode}
+%<*yokou>
+\renewcommand{\maketitle}{%
+	\twocolumn[%
+	\begin{center}%
+	\textbf{\LARGE\@title}\vspace{.5zh}\\%
+	(指導教員 山口 智 准教授)\vspace{.5zh}\\
+	山口研究室 \@学生番号 \@author
+	\end{center}
+	\vspace{\baselineskip}
+	]}%
+%</yokou>
+%<*semi>
+\renewcommand{\maketitle}{%
+	\twocolumn[%
+	\begin{center}%
+	\textbf{\LARGE\@title}\vspace{.5zh}\\%
+	発表者: \@author \vspace{.5zh}\\
+	\@date
+	\end{center}
+	\vspace{\baselineskip}
+	]}%
+%</semi>
+%<*memo>
+\renewcommand{\maketitle}{%
+	\twocolumn[%
+	\begin{center}%
+	\textbf{\LARGE\@title}\vspace{.5zh}\\%
+	\@date
+	\end{center}
+	\vspace{\baselineskip}
+	]}%
+%</memo>
+%    \end{macrocode}
+%
+% \section{セクションコマンドの変更}
+% \verb|\section{}|の文字を\verb|\normalsize|に変更して、数字の後に`.'を
+% 打ちます。また、セクション項目の上下の間隔も小さくします。
+%    \begin{macrocode}
+\renewcommand{\thesection}%
+	{\arabic{section}.\hspace{-.8zw}}
+\renewcommand{\thesubsection}%
+	{\arabic{section}.\arabic{subsection}%
+		\hspace{-.8zw}}
+\renewcommand{\thesubsubsection}%
+	{\arabic{section}.\arabic{subsection}.%
+		\arabic{subsubsection}\hspace{-.8zw}}
+\renewcommand{\section}%
+	{\@startsection{section}{1}{\z@}%
+		{.005\Cvs \@plus.005\Cdp \@minus.002\Cdp}%
+		{.005\Cvs \@plus.001\Cdp}%
+		{\reset@font\normalsize\bfseries}}
+\renewcommand{\subsection}%
+	{\@startsection{subsection}{2}{\z@}%
+		{.003\Cvs \@plus.003\Cdp \@minus.002\Cdp}%
+		{.001\Cvs \@plus.001\Cdp}%
+		{\reset@font\normalsize\bfseries}}
+\renewcommand{\subsubsection}%
+	{\@startsection{subsubsection}{3}{\z@}%
+		{.003\Cvs \@plus.005\Cvs \@minus.002\Cvs}%
+		{.001\Cvs \@plus.003\Cvs}%
+		{\reset@font\normalsize\bfseries}}
+%    \end{macrocode}
+% 
+% \section{リスト系環境の再定義}
+% \subsection{itemize環境}
+% itemize環境の行間隔を小さくします。
+%    \begin{macrocode}
+\renewenvironment{itemize}%
+	{\ifnum \@itemdepth >\thr@@\@toodeep\else
+		\advance\@itemdepth\@ne
+		\edef\@itemitem{labelitem%
+		\romannumeral\the\@itemdepth}%
+		\expandafter
+		\list{\csname \@itemitem\endcsname}{%
+		\iftdir
+			\ifnum \@listdepth=\@ne %
+			\topsep.5\normalbaselineskip
+			\else\topsep\z@\fi
+			\labelwidth1zw \labelsep.3zw
+			\ifnum \@itemdepth =\@ne \leftmargin1zw\relax
+			\else\leftmargin\leftskip\fi
+			\advance\leftmargin 1zw
+		\fi
+		\parskip\z@ \itemsep\z@ \parsep\z@%
+		\topsep\z@ \partopsep\z@%
+		\def\makelabel##1{\hss\llap{##1}}}%
+	\fi}{\endlist}
+%    \end{macrocode}
+%
+% \subsection{enumerate環境}
+% enumerate環境の行間隔を小さくします。
+%    \begin{macrocode}
+\renewenvironment{enumerate}%
+{\ifnum \@enumdepth >\thr@@\@toodeep\else%
+\advance\@enumdepth\@ne
+\edef\@enumctr{enum\romannumeral%
+\the\@enumdepth}%
+\list{\csname label\@enumctr\endcsname}{%
+\iftdir
+\ifnum \@listdepth=\@ne%
+\topsep.5\normalbaselineskip
+\else\topsep\z@\fi
+\labelwidth1zw \labelsep.3zw
+\ifnum \@enumdepth=\@ne \leftmargin1zw\relax
+\else\leftmargin\leftskip\fi
+\advance\leftmargin 1zw
+\fi
+\parskip\z@ \itemsep\z@ \parsep\z@%
+\parsep\z@ \topsep\z@%
+\usecounter{\@enumctr}%
+\def\makelabel##1{\hss\llap{##1}}}%
+\fi}{\endlist}
+%    \end{macrocode}
+% \subsection{description環境}
+% description環境の行間隔を小さくします。
+%    \begin{macrocode}
+\renewenvironment{description}%
+{\list{}{\labelwidth\z@%
+\itemindent-\leftmargin
+\iftdir
+\leftmargin\leftskip \advance\leftmargin3\Cwd
+\rightmargin\rightskip
+\labelsep=1zw%
+\fi
+\itemsep\z@%
+\listparindent\z@ \topskip\z@ \parskip\z@%
+\itemsep\z@ \parsep\z@ \partopsep\z@% 
+\let\makelabel\descriptionlabel}}{\endlist}
+%    \end{macrocode}
+% \Finale

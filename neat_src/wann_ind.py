@@ -178,7 +178,13 @@ class WannInd(Ind):
           for _i in range (1, 10) :
             for _j in range(6):
               for _k in range(myhyp['mini_batch_size']):
+                #print('focusID : ', focusID)
+                #print('connG : ', connG)
+                #print('nodeG : ', nodeG)
+                #print('state', state[_j][_k])
+                #print('activateID : ', _i)
                 table1[_i] += (calculateOutput(connG, nodeG, focusID, _i, _j, state[_j][_k]))
+                #print('value : ', table1[_i])
             table1[_i] += epsilon
           
           #print(type(nodeG[2,mutNode])) #numpy.float64
@@ -199,10 +205,9 @@ class WannInd(Ind):
 def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
   weightList = [-2.0, -1.0, -0.5, 0.5, 1.0, 2.0]
   #o = 0
-  w = 0
-  a = 0
+  #w = 0
+  #a = 0
   _val = 0
-  preoutput = 0
 
   #print("connG")
   #print(connG)
@@ -219,7 +224,7 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
       row = connG[:, _i]
       _datac.append(row)
   _datac = np.array(_datac)
-  #print(_datac)
+  #print('目的地がfocus : ', _datac)
 
   # focusIDを使用してfocusノードを探す
   _datan = []
@@ -228,12 +233,14 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
       row = nodeG[:, _i]
       _datan.append(row)
   _datan = np.array(_datan)
-  #print(_datan)
+  #print('focusノード情報 : ', _datan)
 
+  preoutput = 0
   # 入力層だったら出力は
-  if(_datan[0, 1] == 0):
-    preoutput = state[focusID]
-  
+  #print(_datan[0][1])
+  if(_datan[0][1] == 1):
+    preoutput = state[int(focusID)]
+
   else:
     # 隠れ層だったら
     # 目的地がfocusのシナプスすべてに対して
@@ -245,6 +252,11 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
       # 出発地のノードを探す
       newfocusID = _datai[1]
       newactivateID = _datai[2]
+      #print('newfocus : ', newfocusID)
+      #print('connG : ', connG)
+      #print('nodeG : ', nodeG)
+      #print('state', state)
+      #print('newactivateID : ', newactivateID)
       _val = calculateOutput(connG, nodeG, newfocusID, newactivateID, weight, state)
 
       # ノードの出力とシナプス荷重の格納
@@ -252,8 +264,11 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
       #w += _datai[3]    #重み
       #a += _datai[4]    #有効化してあるか
 
+  #print('preout', preoutput)
   preinput = preoutput * weightList[weight]
+  #print('prein', preinput)
   output = activate(preinput, activateID)
+  #print('out', output)
 
   return output
 

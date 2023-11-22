@@ -325,7 +325,7 @@ def loadMyHyp(MyHypPass):
         _d = myDistance(resolution, calc_range, _i, _j)
         _[_i][_j] = _d
   MyHyp['activate_table'] = _
-
+  
   return MyHyp
 
 # -- Input Parsing ------------------------------------------------------- -- #
