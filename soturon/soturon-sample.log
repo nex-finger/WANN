@@ -1,8 +1,8 @@
-This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2023.6.9)  15 NOV 2023 17:56
+This is e-pTeX, Version 3.141592653-p3.9.1-210218-2.6 (utf8.euc) (TeX Live 2022/dev/Debian) (preloaded format=platex 2023.6.9)  28 NOV 2023 21:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**soturon-sample
+**soturon-sample.tex
 (./soturon-sample.tex
 pLaTeX2e <2021-11-15> (based on LaTeX2e <2021-11-15> patch level 1)
 L3 programming layer <2022-01-21>
@@ -232,16 +232,24 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10.95> not available
 
 ] (./intro.tex) [1
 
-] [2
+] [2] (./nn.tex
+LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 2.
+) [3
 
-] (./soturon-sample.aux) ) 
+] [4
+
+]
+(./soturon-sample.aux) ) 
 Here is how much of TeX's memory you used:
- 2439 strings out of 479850
- 35538 string characters out of 5887379
- 327059 words of memory out of 5000000
- 20760 multiletter control sequences out of 15000+600000
- 494143 words of font info for 128 fonts, out of 8000000 for 9000
+ 2490 strings out of 479850
+ 36031 string characters out of 5887379
+ 329059 words of memory out of 5000000
+ 20789 multiletter control sequences out of 15000+600000
+ 500078 words of font info for 150 fonts, out of 8000000 for 9000
  264 hyphenation exceptions out of 8191
- 55i,11n,62p,670b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,11n,62p,674b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on soturon-sample.dvi (4 pages, 6944 bytes).
+Output written on soturon-sample.dvi (6 pages, 10524 bytes).

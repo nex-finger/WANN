@@ -4,7 +4,7 @@
     "calc_range": 1,
 
     "ratio" : 0.995,
-    "epsilon": 12,
+    "epsilon": 0.5,
 
     "mini_batch_size": 4,
     "inputnode_size": 24,

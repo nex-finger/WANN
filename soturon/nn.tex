@@ -1,0 +1,27 @@
+\section{ニューラルネットワーク}
+\subsection{ニューラル素子}
+人間を含む生命の脳を構成する神経細胞はニューロンと呼ばれ，人間の脳には140億個のニューロンがありそれぞれのニューロンは平均約8,000個のシナプスを持つとされている．ニューラルネットワークのノードはニューロンをモデルとし，計算機上でニューロンをシミュレートできるよう設計されている．
+\\ \textbf{ここに図} \\
+ここでは，素子への $ N $ 個の入力 $ S_1, S_2, ..., S_N $ に対して各々の重み $ w_1, w_2, ..., w_N $ となっている．この素子は入力からバイアス $ b $ を足した値を活性化関数 $ f $ の入力とし，活性化関数の出力をノードの出力 $ z $ とする．
+
+\begin{equation}
+    z = f(\sum_{i=1}^N S_i + b)
+\end{equation}
+
+主に活性化関数 $ f $ には次のような関数を用いる．
+
+\begin{enumerate}
+    \item tanh関数
+    \begin{equation}
+        f(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}
+    \end{equation}
+
+    \item ReLU関数
+    \begin{equation}
+        f(x) = 
+        \begin{cases}
+        x & (x > 0)\\
+        0 & (x \leq 0)
+        \end{cases}
+    \end{equation}
+\end{enumerate}
