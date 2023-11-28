@@ -175,7 +175,7 @@ class WannInd(Ind):
           # ランダムなノードの選択
           focusID = nodeG[0, mutNode]
           # ノードの出力を計算
-          for _i in range (1, 10) :
+          for _i in range (1, 11) :
             for _j in range(6):
               for _k in range(myhyp['mini_batch_size']):
                 #print('focusID : ', focusID)
@@ -183,14 +183,23 @@ class WannInd(Ind):
                 #print('nodeG : ', nodeG)
                 #print('state', state[_j][_k])
                 #print('activateID : ', _i)
-                table1[_i] += (calculateOutput(connG, nodeG, focusID, _i, _j, state[_j][_k]))
+                _out = calculateOutput(connG, nodeG, focusID, _i, _j, state[_j][_k]) - calculateOutput(connG, nodeG, focusID, int(nodeG[2, mutNode]), _j, state[_j][_k])
+                table1[_i - 1] += (_out * _out)
                 #print('value : ', table1[_i])
-            table1[_i] += epsilon
+            table1[_i - 1] += epsilon
+            table1[_i - 1] = 1 / table1[_i - 1]
+          
+          table1[int(nodeG[2, mutNode]) - 1] = 0
+          _s = sum(table1)
+          for _i in range(len(table1)):
+            table1[_i] = table1[_i] / _s
           
           #print(type(nodeG[2,mutNode])) #numpy.float64
+          #print(table1)
+          #print('Before : ', nodeG[2,mutNode])
           _ = random.choices(table2, weights = table1)[0]
-          #print(type(_))
           nodeG[2,mutNode] = _
+          #print('After  : ', nodeG[2,mutNode])
         
         else:
           nodeG[2,mutNode] = nodeG[2,mutNode]
@@ -239,7 +248,7 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
   # 入力層だったら出力は
   #print(_datan[0][1])
   if(_datan[0][1] == 1):
-    preoutput = state[int(focusID)]
+    preoutput = state[int(focusID-1)]
 
   else:
     # 隠れ層だったら
@@ -293,7 +302,6 @@ def activate(input, ID):
 
   elif ID == 2:   # Unsigned Step Function
     value = 1.0*(x>0.0)
-    #value = (np.tanh(50*x/2.0) + 1.0)/2.0
 
   elif ID == 3: # Sin
     value = np.sin(np.pi*x) 

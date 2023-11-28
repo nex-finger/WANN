@@ -324,6 +324,12 @@ def loadMyHyp(MyHypPass):
     for _j in range(len(_[0])):
         _d = myDistance(resolution, calc_range, _i, _j)
         _[_i][_j] = _d
+  
+  for _i in range(len(_)):
+    _s = sum(_[_i])
+    for _j in range(len(_[0])):
+      _[_i][_j] = _[_i][_j] / _s
+  
   MyHyp['activate_table'] = _
   
   return MyHyp
