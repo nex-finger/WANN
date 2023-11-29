@@ -1,4 +1,5 @@
 \contentsline {section}{\numberline {1}はじめに}{1}{}%
 \contentsline {section}{\numberline {2}ニューラルネットワーク}{3}{}%
 \contentsline {subsection}{\numberline {2.1}ニューラル素子}{3}{}%
-\contentsline {section}{謝辞}{4}{}%
+\contentsline {subsection}{\numberline {2.2}活性化関数}{4}{}%
+\contentsline {section}{謝辞}{6}{}%
