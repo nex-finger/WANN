@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  30 NOV 2023 01:50
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  30 NOV 2023 22:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -161,8 +161,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.15 \年度
-          {2023年度}
+l.13 
+     
 ? 
 (d:/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-dvipdfmx.def
 File: l3backend-dvipdfmx.def 2023-10-23 L3 backend support: dvipdfmx
@@ -175,91 +175,109 @@ File: l3backend-dvipdfmx.def 2023-10-23 L3 backend support: dvipdfmx
 (./soturon-sample.aux)
 \openout1 = `soturon-sample.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
  (I search kanjifont definition file: . . )
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 20.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 20.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <24.88> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 20.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <24.88> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 21.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 20.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 20.
 
 
 (d:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 20.
 
 
 (d:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <20.74> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 20.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <20.74> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 20.
  [1
 
 ]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 26.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 25.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <17.28> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 26.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 25.
 
 (./soturon-sample.toc)
 \tf@toc=\write3
 \openout3 = `soturon-sample.toc'.
 
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10.95> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 27.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 26.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10.95> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 27.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 26.
  [1
 
 ] (./intro.tex) [1
 
 ] [2] (./nn.tex
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 2.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 4.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 2.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 4.
 File: img/expnode.pdf Graphic file (type pdf)
 <img/expnode.pdf>
 
-Overfull \hbox (33.35005pt too wide) in paragraph at lines 12--13
+Overfull \hbox (33.35005pt too wide) in paragraph at lines 14--15
 []\twlmin ここでは ， ノ ード $\OML/cmm/m/it/12 j$ \twlmin への $\OML/cmm/m/it/
 12 N$ \twlmin 個の入力 $\OML/cmm/m/it/12 S[]; S[]; S[]; :::; S[]$ \twlmin に対
 して各 々 の重み $\OML/cmm/m/it/12 w[]; w[]; w[]; :::; w[]$
  []
 
-File: img/forwardprop.pdf Graphic file (type pdf)
-<img/forwardprop.pdf>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 [3
 
-] [4]) [5] [6
+]
+File: img/forwardprop.pdf Graphic file (type pdf)
+<img/forwardprop.pdf>
+ [4]) [5] (./ga.tex) [6
+
+] (./ns.tex) [7
+
+] (./wann.tex
+File: img/expwann.pdf Graphic file (type pdf)
+<img/expwann.pdf>
+
+Overfull \hbox (3.6164pt too wide) in paragraph at lines 10--11
+\OT1/cmr/m/n/12 NEAT[[]] \twlmin をベ ースに作られており， これは遺伝的アルゴリ
+ズム \OT1/cmr/m/n/12 [[]] \twlmin を用いた \OT1/cmr/m/n/12 Neuro-Evolution[[]]
+ []
+
+[8
+
+]
+File: img/vary.pdf Graphic file (type pdf)
+<img/vary.pdf>
+) [9] [10
+
+] (./ref.tex) [11
 
 ] (./soturon-sample.aux)
  ***********
@@ -269,12 +287,12 @@ L3 programming layer <2023-11-01>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2522 strings out of 474929
- 35732 string characters out of 5765826
+ 2565 strings out of 474929
+ 36335 string characters out of 5765826
  1921378 words of memory out of 5000000
- 24705 multiletter control sequences out of 15000+600000
+ 24735 multiletter control sequences out of 15000+600000
  588888 words of font info for 158 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 57i,12n,65p,674b,416s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,12n,65p,748b,390s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on soturon-sample.dvi (8 pages, 14484 bytes).
+Output written on soturon-sample.dvi (13 pages, 21668 bytes).

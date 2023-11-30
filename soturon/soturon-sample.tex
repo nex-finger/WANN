@@ -7,12 +7,11 @@
 %\usepackage{slashbox} % 表に斜線を入れる(不要かも)
 %\usepackage[dvips]{graphicx,psfrag} % 図に数式を使うときに用いる(別の方法がおすすめ)
 \usepackage[dvipdfmx]{graphicx} %図
-% ハイパーリンクを作るためのパッケージだが，pdf viewerによってはハイパーリンクの枠が描画
-% されたまま出力されるので，基本的には使用しない
+% ハイパーリンクを作るためのパッケージだが，pdf viewerによってはハイパーリンクの枠が描画されたまま出力されるので，基本的には使用しない
 %\usepackage[dvipdfmx]{hyperref}
 %\usepackage{pxjahyper} % 日本語しおりを作るためのパッケージ
-%% 以下は論文表紙に出力される内容
-\年度{2023年度}
+
+\年度{2023年度} % 以下は論文表紙に出力される内容
 \提出日{2024年1月xx日}
 \研究者{2031133 &増田 瑞樹}
 \論文題目{WANNにおける活性化関数の慎重な選択}
@@ -20,46 +19,34 @@
 \begin{document} % ここから論文本体
 \卒論表紙 % これで数式が出る
 
-% 以下の4行は目次を定義している
 % 正しく目次を出力するためには tex コンパイルを2回連続でかけること
 \pagenumbering{roman} % 目次のページ番号はローマ数字
+
 \tableofcontents % 目次を出す命令
 \clearpage % 改ページ
+
 \pagenumbering{arabic} % ページ番号をアラビア数字になおす
 
-% ここからが論文本体。ただし、訂正がしやすいように節ごとにファイルを
-% 分割している。ここに論文本体を入れてもコンパイルは可能だか、
-% けっしておすすめできない。
-%\input{intro} % intro.tex を読み込む。
-%\clearpage % 改ページ(節が終るごとに改ページしてください)
-
-\input{intro}
+\input{intro} %はじめに
 \clearpage
 
-\input{nn}
+\input{nn} %ニューラルネットワーク
+\clearpage
+
+\input{ga} %遺伝的アルゴリズム
+\clearpage
+
+\input{ns} %神経科学
+\clearpage
+
+\input{wann} %WANN
 \clearpage
 
 \謝辞 % ここから謝辞
 山口先生有り難う！ % 謝辞のないよう
-%\clearpage
+\clearpage
 
-\begin{thebibliography}{99} % 参考文献をここに書く(TeXの参考書を参照)
-    \bibitem{WANN} Gaier, Adam, and David Ha. "Weight agnostic neural networks." Advances in neural information processing systems 32 (2019).
+\input{ref} %参考文献
+\clearpage
 
-    \bibitem{NEAT} Stanley, Kenneth O., and Risto Miikkulainen. "Evolving neural networks through augmenting topologies." Evolutionary computation 10.2 (2002): 99-127.
-
-    \bibitem{先天的能力} Zador, Anthony M. "A critique of pure learning and what artificial neural networks can learn from animal brains." Nature communications 10.1 (2019): 3770.
-
-    \bibitem{NE} Braun, Heinrich, and Joachim Weisbrod. "Evolving neural feedforward networks." Artificial Neural Nets and Genetic Algorithms: Proceedings of the International Conference in Innsbruck, Austria, 1993. Vienna: Springer Vienna, 1993.
-
-    \bibitem{遺伝的アルゴリズム} 坂和正敏, 田中雅博. "遺伝的アルゴリズム" 朝倉書店 (2002).
-
-    \bibitem{深層学習} 伊庭斉志. "進化計算と深層学習 -創発する知能-" オーム社 (2015). 
-
-    \bibitem{活性化関数} Dubey, Shiv Ram, Satish Kumar Singh, and Bidyut Baran Chaudhuri. "Activation functions in deep learning: A comprehensive survey and benchmark." Neurocomputing (2022).
-\end{thebibliography}
-%\addcontentsline{toc}{section}{参考文献}
-%\bibitem{yam}山口 智, \ 
-%"Differential Evolutionにおける制御変数の自動調整`` \  電気学会論文誌 \ 電子・情報・システム部門誌, Vol.128 NO.11 , pp.1696-1703 \ (2008)
-%\end{thebibliography} % 参考文献環境の終了
-\end{document} % 本文の終了
+\end{document}
