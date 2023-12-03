@@ -1,0 +1,51 @@
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+	*** Running with hyperparameters:  p/masuda/biped1003.json 	***
+Loading myHyp...
+Loading myHyp...
+Loading myHyp...
+Ready. core7
+Ready. core8
+Ready. core5
+Ready. core6
+Ready. core0
+Ready. core9
+Ready. core4
+Ready. core2
+Ready. core1
+Ready. core3
+Ready. core10
+Ready. core11
+0   -4.75 -4.75 0.62
+1   -3.92 -3.92 2.93
+2   -3.43 -3.43 3.31
+stopping workers
+Worker #  2  shutting down.
+Worker #  11  shutting down.Worker #  1  shutting down.
+Worker #  5  shutting down.
+Worker #  3  shutting down.
+Worker #  4  shutting down.
+Worker #  6  shutting down.
+Worker #  10  shutting down.
+Worker #  7  shutting down.
+
+Worker #  9  shutting down.
+Worker #  8  shutting down.
