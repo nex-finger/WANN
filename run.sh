@@ -6,7 +6,7 @@ prog[2]="python wann_train.py -n 11 -p p/masuda/biped1003.json -m p/propose/prop
 
 while true
 do
-    git pull origin main
+    git pull master main
 
     # get time
     current_time=$(date +"%Y%m%d_%H%M%S")
