@@ -1,8 +1,8 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  30 NOV 2023 22:18
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  2 DEC 2023 17:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**soturon-sample.tex
+**soturon-sample.tex\
 (./soturon-sample.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -257,11 +257,7 @@ Overfull \hbox (33.35005pt too wide) in paragraph at lines 14--15
 ]
 File: img/forwardprop.pdf Graphic file (type pdf)
 <img/forwardprop.pdf>
- [4]) [5] (./ga.tex) [6
-
-] (./ns.tex) [7
-
-] (./wann.tex
+ [4]) [5] (./wann.tex
 File: img/expwann.pdf Graphic file (type pdf)
 <img/expwann.pdf>
 
@@ -270,14 +266,27 @@ Overfull \hbox (3.6164pt too wide) in paragraph at lines 10--11
 ズム \OT1/cmr/m/n/12 [[]] \twlmin を用いた \OT1/cmr/m/n/12 Neuro-Evolution[[]]
  []
 
-[8
+[6
 
 ]
 File: img/vary.pdf Graphic file (type pdf)
 <img/vary.pdf>
-) [9] [10
 
-] (./ref.tex) [11
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7]) [8] (./propose.tex
+File: img/exppropose.pdf Graphic file (type pdf)
+<img/exppropose.pdf>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9
+
+] [10]) [11] [12
+
+] (./ref.tex) [13
 
 ] (./soturon-sample.aux)
  ***********
@@ -288,11 +297,11 @@ L3 programming layer <2023-11-01>
  ) 
 Here is how much of TeX's memory you used:
  2565 strings out of 474929
- 36335 string characters out of 5765826
- 1921378 words of memory out of 5000000
- 24735 multiletter control sequences out of 15000+600000
+ 36483 string characters out of 5765826
+ 1922378 words of memory out of 5000000
+ 24737 multiletter control sequences out of 15000+600000
  588888 words of font info for 158 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 57i,12n,65p,748b,390s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 58i,12n,65p,822b,408s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on soturon-sample.dvi (13 pages, 21668 bytes).
+Output written on soturon-sample.dvi (15 pages, 28504 bytes).
