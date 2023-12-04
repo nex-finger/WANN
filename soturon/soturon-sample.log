@@ -1,8 +1,8 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  2 DEC 2023 17:35
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.sjis) (TeX Live 2023) (preloaded format=platex 2023.11.9)  4 DEC 2023 22:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**soturon-sample.tex\
+**soturon-sample.tex
 (./soturon-sample.tex
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -268,14 +268,10 @@ Overfull \hbox (3.6164pt too wide) in paragraph at lines 10--11
 
 [6
 
-]
+] [7]
 File: img/vary.pdf Graphic file (type pdf)
 <img/vary.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7]) [8] (./propose.tex
+) [8] (./propose.tex
 File: img/exppropose.pdf Graphic file (type pdf)
 <img/exppropose.pdf>
 
@@ -284,11 +280,15 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [9
 
-] [10]) [11] [12
+]
 
-] (./ref.tex) [13
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-] (./soturon-sample.aux)
+[10]) [11] [12
+
+] (./ref.tex [13
+
+]) [14] (./soturon-sample.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01>
@@ -296,12 +296,12 @@ L3 programming layer <2023-11-01>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2565 strings out of 474929
- 36483 string characters out of 5765826
- 1922378 words of memory out of 5000000
- 24737 multiletter control sequences out of 15000+600000
+ 2568 strings out of 474929
+ 36519 string characters out of 5765826
+ 1923378 words of memory out of 5000000
+ 24740 multiletter control sequences out of 15000+600000
  588888 words of font info for 158 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 58i,12n,65p,822b,408s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,12n,65p,917b,377s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on soturon-sample.dvi (15 pages, 28504 bytes).
+Output written on soturon-sample.dvi (16 pages, 31884 bytes).

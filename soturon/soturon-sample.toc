@@ -3,7 +3,8 @@
 \contentsline {subsection}{\numberline {2.1}ニューラル素子}{3}{}%
 \contentsline {subsection}{\numberline {2.2}活性化関数}{4}{}%
 \contentsline {section}{\numberline {3}Weight Agnostic Neural Networks}{6}{}%
-\contentsline {subsection}{\numberline {3.1}変異}{7}{}%
+\contentsline {subsection}{\numberline {3.1}変異}{8}{}%
 \contentsline {section}{\numberline {4}提案手法}{9}{}%
-\contentsline {subsection}{\numberline {4.1}距離関数}{10}{}%
+\contentsline {subsection}{\numberline {4.1}活性化関数同士の区間積分差}{10}{}%
+\contentsline {subsection}{\numberline {4.2}個体の経験に基づく出力差}{11}{}%
 \contentsline {section}{謝辞}{12}{}%
