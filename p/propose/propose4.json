@@ -1,0 +1,13 @@
+{
+    "act_change_alg": 2,
+    "resolution": 0.001,
+    "calc_range": 1,
+
+    "ratio" : 0.99,
+    "epsilon": 1.0,
+
+    "mini_batch_size": 4,
+    "inputnode_size": 24,
+
+    "weight_focus": 0
+}
