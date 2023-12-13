@@ -33,6 +33,9 @@
 \end{table}
 
 まず現在の活性化関数 $ f_c $ と，すべての活性化関数との距離を計算する．この時の距離が小さいことは両者の関数が似ていることを意味し，距離の短い関数への変更は既存手法の問題点である出力の反転を防ぐ．距離が小さければ小さいほど選択されやすくするため，距離と $ \epsilon $ の和の逆数をルーレット選択の材料とする． $ \epsilon $ が大きくなると，ルーレット選択によって選ばれる確率はランダムに近くなる． $ \epsilon $ は探索初期においては，良いノードの出力を持つ個体が少ないことから，良い出力の個体を反転させてしまうデメリットより，悪い出力の個体を反転させるメリットの方が大きいと考え，探索初期の $ \epsilon $ は大きく，探索後期の $ \epsilon $ は小さく設定する．グラフは代表的な活性化関数4種，活性化関数同士の区間積分差を用いた活性化関数の変更として選択される確率を表した例である．\\
+
+ここに図 \\
+
 距離関数 $ d $ については，区間積分差と，個体の経験に基づく出力差を採用する．
 
 \subsection{活性化関数同士の区間積分差}
@@ -43,7 +46,7 @@
 \end{equation}
 
 \begin{table}[h]
-    \caption{変数の説明}
+    \caption{式(8)の変数の説明}
     \centering
     \begin{tabular}{cl}
         \hline
@@ -58,15 +61,16 @@
 
 実際にネットワークにタスクを解かせる際，ノードへの入力は0付近である場合が多いので\cite{ノード入力}， $ -r $ から $ +r $ までの関数の区間積分によって距離を定義する．区間内の入力に対して出力の差が小さいことは，活性化関数を変更してもネットワークに大きな動作の変更をもたらさないことを意味し，局所的な解を優先的に探索する．番号が $ 1 $ から $ N $ と振られている活性化関数 $ f_n $ から $ f_N $ ，現在の活性化関数が $ f_c $， $ f_n $ と $ f_c $ の距離を $ d_n $ としたときの具体的なプログラムの実装は以下のようになる．
 
-\begin{lstlisting}[区間積分差のプログラム]
+\begin{lstlisting}[caption=区間積分差のプログラム]
 for n (1 to N)
     sum = 0
     for x (-r to +r)
-        sum += | fn(x) - fc(x) |
+        sum += (activate(x, n) - activate(x, c)) ^2
     d[n] = sum
 \end{lstlisting}
 
-このように求めた $ d_n $ を式(6)に代入しルーレット選択により選ばれる見込み $ P_n $ を得る．
+ネットワークで使用する活性化関数にはそれぞれIDが1-based（1からナンバリングする方式）により割り振られており，1からNまでのそれぞれの活性化関数IDに対してその関数と変更前の関数との差の2乗を変数sumに加算していく．変数xをとても小さい数ずつ増やしていき，x範囲内の合計が最終的にsumに格納され，変更前の活性化関数の出力と活性化関数IDがnの関数の出力の差を2乗をd[n]に代入する．このように求めた $ d_n $ を式(6)に代入しルーレット選択により選ばれる見込み $ P_n $ を得る．
+また， $ x $ を活性化関数の入力とした出力を求める関数 activate は後述する．
 
 \subsection{個体の経験に基づく出力差}
 式(7)は関数 $ f_a $ と $ f_b $ の個体が経験したノードの入力に対する差を意味している．
@@ -74,7 +78,7 @@ for n (1 to N)
     d(f_{a}, f_{b}) = \sum_{m}(f_{a}(in_{m}) - f_{b}(in_{m}))^2
 \end{equation}
 
-\begin{table}[h]
+\begin{table}[H]
     \caption{変数の説明}
     \centering
     \begin{tabular}{cl}
@@ -89,14 +93,66 @@ for n (1 to N)
     \end{tabular}
 \end{table}
 
-\begin{lstlisting}[経験入力に基づく出力差のプログラム]
-in()
+区間積分差は範囲内のすべての領域を考慮し差を求めたのに対し，個体の経験に基づく出力差では，実際に個体がタスクを実行したときに経験した入力ノードの値を利用する．ネットワークの構造に変化はないので，入力ノードの値が分かれば，ネットワーク内の全てのノードの出力を特定することができ，ネットワークの変更にあたり指定した隠れ層のノードの出力を入力ノードから計算する．このとき指定したノードの活性化関数のみ変更し，この差を2乗を加算することで，個体が経験した入力に対する出力の差の小さい活性化関数を求めることができる．領域内を満遍なく考慮する手法よりも実際の入力ノードを利用することで出現確率の高いノード入力を大きく考慮することを期待する．ミニバッチには，同じ個体であれば異なる共有重みを使用していても利用する．
 
+\begin{lstlisting}[caption=経験入力に基づく出力差のプログラム]
+out(nodeID, actID, state, weight)
+    preout = 0
+    connect[] = synapses where the destination is nodeID
+    node = Information of node where the ID is nodeID
+
+    if(node[Type] == input)
+        preout = state[nodeID]
+    
+    else
+        for i (0 to connect)
+            newnodeID = connect[source]
+            newactID = activationID[connect[source]]
+            val = out(newnodeID, newactID, state[x], weight)
+            preout += val
+    
+    prein = preout * weight[m]
+    output = activate(prein, actID)
+    return output
+
+weight = [-2.0, -1.0, -0.5, +0.5, +1.0, +2.0]
 for n (1 to N)
     sum = 0
-    for x (0 to miniBatchSize)
-        sum += | out(in[x], n) - out(in[x], c) |
+    for m (0 to 5)
+        for x (0 to miniBatchSize)
+            sum += (out(ID, n, m, state[x]) - out(ID, c, m, state[x])) ^2
     d[n] = sum
 \end{lstlisting}
+
+1からNまでの各活性化関数に対してノードの出力の差を求める．各共有重みに対してミニバッチのうちのひとつの入力ノード情報を利用する．state[x]には個体が経験した入力ノード情報が記憶されており，今回使用するタスクBipedalWalker-v2\cite{OpenAI}では，入力層のノードは24個なので要素数24の配列となる．ノードの出力を求める関数 out には，出力を求めたいノードID，活性化関数ID，入力ノード情報，共有重みの値を入力としている．関数 out に入力された nodeID が指すノードが入力層であれば入力ノードデータを返し，隠れ層であれば目的地が nodeID であるすべてのシナプスの 出発地になっているノードに対して出発地のノードIDを newnodeID ，出発地のノードの活性化関数IDを newactID として out を再帰的に実行する．シナプスの出発地を辿り続けるといつか必ず入力層となるため， val を必ず得ることができる．最初に呼び出した out に入力した nodeID に入力される値を今までの合計と共有重みの積から計算し，関数 activate に通すことで活性化関数の出力に対応する．最終的に関数 out は nodeID の出力を返し，異なる活性化関数 n と c の差の2乗を sum に加算していく．区間積分の手法と同じく n と c の差は d[n] に代入される．ソースコード2の out(ID, n, m, state[x]) は式(9)の $ f_{a}(in_{m}) $ と同等の意味を持つ． $ x $ を活性化関数の入力とした出力を求める関数 activate は後述する．
+
+\subsection{用いる活性化関数}
+今回用いる活性化関数には，1-basedにナンバリングされ，以下の10種類を用いる．また関数への入力 $ x $ に対応する出力 $ y $ を示した数学的表現，pythonで実装した入力 x に対応する value を示す．
+
+\begin{table}[H]
+    \caption{用いる活性化関数とその式}
+    \centering
+    \begin{tabular}{rcll}
+        \hline
+        ID & 関数名 & 数学的表現 & プログラム上での表現 \\
+        \hline \hline
+        1 & Linear & $ y = x $ & value = x \\
+        2 & Step & $ y = \begin{cases}
+            1.0 & \text{{if }} x > 0.0 \\
+            0.0 & \text{{otherwise}}
+            \end{cases}$ & \texttt{value = 1.0*(x>0.0)} \\
+        3 &  &  &  \\
+        4 &  &  &  \\
+        5 &  &  &  \\
+        6 &  &  &  \\
+        7 &  &  &  \\
+        8 &  &  &  \\
+        9 &  &  &  \\
+        10 &  &  &  \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 
 \subsection{距離関数についての証明}
