@@ -1,4 +1,4 @@
-\documentclass[12pt, dvipdfmx]{jarticle}
+\documentclass[12pt, dvipdfmx, pdfversion=1.5]{jarticle}
 \usepackage{ilsfonts}    % 卒論スタイルで使うフォントの定義
 \usepackage{ilssoturon}  % 卒論スタイル宣言
 \usepackage[dvips]{graphicx} % グラフィクスの利用宣言
@@ -6,13 +6,12 @@
 \usepackage{bm}  % 太字数式文字の利用に関する宣言
 %\usepackage{slashbox} % 表に斜線を入れる(不要かも)
 %\usepackage[dvips]{graphicx,psfrag} % 図に数式を使うときに用いる(別の方法がおすすめ)
-\usepackage[dvipdfmx]{graphicx} %図
+%\usepackage[dvipdfmx]{graphicx} %図
 % ハイパーリンクを作るためのパッケージだが，pdf viewerによってはハイパーリンクの枠が描画されたまま出力されるので，基本的には使用しない
 %\usepackage[dvipdfmx]{hyperref}
 %\usepackage{pxjahyper} % 日本語しおりを作るためのパッケージ
 
-\usepackage{listings,jlisting} %ソースコードの表示に関する設定
-\usepackage{here} %強制的に図を配置する「H」を使う
+\usepackage{here} %図を強制的に表示させる
 
 %ここからソースコードの表示に関する設定
 \usepackage{listings,jlisting}
@@ -64,6 +63,9 @@
 \clearpage
 
 \input{propose} %提案手法
+\clearpage
+
+\input{exp} %実験
 \clearpage
 
 \謝辞 % ここから謝辞
