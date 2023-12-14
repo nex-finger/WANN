@@ -12,5 +12,8 @@
 \contentsline {subsection}{\numberline {5.2}個体の経験に基づく出力差}{16}{}%
 \contentsline {subsection}{\numberline {5.3}用いる活性化関数}{18}{}%
 \contentsline {subsection}{\numberline {5.4}距離関数の妥当性}{19}{}%
-\contentsline {section}{\numberline {6}実験}{22}{}%
-\contentsline {section}{謝辞}{23}{}%
+\contentsline {section}{\numberline {6}実験}{24}{}%
+\contentsline {subsection}{\numberline {6.1}実験環境}{24}{}%
+\contentsline {subsection}{\numberline {6.2}実験内容}{25}{}%
+\contentsline {subsection}{\numberline {6.3}実験結果}{26}{}%
+\contentsline {section}{謝辞}{27}{}%
