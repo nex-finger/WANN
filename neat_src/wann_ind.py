@@ -186,7 +186,7 @@ class WannInd(Ind):
                 _out = calculateOutput(connG, nodeG, focusID, _i, _j, state[_j][_k]) - calculateOutput(connG, nodeG, focusID, int(nodeG[2, mutNode]), _j, state[_j][_k])
                 table1[_i - 1] += (_out * _out)
                 #print('value : ', table1[_i])
-            table1[_i - 1] += epsilon
+            table1[_i - 1] += epsilon /24
             table1[_i - 1] = 1 / table1[_i - 1]
           
           table1[int(nodeG[2, mutNode]) - 1] = 0
@@ -260,7 +260,10 @@ def calculateOutput(connG, nodeG, focusID, activateID, weight, state):
 
       # 出発地のノードを探す
       newfocusID = _datai[1]
-      newactivateID = _datai[2]
+      for _j in range(nodeG.shape[1]):
+        if(nodeG[0][_j] == int(_datai[1])):
+          newactivateID = nodeG[2][_j]
+          #print(_j, end=' ')
       #print('newfocus : ', newfocusID)
       #print('connG : ', connG)
       #print('nodeG : ', nodeG)

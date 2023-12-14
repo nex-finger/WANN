@@ -11,6 +11,30 @@
 %\usepackage[dvipdfmx]{hyperref}
 %\usepackage{pxjahyper} % 日本語しおりを作るためのパッケージ
 
+\usepackage{listings,jlisting} %ソースコードの表示に関する設定
+\usepackage{here} %強制的に図を配置する「H」を使う
+
+%ここからソースコードの表示に関する設定
+\usepackage{listings,jlisting}
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=0zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
 \年度{2023年度} % 以下は論文表紙に出力される内容
 \提出日{2024年1月xx日}
 \研究者{2031133 &増田 瑞樹}

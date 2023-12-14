@@ -323,7 +323,7 @@ def loadMyHyp(MyHypPass):
   for _i in range(len(_)):
     for _j in range(len(_[0])):
         _d = myDistance(resolution, calc_range, _i, _j)
-        _[_i][_j] = _d + MyHyp['epsilon']
+        _[_i][_j] = _d + MyHyp['epsilon'] /2
   
   for _i in range(len(_)):
     _s = sum(_[_i])
