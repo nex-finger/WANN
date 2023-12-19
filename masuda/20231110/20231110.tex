@@ -48,7 +48,7 @@ Weight Agnostic Neural Networks(WANN) は，ネットワーク構造を更新す
 \end{figure}
 
 \section{提案手法}
-提案手法では，慎重な活性化関数の選択を実現するために，関数同士の距離を2つの方法で求めている．1つ目は関数同士の差の積分，2つ目は関数同士のミニバッチサイズ分の入力に対する出力の差の合計を使用している．式(3)で使用されている $\epsilon$ は式(4)に従い変動し，世代数の小さいうちは $\epsilon$ の値は大きく擬距離関数の影響が小さくなり，世代数の大きくなると $\epsilon$ の値は小さくなり擬距離関数を大きく考慮するようになる．変更先の関数として擬距離の近いものを選ばれやすくなるようにするのはそれまでの良い出力を反転させないようにするためだが，そもそも世代数の小さいこたいの出力は，良いものであるどころか悪いものである可能性が高い．よって，提案手法の $\epsilon$ を最初から小さくすると悪い出力がなかなか良い方に変更されないことが懸念される．
+提案手法では，慎重な活性化関数の選択を実現するために，関数同士の距離を2つの方法で求めている．1つ目は関数同士の差の積分，2つ目は関数同士のミニバッチサイズ分の入力に対する出力の差の合計を使用している．式(3)で使用されている $\varepsilon$ は式(4)に従い変動し，世代数の小さいうちは $\varepsilon$ の値は大きく擬距離関数の影響が小さくなり，世代数の大きくなると $\varepsilon$ の値は小さくなり擬距離関数を大きく考慮するようになる．変更先の関数として擬距離の近いものを選ばれやすくなるようにするのはそれまでの良い出力を反転させないようにするためだが，そもそも世代数の小さいこたいの出力は，良いものであるどころか悪いものである可能性が高い．よって，提案手法の $\varepsilon$ を最初から小さくすると悪い出力がなかなか良い方に変更されないことが懸念される．
 
 \begin{equation}
     d(f_{a}, f_{b}) = \int^{r}_{-r} (f_{a}(x) - f_{b}(x))^{2}
@@ -57,10 +57,10 @@ Weight Agnostic Neural Networks(WANN) は，ネットワーク構造を更新す
     d(f_{a}, f_{b}) = \sum_{m}(f_{a}(in_{m}) - f_{b}(in_{m}))^2
 \end{equation}
 \begin{equation}
-    P_{i} =  \begin{cases} \dfrac{1}{d(f_{s}, f_{i}) + \epsilon_{n} } \qquad (i \neq s) \\ 0 \qquad (i = s) \end{cases}\\
+    P_{i} =  \begin{cases} \dfrac{1}{d(f_{s}, f_{i}) + \varepsilon_{n} } \qquad (i \neq s) \\ 0 \qquad (i = s) \end{cases}\\
 \end{equation}
 \begin{equation}
-    \epsilon_{n} = k * \epsilon_{n-1} \\
+    \varepsilon_{n} = k * \varepsilon_{n-1} \\
 \end{equation}
 
 \begin{table}[h]
@@ -77,9 +77,9 @@ Weight Agnostic Neural Networks(WANN) は，ネットワーク構造を更新す
         $s$                   & 現在の活性化関数ID                         \\
         $m$                   & ミニバッチサイズ x 共有重み                \\
         $in$                  & ノードに入力される値                       \\
-        $\epsilon_{n}$        & 逆数の大きさを抑えるための小さい値         \\
+        $\varepsilon_{n}$        & 逆数の大きさを抑えるための小さい値         \\
         $r$                   & 関数の考慮範囲                             \\
-        $k$                   & $\epsilon$の減衰率，0.995など              \\
+        $k$                   & $\varepsilon$の減衰率，0.995など              \\
         \hline
     \end{tabular}
 \end{table}
