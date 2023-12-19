@@ -7,6 +7,8 @@ prog[3]="python wann_train.py -n 11 -p p/masuda/biped1003.json -m p/propose/prop
 
 while true
 do
+    . ./gitup.sh aaa master
+
     # get time
     current_time=$(date +"%Y%m%d_%H%M%S")
 
