@@ -13,6 +13,7 @@ then
     return
 fi
 
+git pull $2 main
 git init
 git add -A
 git commit -m $1
