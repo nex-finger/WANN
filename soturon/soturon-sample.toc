@@ -9,7 +9,7 @@
 \contentsline {subsection}{\numberline {4.1}変異}{12}{}%
 \contentsline {section}{\numberline {5}提案手法}{13}{}%
 \contentsline {subsection}{\numberline {5.1}活性化関数同士の区間積分差}{15}{}%
-\contentsline {subsection}{\numberline {5.2}個体の経験に基づく出力差}{16}{}%
+\contentsline {subsection}{\numberline {5.2}個体の経験に基づく出力差}{17}{}%
 \contentsline {subsection}{\numberline {5.3}用いる活性化関数}{20}{}%
 \contentsline {subsection}{\numberline {5.4}距離関数の妥当性}{21}{}%
 \contentsline {section}{\numberline {6}実験}{25}{}%
